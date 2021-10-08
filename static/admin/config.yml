@@ -8,7 +8,6 @@ media_library:
     publicKey: 60843127cafe4343ff93
 media_folder: content/assets
 public_folder: ../assets
-publish_mode: editorial_workflow
 
 collections:
   - name: blog
