@@ -7,7 +7,6 @@ import { graphql } from "gatsby";
 import News from "../components/news";
 import { Helmet } from "react-helmet";
 import Hero from "../components/hero";
-import HeaderText from "../components/headerText";
 import YouTube from 'react-youtube';
 
 ReactGA.initialize(process.env.GOOGLE_ID);
@@ -55,12 +54,7 @@ function MainContent(props) {
   return (
     <div className={props.className}>
       <h3>Welcome</h3>
-      <p>Whether it's learning skills on the mountain bike,
-      training hard for that big race,
-      learning how to rock climb,
-      finding the deep untracked lines,
-      or exploring one of the many great ski resorts in the Wasatch
-      Jackalope Adventures will be your guide.
+      <p>Here is my personal blog site
       </p>
       <div className="col-12 py-3 text-center justify-content-center">
         <YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />
@@ -79,7 +73,7 @@ export default function IndexPage(props) {
     }
   }, [])
 
-  const siteTitle = "Jackalope Adventures - Home Page"
+  const siteTitle = "Corey Smaller- Home Page"
 
   return (
     <Layout location={props.location} title={siteTitle}>
@@ -88,7 +82,7 @@ export default function IndexPage(props) {
       </Helmet>
       <SEO
         title="Home"
-        keywords={[`mountain bike lessons`, `enduro mountain bike lessons`, `bike lessons utah`, `jackalope adventures`, `jackalope`, `backcountry skiing`, `utah ski touring`]}
+        keywords={[`corey adam smaller`, `coder`, `poetry`, `corey smaller`, `jackalope`, `backcountry skiing`, `utah ski touring`]}
       />
       <Hero />
       <MainContainer className="row position-relative">
