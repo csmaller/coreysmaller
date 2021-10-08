@@ -25,7 +25,7 @@ const NewsContainer = styled.div`
 const News = (props) => {
     return (
         <NewsContainer className={props.className} suppressHydrationWarning>
-            <h3>News</h3>
+            <h3>Latest</h3>
             {props.news.nodes.map((news, index) => {
                 return <NewsItem news={news} key={index} />
             })}

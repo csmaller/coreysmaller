@@ -26,7 +26,7 @@ export default function Layout(props) {
           <Link className="header-link nav-link" to="/" disabled={location.pathname === "/"}>
             Home
           </Link>
-          <Link to="/blog/" disabled={location.pathname === "/blog/"}>
+          <Link to="/blog/" className="header-link nav-link" disabled={location.pathname === "/blog/"}>
             Blog
           </Link>
         </nav>
@@ -46,12 +46,10 @@ export default function Layout(props) {
           </MainContainer>
         </LayoutContainer>
         <Footer className="align-content-center">
-          <p><a href="https://www.jackalopeadventures.com">jackalopeadventures.com &trade;</a></p>
-          <SocialIcon url="https://www.facebook.com/jackalopeAdventureTouring" />
+          <p><a href="https://www.jackalopeadventures.com">coreysmaller.com &trade;</a></p>
+          <SocialIcon url="https://www.facebook.com/coreysmaller" />
           <SocialIcon url="https://www.instagram.com/jackalopeadventures/" />
-          <Link to="/blog/" disabled={location.pathname === "/blog/"}>
-            Personal Blog
-          </Link>
+
         </Footer>
       </Container>
     </>
