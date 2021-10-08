@@ -86,8 +86,7 @@ export default function IndexPage(props) {
       />
       <Hero />
       <MainContainer className="row position-relative">
-        <News className="col-12 col-lg-6 p-3" news={news} />
-        <MainContent className="col-12 col-lg-6 p-3" />
+        <News className="col-12 p-3 text-justify" news={news} />
       </MainContainer>
     </Layout>
   );
