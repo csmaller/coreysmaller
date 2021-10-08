@@ -1,0 +1,2 @@
+# coreysmaller
+personal blog
