@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: csmaller/blog
+  repo: csmaller/coreysmaller
   use_graphql: true
 media_library:
   name: uploadcare
