@@ -1,14 +1,13 @@
 backend:
   name: github
   repo: csmaller/coreysmaller
-  use_graphql: true
 media_library:
   name: uploadcare
   config:
     publicKey: 60843127cafe4343ff93
 media_folder: content/assets
 public_folder: ../assets
-
+publish_mode: editorial_workflow
 collections:
   - name: blog
     label: Blog
