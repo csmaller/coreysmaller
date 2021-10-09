@@ -1,4 +1,6 @@
 ---
+isNews: false
+isMusic: true
 path: Travelling
 date: 2021-05-12T15:15:28.615Z
 title: Travelling (A Song)

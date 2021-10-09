@@ -1,4 +1,6 @@
 ---
+isNews: false
+isMusic: true
 path: interventions
 date: 2021-03-08T14:44:15.827Z
 title: Interventions (Music)
