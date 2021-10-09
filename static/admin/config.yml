@@ -1,6 +1,7 @@
 backend:
   name: github
   repo: csmaller/coreysmaller
+  branch: main
 media_library:
   name: uploadcare
   config:
