@@ -1,4 +1,6 @@
 ---
+isNews: false
+isMusic: true
 path: music/hollow
 date: 2021-03-08T14:40:48.778Z
 title: Hollow (Music)
