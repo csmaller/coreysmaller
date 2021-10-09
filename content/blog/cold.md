@@ -1,4 +1,6 @@
 ---
+isNews: false
+isMusic: true
 path: music/cold
 date: 2021-03-08T14:49:00.680Z
 title: Cold (Music)
