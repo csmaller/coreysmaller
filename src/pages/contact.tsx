@@ -63,7 +63,7 @@ export default function Contact(props) {
         <Layout location={props.location} title={siteTitle} layoutClassName="justify-content-center">
             <SEO
                 title="Contact"
-                keywords={[`utah ski touring`, 'backcountry skiing utah', 'ski and snowboard instructor utah']}
+                keywords={[`corey smaller`, 'corey smaller music', 'music utah']}
             />
             <Honeypot />
             <div className="row">
