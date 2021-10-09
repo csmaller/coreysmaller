@@ -26,6 +26,9 @@ export default function Layout(props) {
           <Link className="header-link nav-link" to="/" disabled={location.pathname === "/"}>
             Home
           </Link>
+          <Link to="/music/" className="header-link nav-link" disabled={location.pathname === "/music/"}>
+            Songs
+          </Link>
           <Link to="/blog/" className="header-link nav-link" disabled={location.pathname === "/blog/"}>
             Blog
           </Link>
