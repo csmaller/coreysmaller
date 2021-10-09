@@ -1,6 +1,6 @@
 ---
 isNews: false
-isMusic: false
+isMusic: true
 path: test
 date: 2021-10-09T18:37:05.699Z
 title: test
