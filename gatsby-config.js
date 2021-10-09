@@ -1,10 +1,10 @@
 module.exports = {
   siteMetadata: {
     // edit below
-    title: `Jackalope Adventures Personal Blog`,
+    title: `corey smaller Personal Blog`,
     author: `Corey Smaller`,
     description: `A personal blog with styled components, dark mode, and Netlify CMS.`,
-    siteUrl: `https://jackalopeadventures.com/`,
+    siteUrl: `https://coreysmaller.com/`,
     social: {
       instagram: `jackalopeadventures`,
     },
@@ -13,6 +13,7 @@ module.exports = {
     `gatsby-plugin-netlify-cms`,
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-sass`,
+    `gatsby-plugin-netlify`,
     `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`,
@@ -87,8 +88,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Jackalope Adventures`,
-        short_name: `Jackalope`,
+        name: `corey smaller`,
+        short_name: `Corey Smaller`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,
