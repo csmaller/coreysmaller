@@ -19,7 +19,7 @@ collections:
           label: Is News,
           widget: 'boolean',
           default: false,
-          required: true,
+          required: false,
         }
       - {
           name: isMusic,
