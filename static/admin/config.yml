@@ -22,7 +22,7 @@ collections:
           required: true,
         }
       - { name: path, label: Path }
-      - { name: date, label: Date, widget: date }
+      - { name: date, label: Date, widget: datetime }
       - { name: title, label: Title }
       - { name: description, label: Description, required: false }
       - { name: body, label: Body, widget: markdown }
