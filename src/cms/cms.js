@@ -146,8 +146,8 @@ CMS.registerEditorComponent({
 });
 
 CMS.registerEditorComponent({
-  id: "Image",
-  label: "Image",
+  id: "ImageResponsive",
+  label: "Image-Responsive",
   fields: [{
     name: "title",
     label: "Title",
@@ -188,7 +188,7 @@ CMS.registerEditorComponent({
     widget: "image"
   },
   ],
-  pattern: /{{< img50c src="([a-zA-Z0-9-_ ]+)" title="([a-zA-Z0-9-_ ]+)" >}}/,
+  pattern: /{{<img src="([a-zA-Z0-9-_ ]+)" title="([a-zA-Z0-9-_ ]+)" >}}/,
   fromBlock: function (match) {
     return {
       title: match[1],
@@ -196,9 +196,9 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return `{{< img50c src="${ obj.src }" title="${ obj.title }" >}}`;
+    return `{{<img src="${ obj.src }" title="${ obj.title }" class="img-50">}}`;
   },
   toPreview: function (obj) {
-    return `<img><img50c src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
+    return `<img><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
   },
 });
