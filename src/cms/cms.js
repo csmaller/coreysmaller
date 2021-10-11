@@ -5,62 +5,6 @@ CMS.registerPreviewStyle('/styles.css');
 CMS.registerMediaLibrary(uploadcare);
 
 CMS.registerEditorComponent({
-  id: "figure",
-  label: "Figure",
-  fields: [{
-    name: "title",
-    label: "Figure Title",
-    widget: "string"
-  },
-  {
-    name: "src",
-    label: "Figure SRC",
-    widget: "string"
-  },
-  ],
-  pattern: /{{< figure src="([a-zA-Z0-9-_ ]+)" title="([a-zA-Z0-9-_ ]+)" >}}/,
-  fromBlock: function (match) {
-    return {
-      title: match[1],
-      src: match[2],
-    };
-  },
-  toBlock: function (obj) {
-    return `{{< figure src="${ obj.src }" title="${ obj.title }" >}}`;
-  },
-  toPreview: function (obj) {
-    return `<figure><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></figure>`;
-  },
-});
-CMS.registerEditorComponent({
-  id: "gist",
-  label: "Gist",
-  fields: [{
-    name: "username",
-    label: "Github Username",
-    widget: "string"
-  },
-  {
-    name: "gid",
-    label: "Gist ID",
-    widget: "string"
-  },
-  ],
-  pattern: /{{< gist ([a-zA-Z0-9]+) ([a-zA-Z0-9]+) >}}/,
-  fromBlock: function (match) {
-    return {
-      username: match[1],
-      gid: match[2],
-    };
-  },
-  toBlock: function (obj) {
-    return `{{< gist ${ obj.username } ${ obj.gid } >}}`;
-  },
-  toPreview: function (obj) {
-    return `{{< gist ${ obj.username } ${ obj.gid } >}}`;
-  },
-});
-CMS.registerEditorComponent({
   id: "instagram",
   label: "Instagram",
   fields: [{
@@ -81,27 +25,7 @@ CMS.registerEditorComponent({
     return `{{< instagram ${ obj.pid } >}}`;
   },
 });
-CMS.registerEditorComponent({
-  id: "twitter",
-  label: "Twitter",
-  fields: [{
-    name: "tid",
-    label: "Tweet id",
-    widget: "string"
-  }],
-  pattern: /{{< tweet ([a-zA-Z0-9]+) >}}/,
-  fromBlock: function (match) {
-    return {
-      tid: match[1]
-    };
-  },
-  toBlock: function (obj) {
-    return `{{< tweet ${ obj.tid } >}}`;
-  },
-  toPreview: function (obj) {
-    return `{{< tweet ${ obj.tid } >}}`;
-  },
-});
+
 CMS.registerEditorComponent({
   id: "vimeo",
   label: "Vimeo",
@@ -126,11 +50,25 @@ CMS.registerEditorComponent({
 CMS.registerEditorComponent({
   id: "youtube",
   label: "Youtube",
-  fields: [{
-    name: "id",
-    label: "Youtube Video ID",
-    widget: "string"
-  }],
+  fields: [
+    {
+      name: "id",
+      label: "Youtube Video ID",
+      widget: "string"
+    },
+    {
+      name: "width",
+      label: "Width",
+      widget: "string",
+      default: '788'
+    },
+    {
+      name: "height",
+      label: "Height",
+      widget: "string",
+      default: '443'
+    },
+  ],
   pattern: /{{< youtube ([a-zA-Z0-9]+) >}}/,
   fromBlock: function (match) {
     return {
@@ -138,10 +76,12 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return `{{< youtube ${ obj.id } >}}`;
+    return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
+
   },
   toPreview: function (obj) {
-    return `<img src="http://img.youtube.com/vi/${ obj.id }/maxresdefault.jpg" alt="Youtube Video"/>`;
+    return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
+
   },
 });
 
