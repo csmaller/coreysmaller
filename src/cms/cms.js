@@ -48,6 +48,45 @@ CMS.registerEditorComponent({
   },
 });
 CMS.registerEditorComponent({
+  id: "ReactYoutube",
+  label: "React Youtube",
+  fields: [
+    {
+      name: "id",
+      label: "Youtube Video ID",
+      widget: "string"
+    },
+    {
+      name: "width",
+      label: "Width",
+      widget: "string",
+      default: '788'
+    },
+    {
+      name: "height",
+      label: "Height",
+      widget: "string",
+      default: '443'
+    },
+  ],
+  pattern: /{{<YouTube ([a-zA-Z0-9]+) >}}/,
+  fromBlock: function (match) {
+    return {
+      id: match[1],
+    };
+  },
+  toBlock: function (obj) {
+    //return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
+    return ` <YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />`;
+
+  },
+  toPreview: function (obj) {
+    //return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
+    return `<YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />`;
+
+  },
+});
+CMS.registerEditorComponent({
   id: "youtube",
   label: "Youtube",
   fields: [
