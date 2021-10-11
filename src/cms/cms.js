@@ -158,6 +158,11 @@ CMS.registerEditorComponent({
     label: "Image Src",
     widget: "image"
   },
+  {
+    name: "class",
+    label: "CSS Class",
+    widget: "string"
+  },
   ],
   pattern: /{{< img src="([a-zA-Z0-9-_ ]+)" title="([a-zA-Z0-9-_ ]+)" >}}/,
   fromBlock: function (match) {
@@ -167,7 +172,7 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return `{{< img src="${ obj.src }" title="${ obj.title }" class="img-responsive">}}`;
+    return `<img src="${ obj.src }" title="${ obj.title }" class="${ obj.class }">`;
   },
   toPreview: function (obj) {
     return `<img><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
@@ -196,7 +201,7 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return `{{<img src="${ obj.src }" title="${ obj.title }" class="img-50">}}`;
+    return `<img src="${ obj.src }" title="${ obj.title }" class="img-50">`;
   },
   toPreview: function (obj) {
     return `<img><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
