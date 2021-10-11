@@ -13,6 +13,17 @@ ReactGA.initialize(process.env.GOOGLE_ID);
 
 const BlogPostTemplate = (props) => {
 
+  const onReady = (event) => {
+    event.target.pauseVideo();
+  };
+
+  const opts = {
+    width: '100%',
+    playerVars: {
+      autoplay: 0,
+    },
+  };
+
   useEffect(() => {
     if (typeof "window" !== "undefined") {
       ReactGA.pageview(window.location.pathname + window.location.search);
