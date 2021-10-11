@@ -1,16 +1,19 @@
 ---
+isNews: true
 path: season-wrap-21
 date: 2021-05-17T13:27:17.634Z
-title: 2020/2021 Season Wrap Up
-description: it was the best of times...it was the worst of times
 cover:
   - https://ucarecdn.com/80861f06-c346-4666-840f-4aa447e89e7a/
   - https://ucarecdn.com/043ee6f5-81f7-43bf-aa15-87c7268498f3/
+title: 2020/2021 Season Wrap Up
 image:
   - https://ucarecdn.com/9c1d2848-b741-427b-a356-6cc0fa9a8460/-/smart_resize/:two_dimensions/195874327_313691453741490_203264130425290292_n.jpg
-isNews: true
+isMusic: false
+description: it was the best of times...it was the worst of times
 ---
 ![touring](../assets/touring_1.jpeg "touring")
+
+<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="780" height="360" type="text/html" src="https://www.youtube.com/embed/Q1gjD--SFwA?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>
 
 Well, that's a wrap!   
 
@@ -39,7 +42,5 @@ Here's to hoping next season gives us shorter lines, less traffic, better snow c
 As they say in Utah: You move here for the winters, but you stay for the summers!  So, it's off to ride bikes!
 
 See you real soon
-
-
 
 \-Corey
