@@ -172,7 +172,7 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return `{{<img src="${ obj.src }" title="${ obj.title }" class="${ obj.class }">}}`;
+    return `{{<img src="${ obj.src }" title="${ obj.title }" class="${ obj.class }" />}}`;
   },
   toPreview: function (obj) {
     return `<img><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
