@@ -179,31 +179,3 @@ CMS.registerEditorComponent({
   },
 });
 
-CMS.registerEditorComponent({
-  id: "bild50c",
-  label: "50% Image Size",
-  fields: [{
-    name: "title",
-    label: "Title",
-    widget: "string"
-  },
-  {
-    name: "src",
-    label: "Src",
-    widget: "image"
-  },
-  ],
-  pattern: /{{<img src="([a-zA-Z0-9-_ ]+)" title="([a-zA-Z0-9-_ ]+)" >}}/,
-  fromBlock: function (match) {
-    return {
-      title: match[1],
-      src: match[2],
-    };
-  },
-  toBlock: function (obj) {
-    return `<img src="${ obj.src }" title="${ obj.title }" class="img-50">`;
-  },
-  toPreview: function (obj) {
-    return `<img><img src=${ obj.src } alt=${ obj.title }><figcaption>${ obj.title }</figcaption></img>`;
-  },
-});
