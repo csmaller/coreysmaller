@@ -66,3 +66,12 @@ body {
     margin-right: auto;
     width: 50%;
 }
+
+.gatsby-resp-iframe-wrapper {
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    width: 720px;
+    height: 340px;
+    padding-bottom: 30% !important;
+}
