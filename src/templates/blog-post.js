@@ -5,8 +5,9 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import Bio from "../components/bio";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
+import ReactYouTube from "../components/reactYouTube";
+import ReactVimeo from "../components/reactVimeo";
 import { rhythm, scale } from "../utils/typography";
-import YouTube from 'react-youtube';
 import { MDXProvider } from "@mdx-js/react";
 
 import ReactGA from 'react-ga';
@@ -14,16 +15,6 @@ ReactGA.initialize(process.env.GOOGLE_ID);
 
 const BlogPostTemplate = (props) => {
 
-  const onReady = (event) => {
-    event.target.pauseVideo();
-  };
-
-  const opts = {
-    width: '100%',
-    playerVars: {
-      autoplay: 0,
-    },
-  };
 
   useEffect(() => {
     if (typeof "window" !== "undefined") {
@@ -36,9 +27,7 @@ const BlogPostTemplate = (props) => {
   const siteTitle = props.data.site.siteMetadata.title;
   const { previous, next } = props.pageContext;
 
-  const TestMe = () => `<h1>test</h1>`;
-
-  const shortcodes = { YouTube, TestMe };
+  const Shortcodes = { ReactYouTube, ReactVimeo };
   return (
     <Layout location={props.location} title={siteTitle}>
       <SEO
@@ -57,7 +46,8 @@ const BlogPostTemplate = (props) => {
       >
         {post.frontmatter.date}
       </p>
-      <MDXProvider components={{ ...shortcodes }}>
+
+      <MDXProvider components={{ ...Shortcodes }}>
         <MDXRenderer>{post.body}</MDXRenderer>
       </MDXProvider>
       <hr

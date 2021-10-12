@@ -30,23 +30,24 @@ CMS.registerEditorComponent({
   id: "vimeo",
   label: "Vimeo",
   fields: [{
-    name: "shortcode",
-    label: "Vimeo shortcode",
+    name: "id",
+    label: "Vimeo ID",
     widget: "string"
   }],
-  pattern: /{{< vimeo ([a-zA-Z0-9]+) >}}/,
+  pattern: /{{<ReactVimeo ([a-zA-Z0-9]+) >}}/,
   fromBlock: function (match) {
     return {
-      shortcode: match[1]
+      id: match[1]
     };
   },
   toBlock: function (obj) {
-    return `{{< vimeo ${ obj.shortcode } >}}`;
+    return `<ReactVimeo id="${ obj.id }" />`;
   },
   toPreview: function (obj) {
-    return `{{< vimeo ${ obj.shortcode } >}}`;
+    return `<ReactVimeo id="${ obj.id }" />`;
   },
 });
+
 CMS.registerEditorComponent({
   id: "ReactYoutube",
   label: "React Youtube",
@@ -69,57 +70,17 @@ CMS.registerEditorComponent({
       default: '443'
     },
   ],
-  pattern: /{{<YouTube ([a-zA-Z0-9]+) >}}/,
+  pattern: /{{<ReactYouTube ([a-zA-Z0-9]+) >}}/,
   fromBlock: function (match) {
     return {
       id: match[1],
     };
   },
   toBlock: function (obj) {
-    //return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
-    return ` <YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />`;
-
+    return ` <ReactYouTube videoId="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
   },
   toPreview: function (obj) {
-    //return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
-    return `<YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />`;
-
-  },
-});
-CMS.registerEditorComponent({
-  id: "youtube",
-  label: "Youtube",
-  fields: [
-    {
-      name: "id",
-      label: "Youtube Video ID",
-      widget: "string"
-    },
-    {
-      name: "width",
-      label: "Width",
-      widget: "string",
-      default: '788'
-    },
-    {
-      name: "height",
-      label: "Height",
-      widget: "string",
-      default: '443'
-    },
-  ],
-  pattern: /{{< youtube ([a-zA-Z0-9]+) >}}/,
-  fromBlock: function (match) {
-    return {
-      id: match[1],
-    };
-  },
-  toBlock: function (obj) {
-    return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
-
-  },
-  toPreview: function (obj) {
-    return `<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="${ obj.width }" height="${ obj.height }" type="text/html" src="https://www.youtube.com/embed/${ obj.id }?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=http://youtubeembedcode.com"><div><small><a href="https://youtubeembedcode.com/pl/">youtubeembedcode pl</a></small></div><div><small><a href="https://campuspress.yale.edu/pioneer/making-your-gap-year-count/">pt utbildning</a></small></div><div><small><a href="https://youtubeembedcode.com/nl/">youtubeembedcode.com/nl/</a></small></div><div><small><a href="https://kasinoutansvensklicens.nu/">kasinoutansvensklicens.nu</a></small></div></iframe>`;
+    return ` <ReactYouTube videoId="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
 
   },
 });
