@@ -15,6 +15,8 @@ description: it was the best of times...it was the worst of times
 
  <YouTube videoId="DGFtDL8ziQ0"  containerClassName="you-tube-wrapper" />
 
+<TestMe/>
+
 Well, that's a wrap!   
 
 This whole ski season was a blur for me:  Lots of good inbounds days,  lines longer than I have ever seen, tons of tours on mostly low angle, safe slopes considering the extreme danger and horrible condition our snowpack was in for most of the season.  
