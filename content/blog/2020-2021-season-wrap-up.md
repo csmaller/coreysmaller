@@ -13,9 +13,7 @@ description: it was the best of times...it was the worst of times
 ---
 ![touring](../assets/touring_1.jpeg "touring")
 
- <YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />
-
-
+ <YouTube videoId="DGFtDL8ziQ0"  containerClassName="you-tube-wrapper" />
 
 Well, that's a wrap!   
 
