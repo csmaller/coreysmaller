@@ -7,6 +7,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { rhythm, scale } from "../utils/typography";
 import YouTube from 'react-youtube';
+import { MDXProvider } from "@mdx-js/react";
 
 import ReactGA from 'react-ga';
 ReactGA.initialize(process.env.GOOGLE_ID);
@@ -35,6 +36,9 @@ const BlogPostTemplate = (props) => {
   const siteTitle = props.data.site.siteMetadata.title;
   const { previous, next } = props.pageContext;
 
+  const TestMe = () => `<h1>test</h1>`;
+
+  const shortcodes = { YouTube, TestMe };
   return (
     <Layout location={props.location} title={siteTitle}>
       <SEO
@@ -53,7 +57,9 @@ const BlogPostTemplate = (props) => {
       >
         {post.frontmatter.date}
       </p>
-      <MDXRenderer>{post.body}</MDXRenderer>
+      <MDXProvider components={{ ...shortcodes }}>
+        <MDXRenderer>{post.body}</MDXRenderer>
+      </MDXProvider>
       <hr
         style={{
           marginBottom: rhythm(1),
