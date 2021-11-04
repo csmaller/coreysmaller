@@ -1,5 +1,6 @@
 ---
-isNews: true
+isNews: false
+isMusic: false
 path: october2021
 date: 2021-10-08T19:55:47.084Z
 title: Change Is In The Air
