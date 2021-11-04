@@ -5,28 +5,6 @@ CMS.registerPreviewStyle('/styles.css');
 CMS.registerMediaLibrary(uploadcare);
 
 CMS.registerEditorComponent({
-  id: "instagram",
-  label: "Instagram",
-  fields: [{
-    name: "pid",
-    label: "Post id",
-    widget: "string"
-  }],
-  pattern: /{{< instagram ([a-zA-Z0-9]+) >}}/,
-  fromBlock: function (match) {
-    return {
-      pid: match[1]
-    };
-  },
-  toBlock: function (obj) {
-    return `< instagram ${ obj.pid } >`;
-  },
-  toPreview: function (obj) {
-    return `< instagram ${ obj.pid } >`;
-  },
-});
-
-CMS.registerEditorComponent({
   id: "vimeo",
   label: "Vimeo",
   fields: [{
@@ -77,10 +55,10 @@ CMS.registerEditorComponent({
     };
   },
   toBlock: function (obj) {
-    return ` <ReactYouTube videoId="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
+    return ` <ReactYouTube id="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
   },
   toPreview: function (obj) {
-    return ` <ReactYouTube videoId="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
+    return ` <ReactYouTube id="${ obj.id }" width="${ obj.width }" height="${ obj.height }" />`;
 
   },
 });

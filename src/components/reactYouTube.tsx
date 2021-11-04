@@ -12,9 +12,7 @@ const YouTubeContainer = styled.div`
 `;
 
 const ReactYouTube = (props) => {
-  const onReady = (event) => {
-    event.target.pauseVideo();
-  };
+
 
   const opts = {
     width: props.width,
@@ -24,11 +22,16 @@ const ReactYouTube = (props) => {
     },
   };
 
-  console.log(opts)
-
   return <YouTubeContainer>
-    <YouTube videoId={props.videoId} onReady={onReady} opts={opts} containerClassName="you-tube-wrapper" />;
-    </YouTubeContainer >
+    <iframe
+      src={`https://www.youtube.com/embed/${ props.id }`}
+      frameBorder="0"
+      className="video-iframe"
+      width="640" height="360"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </YouTubeContainer >
 }
 
 export default ReactYouTube;

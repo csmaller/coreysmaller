@@ -38,31 +38,6 @@ const MainContainer = styled.div`
   }
 `;
 
-function MainContent(props) {
-
-  const onReady = (event) => {
-    event.target.pauseVideo();
-  }
-
-  const opts = {
-    width: '100%',
-    playerVars: {
-      autoplay: 0,
-    },
-  };
-
-  return (
-    <div className={props.className}>
-      <h3>Welcome</h3>
-      <p>Here is my personal blog site
-      </p>
-      <div className="col-12 py-3 text-center justify-content-center">
-        <YouTube videoId="DGFtDL8ziQ0" opts={opts} onReady={onReady} containerClassName="you-tube-wrapper" />
-      </div>
-    </div>
-  );
-}
-
 export default function IndexPage(props) {
 
   const news = props.data.news;
@@ -82,7 +57,7 @@ export default function IndexPage(props) {
       </Helmet>
       <SEO
         title="Home"
-        keywords={[`corey adam smaller`, `coder`, `poetry`, `corey smaller`, `jackalope`, `backcountry skiing`, `utah ski touring`]}
+        keywords={[`corey smaller`, `corey adam smaller`, 'utah musicians', 'musicians in park city', `jackalope`, `backcountry skiing`, `utah ski touring`]}
       />
       <Hero />
       <MainContainer className="row position-relative">
