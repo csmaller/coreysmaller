@@ -1,5 +1,5 @@
 ---
-isNews: true
+isNews: false
 path: season-wrap-21
 date: 2021-05-17T13:27:17.634Z
 cover:
