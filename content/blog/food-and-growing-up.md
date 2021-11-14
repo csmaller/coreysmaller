@@ -22,15 +22,17 @@ The german/english family always served some bland brown meat thing. The Irish f
 
 #### The Red Sauce
 
-My mother makes a red sauce that will make you want to smack a stranger it's so good.  I took it for granted when i was growing up.  I thought everybody's mom labored over a ceramic (never teflon) pot. This woman drove an extra half hour to the Italian deli to get the real sausage and the real, good, fatty red meat.  
+My mother makes a Red Sauce  (yes, capitalized) that will make you want to smack a stranger it's so good.  I took it for granted when i was growing up.  I thought everybody's mom labored over a ceramic (never teflon) pot. This woman drove an extra half hour to the Italian deli to get the real sausage and the real, good, fatty ground red meat.  
 
  There was no "organic" labels back in the 70s, but my palette know the difference between processed garbage and good healthy food.  
 
-Damn, my mouth is watering just writing this.  Coming home from school and walking into a kitchen smelling of that amalgamation of love.  Later that day having the obligatory meatball sandwich on Italian bread that night while she puts the red sauce in glass containers that my brothers and I would devour within two days.    
+Damn, my mouth is watering just writing this.  Coming home from school and walking into a kitchen smelling of that amalgamation of love.  Later that day having the obligatory meatball sandwich on Italian bread that night while she puts the Red Sauce in glass containers that my brothers and I would devour within two days.  
 
-We didn't do more than the traditional red sauce. We never had risotto or fish based Italian dishes.  Most of our Italian dishes were based around  The Red Sauce: The Mother of Italian Food Sauces (to me at least).   When we had money we had chicken parm or lasagna.  Raviolis were always a treat and I could eat a whole box of frozen cheese ravioli in one sitting.  I don't remember the brand, it was some Italian woman's name like Regina or Margie with a basic blue and white label.  There are so many frozen raviolis on the market today it's hard to find it with the Googles (and i tried).
+We never had risotto or fish based Italian dishes. I didn't like fish except maybe a tuna salad sandwich that I enjoyed with so much mayo it didn't matter. We didn't do the Feast of the Seven Fishes on Christmas Eve. Risotto was just a word. I didn't even know what it was when i was young.
 
-Yet even during a strict wanna-be bodybuilders diet I could not give up the red sauce.
+Our Italian dishes were based around The Red Sauce: The Mother of Italian Food Sauces (to me at least).   When we had money we had chicken parm or lasagna.  Raviolis were always a treat and I could eat a whole box of frozen cheese ravioli in one sitting.  I don't remember the brand, it was some Italian woman's name like Regina or Margie with a basic blue and white label.  There are so many frozen raviolis on the market today it's hard to find it with the Googles (and i tried).
+
+Even during a stint of bodybuilding in my early 20's and being on a ridiculously strict diet of boiled fish and yams, I could not give up the red sauce at least once a week.
 
 I tried and still try to duplicate moms. She sends me the ingredients and tells me how and it still just doesn't taste...right.  Organic fatty meat ("none of that lean shit!" I can hear her saying), good mild hand made italian sausage, organic canned tomatoes, italian breadcrumbs, oregano, basil, salt n pepper. That's pretty much it.  Yet I still can't get it. My Johnson and Wales trained chef of a brother can't get it. Nobody can. 
 
