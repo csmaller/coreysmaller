@@ -9,7 +9,6 @@ import ReactYouTube from "../components/reactYouTube";
 import ReactVimeo from "../components/reactVimeo";
 import { rhythm, scale } from "../utils/typography";
 import { MDXProvider } from "@mdx-js/react";
-
 import ReactGA from 'react-ga';
 ReactGA.initialize(process.env.GOOGLE_ID);
 
@@ -19,6 +18,10 @@ const BlogPostTemplate = (props) => {
   useEffect(() => {
     if (typeof "window" !== "undefined") {
       ReactGA.pageview(window.location.pathname + window.location.search);
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', process.env.GOOGLE_ID);
     }
   }, []);
 

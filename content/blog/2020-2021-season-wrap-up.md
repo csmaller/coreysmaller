@@ -13,7 +13,6 @@ description: it was the best of times...it was the worst of times
 ---
 ![touring](../assets/touring_1.jpeg "touring")
 
- <YouTube videoId="DGFtDL8ziQ0"  containerClassName="you-tube-wrapper" />
 
 <TestMe/>
 

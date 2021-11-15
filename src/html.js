@@ -12,6 +12,7 @@ export default function HTML(props) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3EYGCQLWSE"></script>
         <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
         {props.headComponents}
       </head>

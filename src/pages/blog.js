@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, graphql } from "gatsby";
-
+import ReactGA from 'react-ga';
 import Bio from "../components/bio";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
@@ -8,7 +8,16 @@ import { rhythm } from "../utils/typography";
 import Button from "../components/button";
 
 export default function Blog(props) {
+  useEffect(() => {
+    if (typeof "window" !== "undefined") {
+      ReactGA.pageview(window.location.pathname + window.location.search);
 
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', process.env.GOOGLE_ID);
+    }
+  }, []);
 
   const { data } = props;
   const siteTitle = data.site.siteMetadata.title;
