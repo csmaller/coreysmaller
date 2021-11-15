@@ -12,6 +12,7 @@ export default function Blog(props) {
     if (typeof "window" !== "undefined") {
       ReactGA.pageview(window.location.pathname + window.location.search);
 
+      window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
 
