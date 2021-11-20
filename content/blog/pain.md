@@ -18,16 +18,16 @@ Last night I did a pretty hard hot power yoga class.  It felt great. Sweat puddl
 
 * chronic knee pain
 * left rhomboid or trapezius strain from banging my head on stage four days ago
-* right shoulder: possible tendonitis in the rotator cuff but an MRI this coming Monday will clear that up. I have been doing PT exercises religiously to no avail.
-* left wrist pain and numbness in my hand: CTS from rock climbing over two months ago. I have to wear a brace to bed so I don't flex my wrist when I sleep and aggravate it. Had to put my climbing membership on hold until it heals (if it ever does)
-* C6 narrowing causing minor numbness in my right arm and hand
+* right shoulder: supraspinatous, infraspinatous tendonitis and partial tendon tears as well as a partial tear in the lateral head of the right bicep muscle
+* left CTS from rock climbing over two months ago. I have to wear a brace to bed so I don't flex my wrist when I sleep and aggravate it. Had to put my climbing membership on hold until it heals (if it ever does)
+* C6 narrowing causing minor numbness in my right arm and hand. The least of my worries.
 
 At night when i go to bed i struggle to find the perfect position to sleep in.  I don't really take sleep supplements and drinking any coffee after noon will make me restless.  So of course I have to have a latte at lunch at the new coffee shop next to my house, right? 
 
 Like that Louis CK bit where he talks about his "shitty ankle" and how you just have to live with it when you get older, I am there.  I am in that position.  
 
-I adjusted my diet for less inflammation, i quit drinking, I quit gluten, i do yoga, I try to move my body daily and not push it too hard.  Nothing. 
+I adjusted my diet for less inflammation, i quit drinking, I quit gluten, i do yoga, I try to move my body daily and not push it too hard.  Maybe it helps? I dunno.
 
-Is this what it means to get older?  Is it just going to get worse now? Do i have to take up shuffle board and give up my way of life?  I certainly hope not.  I like my love. No, I LOVE my life.  The thought of not being able to ski or climb or bike fills me with dread.  
+Is this what it means to get older?  Is it just going to get worse now?  Do i have to take up shuffle board and give up my way of life?  I certainly hope not.  I like my love. No, I LOVE my life.  The thought of not being able to ski or climb or bike fills me with dread.  
 
 So forgive me bitching and moaning. I hate to be a bother.  Now if you will excuse me I have to go study what "pickle ball" is. Apparently all the old timers are doing it.
