@@ -1,5 +1,5 @@
 ---
-isNews: true
+isNews: false
 isMusic: true
 path: souldoctor
 date: 2021-11-05T14:03:58.724Z
