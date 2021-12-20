@@ -6,6 +6,8 @@ date: 2020-10-22T19:10:57.048Z
 title: Relationships
 description: relationships in the 2020s
 ---
+*(note: this hasn't been updated in a while. the following text was written over two years ago)*
+
 ### Chapter 1
 
 Me: "Man , I had so much fun with you last night. Thanks again for the amazing time."
@@ -36,7 +38,7 @@ In this culture it's better to not hurt feelings, right?  Do the "Slow Fade".  T
 
 * My Dog Was Sick. 
 * My Son Was Sick. 
-*  I Was Sick.  
+* I Was Sick.  
 * I Was Working All Weekend  
 * I Was Out Of Service Even Though I Was Updating Social Media.  
 * My Phone Broke
