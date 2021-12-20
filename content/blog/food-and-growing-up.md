@@ -1,5 +1,5 @@
 ---
-isNews: true
+isNews: false
 isMusic: false
 path: food
 date: 2021-11-09T15:32:03.626Z
