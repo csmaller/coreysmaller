@@ -1,5 +1,5 @@
 ---
-isNews: true
+isNews: false
 isMusic: false
 path: relationships
 date: 2020-10-22T19:10:57.048Z
