@@ -28,8 +28,6 @@ You don't give a shit about anybody else but yourself.
 
 You spend your whole day worrying about what other people think about you and adjust your habits around making other people like you instead of liking yourself.
 
-
-
 ***Don't care what you may say***\
 ***We got that attitude!***\
 ***Don't care what you may do***\
@@ -40,8 +38,6 @@ You spend your whole day worrying about what other people think about you and ad
 ***Yeah, we got that P.M.A*** 
 
  ** *\- "Attitude" by the Bad Brains***
-
-
 
 I've been reading [The PMA Effect](https://www.amazon.com/The-PMA-Effect-John-Joseph-audiobook/dp/B07PXNFVQY/ref=sr_1_1?gclid=Cj0KCQiAip-PBhDVARIsAPP2xc2Ix99J_FFsCKiyr0nyhxoWAKBm_1zbWfq90Zz1T1SYjhQM1w3GkX0aAiHYEALw_wcB&hvadid=282396075074&hvdev=c&hvlocphy=9029752&hvnetw=g&hvqmt=e&hvrand=6371127195923300428&hvtargid=kwd-484757891410&hydadcr=22533_10353821&keywords=the+pma+effect&qid=1642603375&sr=8-1) by John Joseph and you should too.
 
@@ -71,8 +67,6 @@ I will not let this define who I am right now.
 
 Get After it. 
 
-
-
 \------------
 
 I changed my diet a few years ago to a mostly plant-based diet.  The guys in the gym and almost every guy around me lost their minds. These fools acted like it was an attack on them personally. 
@@ -81,11 +75,13 @@ I changed my diet a few years ago to a mostly plant-based diet.  The guys in the
 
 How about it's been almost three years and I'm in better shape now than when I started at 20? 
 
-I am living proof all those ads you see about how meat and dairy makes a strong body is total bullshit.  Back in my younger years when I first started to really exercise and saw the connection to losing my beer gut and food, I trained for body building shows.  I ate nothing but boiled chicken and bottom feeding steamed fish.  I lost weight and started to see abs and veins.  Yet, my breath stank, my pores oozed the nastiness that this diet produced. I was gassy and my ex girlfriend wouldn't even sleep in the same room with me. I was brainwashed into thinking this was healthy since other guys and mentors I worked with said so .  I have a six pack now so it must be healthy!  It was a twisted view on health and what was considered good for your body.  It was the 90's after all.
+I am living proof all those ads you see about how meat and dairy makes a strong body is total bullshit.  Back in my younger years when I first started to really exercise and saw the connection to losing my beer gut and food, I trained for body building shows.  I ate nothing but boiled chicken and bottom feeding steamed fish.  I lost weight and started to see abs and veins.  Yet, my breath stank, my pores oozed the nastiness that this diet produced. I was gassy and my ex girlfriend wouldn't even sleep in the same room with me. 
 
-Shit, the "sport" of bodybuilding alone goes against anything "healthy" for your mind and body. Just because you are wearing speedos and have orange tanner on and you are pumped and leaned out to the point of risking disease, jacked on whatever chemical to get an edge, haven't even drank water in two days, does not mean you are healthy. 
+I was brainwashed into thinking this was healthy since other guys and mentors I worked with said so. Damn, I have a six pack now so it must be healthy!  It was a twisted view on health and what was considered good for your body.  It was the 90's after all.
 
-I can guarantee you that garbage fad Keto/Paleo diet these guys are on is leading to inflammation and a host of other chronic diseases in their bodies.  Yeah, At 30 it's easy to talk shit like you know what's up.  Talk to me when you get to 50 and are can still Get After It. 
+Hell, the "sport" of bodybuilding alone goes against anything "healthy" for your mind and body. Yeah, just because you are wearing speedos and have orange tanner on and you are pumped and leaned out to the point of risking disease, jacked on whatever to get an edge, and haven't even drank water in two days, does not mean you are healthy. 
+
+I can guarantee you that garbage fad Keto/Paleo diet these people are on is leading to inflammation and a host of other chronic diseases in their bodies.  Yeah, At 30 it's easy to talk shit like you know what's up.  Talk to me when you get to 50 and can still Get After It. 
 
 All that rotting flesh in your digestive tract is gonna catch up to you.  Next thing you have a bad back, bad skin, aching hips and knees.  Inflammation and rust never sleeps. Trust me on this one.  
 
