@@ -30,6 +30,7 @@ collections:
         }
       - { name: path, label: Path }
       - { name: date, label: Date, widget: datetime }
+      - { name: updated, label: Date Updated, widget: datetime }
       - { name: title, label: Title }
       - { name: description, label: Description, required: false }
       - { name: body, label: Body, widget: markdown }
