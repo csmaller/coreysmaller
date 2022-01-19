@@ -84,6 +84,4 @@ You can sit there and smirk and say "fuck that, this guy is full of shit" or you
 
 Life is too short.  Start today. Start right now. 
 
-Quit being a selfish asshole.
-
 Get After It.
