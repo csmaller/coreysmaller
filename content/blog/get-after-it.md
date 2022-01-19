@@ -66,19 +66,21 @@ I changed my diet a few years ago to a mostly plant-based diet.  The guys in the
 
 How about it's been almost three years and at 51 I'm in better shape now than when I started at 20? 
 
-I am living proof all those ads you see about how meat and dairy makes a strong body is total bullshit.  Back in my younger years when I first started to really exercise and saw the connection to losing my beer gut and food, I trained for body building shows.  I ate nothing but boiled chicken and bottom feeding steamed fish.  I lost weight and started to see abs and veins.  Yet, my breath stank, my pores oozed the nastiness that this diet produced. I was gassy and my ex girlfriend wouldn't even sleep in the same room with me. 
+I am living proof all those ads you see about how meat and dairy makes a strong body is total bullshit.  Back in my younger years when I first started to really exercise and saw the connection to losing my beer gut and food, I trained for body building shows.  I ate nothing but boiled chicken and bottom feeding steamed fish.  I carried around a cooler full of tupperware meals and a gallon of water.  I lost weight and started to see abs and veins.  Yet, my breath stank, my pores oozed the nastiness that this diet produced. I was gassy and my ex girlfriend wouldn't even sleep in the same room with me. 
 
-I was brainwashed into thinking this was healthy since other guys and mentors I worked with said so. Damn, I have a six pack now so it must be healthy!  It was a twisted view on health and what was considered good for your body.  It was the 90's after all.
+I was brainwashed into thinking this was healthy since other guys and mentors I worked with said so. Damn, I have a six pack now so it must be healthy!  It was a twisted view on health and what was considered good for your body.  It was the 90's after all but yet even now people I know still do the same bullshit diet to get lean for a show.
 
 Hell, the "sport" of bodybuilding alone goes against anything "healthy" for your mind and body. Yeah, just because you are wearing speedos and have orange tanner on and you are pumped and leaned out to the point of risking disease, jacked on whatever to get an edge, and haven't even drank water in two days, does not mean you are healthy. 
 
-I can guarantee you that garbage fad Keto/Paleo diet these people are on is leading to inflammation and a host of other chronic diseases in their bodies.  Yeah, At 30 it's easy to talk shit like you know what's up.  Talk to me when you get to 50 and can still Get After It. 
+I can guarantee you that garbage fad Keto/Paleo diet these people are on is jacking up inflammation and leading to a host of chronic diseases and injuries in their bodies.  Yeah, At 30 it's easy to talk shit like you know what's up.  Talk to me when you get to 50 and can still Get After It. 
 
 All that rotting flesh in your digestive tract is gonna catch up to you.  Next thing you have a bad back, bad skin, aching hips and knees.  Inflammation and rust never sleeps. Trust me on this one.  
 
-Changing your diet is the door that opens to the path to enlightenment.  All the other things that make you a better person on this planet are on that path, sometimes it takes longer, sometimes it smacks you right in the face.  You will feel better, you will look better, you will have the energy to make this world better. I am not kidding.  
+Changing your diet is the door that opens to the path to enlightenment.  All the other things that make you a better person on this planet are on that path, sometimes it takes longer, sometimes it smacks you right in the face.  You will feel better, you will look better, you will have the energy to make this world better. 
 
-You can sit there and smirk and say "fuck that" or you can try it and see what all the fuss is about.
+I am not kidding.  I am not being hyperbolic.
+
+You can sit there and smirk and say "fuck that, this guy is full of shit" or you can try it and see what all the fuss is about.
 
 Life is too short.  Start today. Start right now. 
 
