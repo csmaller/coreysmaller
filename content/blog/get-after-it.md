@@ -16,35 +16,26 @@ How the fuck are you not jumping out of bed to Get After It?
 
 Is it because:
 
-Your diet sucks.
+* Your diet sucks.
+* Your attitude sucks. 
+* Your job sucks and is not your passion in life.
+* You don't exercise enough.
+* You don't give a shit about anybody else but yourself.
+* You spend your whole day worrying about what other people think about you and adjust your habits around making other people like you instead of liking yourself.
 
-Your attitude sucks. 
 
-Your job sucks and is not your passion in life.
 
-You don't exercise enough.
+All those things I bullet pointed above, do they ring true at all? Is it time to quit blaming other people for your unhappiness and stop relying on anybody else but yourself to bring your happiness?
 
-You don't give a shit about anybody else but yourself.
-
-You spend your whole day worrying about what other people think about you and adjust your habits around making other people like you instead of liking yourself.
-
- 
-
-In short, it's time to quit blaming other people for your unhappiness.  
-
-It's time to fix your shit.  
-
-All those things I quoted above, do they ring true at all? 
+If so, it is time to Fix Your Shit and Get After It.
 
 We are ALL a work in progress. All of us. 
 
-I was a cook for years and ate nothing but garbage. Greasy burgers or hot dogs. 
+I was a cook for years and ate nothing but garbage. Greasy burgers or hot dogs. I was overweight. I drank and did drugs daily. I smoked weed: before work, at work, after work. I would make pipes out of apples in the walk in fridge at the hotel I worked in.  I drank cooking wine on the line on a busy Saturday night.  I tried to hook up with every hot waitress I worked with.  I snorted coke,  smoked coke, did mushrooms and acid, ecstasy, molly, ketamine. 
 
-I drank and did drugs. I smoked weed daily before work, at work, after work. I would make pipes out of apples in the walk in fridge and drank cooking wine on the line.  I tried to hook up with every hot waitress I worked with.  I did cocaine whenever someone offered it.   
+I was selfish and completely out of my mind.  
 
-I was completely selfish and out of my mind *most of my life*.  
-
-I admit I still fall back into what John Joseph (author of The PMA Effect, read it) calls The Enemy Mind:  I still sometimes blame others for shit I have done and later regret it. I sometimes take a hit off my dust-covered vape pen and regret it.  I sometimes reward myself with alcohol after a long day of skiing and later, lying in bed unable to sleep, I regret it. I don't stop to help someone in need or take the time to teach someone something and I regret it.
+I admit I still fall back into what John Joseph (author of The PMA Effect, read it) calls The Enemy Mind:  Sometimes I still blame others for shit I have done and later regret it. Sometimes I take a hit of weed and regret it.  Sometimes I have a beer after a long day of skiing or biking and later, lying in bed unable to sleep, I regret it. I don't stop to help someone in need or take the time to teach someone something that needs it and I regret it.
 
 Enlightenment is not a straight line. Two steps forward, tiny steps back. It is realizing you are doing it and fixing your shit before that negative mindset takes over again.
 
@@ -59,6 +50,8 @@ I will not let this define who I am right now.
 Get After it. 
 
 \------------
+
+### Diet
 
 I changed my diet a few years ago to a mostly plant-based diet.  The guys in the gym and almost every guy around me lost their minds. These fools acted like it was an attack on them personally. 
 
