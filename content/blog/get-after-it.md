@@ -28,38 +28,29 @@ You don't give a shit about anybody else but yourself.
 
 You spend your whole day worrying about what other people think about you and adjust your habits around making other people like you instead of liking yourself.
 
-***Don't care what you may say***\
-***We got that attitude!***\
-***Don't care what you may do***\
-***We got that attitude!***
+ 
 
-***Yeah, we got that P.M.A***
+In short, it's time to quit blaming other people for your unhappiness.  
 
-***Yeah, we got that P.M.A*** 
+It's time to fix your shit.  
 
- ** *\- "Attitude" by the Bad Brains***
-
-I've been reading [The PMA Effect](https://www.amazon.com/The-PMA-Effect-John-Joseph-audiobook/dp/B07PXNFVQY/ref=sr_1_1?gclid=Cj0KCQiAip-PBhDVARIsAPP2xc2Ix99J_FFsCKiyr0nyhxoWAKBm_1zbWfq90Zz1T1SYjhQM1w3GkX0aAiHYEALw_wcB&hvadid=282396075074&hvdev=c&hvlocphy=9029752&hvnetw=g&hvqmt=e&hvrand=6371127195923300428&hvtargid=kwd-484757891410&hydadcr=22533_10353821&keywords=the+pma+effect&qid=1642603375&sr=8-1) by John Joseph and you should too.
-
-This dude speaks real shit.  
-
-I've been coming around the long way to this very same mindset for most of my life and saying a lot of the shit Joseph says in his book. I've tried to quote Buddha, or some yoga mantra I heard in a class, or point to some documentary, or use some life lesson to make my point.  Joseph sums it up nicely, in-your-face, and no apologies. 
-
-John Joseph Gets After It.  
-
-In short, quit blaming other people for your unhappiness.  Fix your shit.  All those things I quoted above, do they ring true at all? 
+All those things I quoted above, do they ring true at all? 
 
 We are ALL a work in progress. All of us. 
 
-For example, I was a cook for years and ate nothing but garbage. Greasy burgers or hot dogs.  I smoked weed daily before work, at work, after work. I would make pipes out of apples in the walk in fridge and drank cooking wine on the line.  I tried to hook up with every hot waitress I worked with.  I did cocaine whenever someone offered it.   
+I was a cook for years and ate nothing but garbage. Greasy burgers or hot dogs. 
+
+I drank and did drugs. I smoked weed daily before work, at work, after work. I would make pipes out of apples in the walk in fridge and drank cooking wine on the line.  I tried to hook up with every hot waitress I worked with.  I did cocaine whenever someone offered it.   
 
 I was completely selfish and out of my mind *most of my life*.  
 
-I admit I still fall back into what Joseph calls The Enemy Mind.  I still sometimes blame others for shit I have done and later regret it. I sometimes take a hit off my dust-covered vape pen and regret it.  I sometimes reward myself with alcohol after a long day of skiing and later, lying in bed unable to sleep, I regret it. I don't stop to help someone in need or take the time to teach someone something and I regret it.
+I admit I still fall back into what John Joseph (author of The PMA Effect, read it) calls The Enemy Mind:  I still sometimes blame others for shit I have done and later regret it. I sometimes take a hit off my dust-covered vape pen and regret it.  I sometimes reward myself with alcohol after a long day of skiing and later, lying in bed unable to sleep, I regret it. I don't stop to help someone in need or take the time to teach someone something and I regret it.
 
-I still have a ton to learn, my path wasn't nearly as hard or dark as Joseph's but it wasn't great either.  Raised by a single mother and disappearing father,  two older brothers who considered me a nuisance and an afterthought.  I screamed for attention. I yearned to be "harder" , "cooler" , "more popular" than my brothers.  Everything was the Corey Show.  Everything was a cry into the dark for Eyes on Me.  I would drink to black-out, do stupid shit for attention, use people to make me look better.
+Enlightenment is not a straight line. Two steps forward, tiny steps back. It is realizing you are doing it and fixing your shit before that negative mindset takes over again.
 
-I was a fuck up.  A joke. A fucking disaster waiting to die in a DUI accident and everyone knew it.
+I still have a ton to learn, my path wasn't nearly as hard or dark as John Joseph's but it wasn't great either.  I was raised by a single mother and disappearing father,  two older brothers who considered me a nuisance and an afterthought.  I screamed for attention. I yearned to be harder, cooler, more popular than my brothers.  Everything was the Corey Show.  Everything was a cry into the dark for Eyes On Me.  I would drink to black-out, do stupid shit for attention, use people to make me look better.
+
+I was a joke. A fucking disaster waiting to die in a DUI accident and everyone knew it.
 
 BUT...
 
