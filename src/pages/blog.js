@@ -70,7 +70,7 @@ export const pageQuery = graphql`
       }
     }
     allMdx( 
-      filter: {frontmatter: {isMusic: {eq: null}}}
+      filter: {frontmatter: {isMusic: {ne: true}}}
       sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
