@@ -64,7 +64,7 @@ I changed my diet a few years ago to a mostly plant-based diet.  The guys in the
 
 "How are you gonna get your protein? What, you gonna eat rabbit food all day?"  They would ask, smugly.  
 
-How about it's been almost three years and I'm in better shape now than when I started at 20? 
+How about it's been almost three years and at 51 I'm in better shape now than when I started at 20? 
 
 I am living proof all those ads you see about how meat and dairy makes a strong body is total bullshit.  Back in my younger years when I first started to really exercise and saw the connection to losing my beer gut and food, I trained for body building shows.  I ate nothing but boiled chicken and bottom feeding steamed fish.  I lost weight and started to see abs and veins.  Yet, my breath stank, my pores oozed the nastiness that this diet produced. I was gassy and my ex girlfriend wouldn't even sleep in the same room with me. 
 
