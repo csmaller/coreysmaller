@@ -13,7 +13,7 @@ See what I did there? Marketing! Branding!
 
 Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis, reproducing and working a full time job to do anything of any importance in the world.
 
-Growing up in the US in the 20th and 21st century many of us are told how exceptional we are . How each and every one of us will be an astronaut or accomplished physician or rock star. 
+Growing up in the US in the 20th and 21st century many of us are told how exceptional we are. How each and every one of us will be an astronaut or accomplished physician or rock star. 
 
 Nobody tells their kids, “hey you’re going to grow up to commute to a shitty job you probably hate, to get a paycheck to barely afford a lifestyle of meager existence and be a blip on the radar screen of life. You yourself will probably eventually have mediocre kids who will perpetuate your lameness through their own shitty existence.“  So on and so forth. 
 
@@ -23,7 +23,7 @@ A. our dreams fade
 
 B. They change and morph into something you can live with.
 
-C. By some combination of luck and hard work , become reality. Unless your dream has always been to exist mostly on this planet in cubicle C43, third floor, with a view of the break room. Then, by God, you have a fighting chance at all of your dreams coming true and everything about your existence justified by your utter lack of vision.
+C. By some combination of luck and hard work become reality. Unless your dream has always been to exist mostly  trudging through life on this planet in cubicle C43, third floor, with a view of the break room. Then, by God, you have a fighting chance at all of your dreams coming true and everything about your existence justified by your utter lack of vision.
 
 So for those of us who don’t fit Into the third mold this is for you: the struggling artist working in finance for MegaCorp. The promising rock star now working as a graphic designer, the dancer waiting tables. You get the picture.
 
