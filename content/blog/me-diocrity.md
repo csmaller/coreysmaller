@@ -1,14 +1,17 @@
 ---
-path: mediocrity
-date: 2020-12-07T14:53:37.576Z
-title: The Middle
-description: being in the middle is ok
+isNews: true
+isMusic: false
+path: coreyosity
+date: 2022-05-04T14:30:14.929Z
+updated: 2022-05-04T14:27:57.930Z
+title: CoreyOsity - Stay Coreyous In Life To Achieve Ikigai
+description: stay curious
 ---
-Mediocrity.
+#### CoreyOsity 
 
-That name conjures up visions of failure in most of us. Just another car on the highway, another sponge not making any difference in the world, contributing to overpopulation, mass consumption and waste. 
+See what I did there? Marketing! Branding!
 
-True, Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis, reproducing and working a full time job to do anything of any importance in the world.
+Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis, reproducing and working a full time job to do anything of any importance in the world.
 
 Growing up in the US in the 20th and 21st century many of us are told how exceptional we are . How each and every one of us will be an astronaut or accomplished physician or rock star. 
 
@@ -25,6 +28,8 @@ C. By some combination of luck and hard work , become reality. Unless your dream
 So for those of us who don’t fit Into the third mold this is for you: the struggling artist working in finance for MegaCorp. The promising rock star now working as a graphic designer, the dancer waiting tables. You get the picture.
 
 \--------------
+
+#### Moving
 
 I’m a Gen-X spawn and have not invented anything, I haven’t written the perfect song or fought in any Great War. Inversely, I haven’t caused any Great Wars or written songs like “Party all the Time”.
 
@@ -46,6 +51,8 @@ They say greatness rewards those who take risks.  Eventually however after a few
 
 ### \-----------
 
+#### Growing Up
+
 I grew up in a town about 45 minutes south of Boston called Easton. Easton used to be a middle of the road farm town. Today this is not the case as it’s now gentrified to the point of absurdity. It is surrounded by highways taking you to other more exciting and better smelling places. It is strategically located halfway to Cape Cod from Boston, halfway to Providence, RI and located one town over from Foxboro where the New England Patriots play football. Most of the town is public parks and swamp land.
 
 The town elders, in their wisdom, chose against allowing things like movie theaters, malls, car washes or other places where a tweener could get into trouble. These are the places that statistically attract the kind of person that would drive down their real estate value.
@@ -66,7 +73,9 @@ I got out.
 
  I took a huge pay cut, gave up the dream of opening a gym with my family and ran away. Like most children of my generation we all yearn for something. Change?  Adventure?  Mystery? 
 
-### Forget Money
+\------------
+
+#### Forget Money
 
 I used to care more about money. It made the world go around after all.  Don’t get me wrong you need money to survive in this world. Making it is a good thing, but it should be the result of your path and not the reason for the path. Not the Be All End All. 
 
@@ -74,11 +83,13 @@ I left New England in 2005  and there have been giant blunders along the way. I 
 
 \-----
 
-I started snowboarding in the 80s and was working in a kitchen at a Holiday Inn.  I worked with Mexican guys who told me how lazy I was and who worked circles around me. I showed up late, stole food to survive in college, smoked pot on the food line and drank cooking wine out of monkey dishes. I tried to sleep with every waitress and front desk girl and drank almost every night. I was shitty at cooking. I had no drive.  My executive chef would say I was like a shark "because if you stop moving you are dead".
+#### Lost
+
+I started snowboarding in the 80s and worked in a kitchen at a Holiday Inn.  I worked with Mexican guys who told me how lazy I was and who worked circles around me. I showed up late, stole food to survive in college, smoked pot on the food line and drank cooking wine out of monkey dishes. I tried to sleep with every waitress and front desk girl and drank almost every night. I was shitty at cooking. I had no drive.  My executive chef would say I was like a shark "because if you stop moving you are dead".
 
 I knew I was destined to be good at something else and this wasn’t it.  My brother was and still is a successful chef.  He had always wanted to be a chef and went to Johnson and Wales and prides himself on making good marinades or picking up ingredients in sauces at every restaurant we go to. We all call him “Chef“. His Christmas card is addressed to “the Chef”, his kids call him Chef. He has always known what he wanted. 
 
-At 18 I knew I wanted to be either a rock star, a porn star, a drug dealer or maybe a radio personality. My heroes were degenerate snowboarders, degenerate and possibly dead rock stars, and my pot dealer. I had no lofty ambitions at 18. I was totally lost. I did whatever drug that came in front of me with the exception of hard drugs like heroin. I tripped on acid or mushrooms on the weekend, did coke when I could, drank and drove and smoked pot 5 times a day. I hated myself and hated what I was becoming. My mom was just starting her third marriage to a guy who would eventually change my life and point me in the right direction but all eyes were off of me and I was spiraling out of control. My brothers told me later, after I moved to Utah, that they didn't think I was going to make it through my 20s.
+At 18 I knew I wanted to be either a rock star, a porn star, a drug dealer or maybe a radio personality. My heroes were degenerate snowboarders, degenerate and possibly dead rock stars, and my pot dealer. I had no lofty ambitions. I was totally lost and escaped when I could. I did whatever drug that came in front of me with the exception of hard drugs like heroin. I tripped on acid or mushrooms on the weekend, did coke when I could, drank and drove and smoked pot 5 times a day. I hated myself and hated what I was becoming. My mom was just starting her third marriage to a guy who would eventually change my life and point me in the right direction but all eyes were off of me and I was spiraling out of control. My brothers told me later, after I moved to Utah, that they didn't think I was going to make it through my 20s.
 
 I should have gotten out in the late 80s when I could. The chance of becoming a “pro” snowboarder in 1988 was a definite possibility if you could do a 360 and not break your face. But to a small town, blue collar kid raised by his mom, places like Vail, Squaw, Jackson Hole, and Snowbird where just words on a map. None of it was real. I mean who goes to a ski town and cooks at night and skis every day?  You want to be a loser?  Go be a ski bum!  Be a winner and get a paycheck, get married, commute to work. 
 
@@ -96,9 +107,23 @@ Learn, relearn rinse and repeat. Get better to your satisfaction.
 
 Be brave enough to suck at something.
 
+\------------
+
+#### Ikigai
+
+ Ikigai is a Japanese concept referring to something that gives a person a sense of purpose, a reason for living. Did you know there is no actual word in Japanese for "retirement"?   You wonder why people in Okinawa live to be so old, and healthy, and happy?  Ikigai.  Find your passion, your fuel, and you won't ever retire.  For me it is being curious in anything that strikes my fancy and heading down that rabbit hole to learn it.  Especially things that have an endless learning curve like the piano, or surfing.  Shit that is really hard to pick up and especially hard to master.  
+
+I had a puzzle game once that was a spinoff of the Rubix Cube.  I figured it out in like four days and never picked it up again.  The point being: who wants to do something anyone can master. Something that doesn't challenge your brain and make you think and ultimately learn something about yourself? To test your mettle?  We, as humans, need to stay curious to keep our Ikigai.  Being bored at a desk all day is the quick path to death. Plus you will be boring as hell at cocktail parties.  
+
+\--------------
+
 ### Science
 
-Staying curious will keep you young. Just as eating right and sleeping long enough every night and physical fitness, learning new things will create new synaptic pathways in your brain. Your brain as a child hasn’t changed now that you are a growing adult. It still needs to be nourished with nutrients in order to function .The human brain gets very good at repetition. Scientists call it “synaptic pruning”. Your pathways will prune other forks and roots and strengthen the pathway to efficiency. IMO if the human brain stops learning new things it gets stale and weak, just like muscles that aren’t used become atrophied. The old adage “you can’t teach an old dog new tricks” comes to mind. 
+Staying curious will keep you young. Just as eating right and sleeping long enough every night and physical fitness, learning new things will create new synaptic pathways in your brain. Your brain as a child hasn’t changed now that you are a growing adult. It still needs to be nourished with nutrients in order to function .The human brain gets very good at repetition. Scientists call it “synaptic pruning”. Your pathways will prune other forks and roots and strengthen the pathway to efficiency. In my opinion if the human brain stops learning new things it gets stale and weak, just like muscles that aren’t used become atrophied. The old adage “you can’t teach an old dog new tricks” comes to mind. 
+
+\--------------
+
+#### A Cool Article Written By Someone Else
 
 Taken from Huffington Post(1):
 
@@ -136,9 +161,7 @@ With that in mind, here’s a list of 10 things experts say can help keep your b
 
 It also helps to pick a hobby that endlessly improves. Something you can get better and better at like piano or guitar or skiing.
 
-Tagline:
 
-A story of redemption, accepting who you are, being ok with being ok, and keeping young through curiosity.
 
 Footnotes:
 
