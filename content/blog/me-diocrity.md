@@ -7,83 +7,53 @@ updated: 2022-05-04T14:27:57.930Z
 title: CoreyOsity - Stay Coreyous In Life To Achieve Ikigai
 description: stay curious
 ---
-#### CoreyOsity 
-
-See what I did there? Marketing! Branding!
-
-Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis, reproducing and working a full time job to do anything of any importance in the world.
+Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis: reproducing and working a full time job to do anything of any importance in the world.
 
 Growing up in the US in the 20th and 21st century many of us are told how exceptional we are. How each and every one of us will be an astronaut or accomplished physician or rock star. 
 
-Nobody tells their kids, “hey you’re going to grow up to commute to a shitty job you probably hate, to get a paycheck to barely afford a lifestyle of meager existence and be a blip on the radar screen of life. You yourself will probably eventually have mediocre kids who will perpetuate your lameness through their own shitty existence.“  So on and so forth. 
+Nobody tells their kids, “hey you’re going to grow up to commute to a job you probably hate, to get a paycheck to barely afford a lifestyle of meager existence and be a blip on the radar screen of life. You eventually will have a few mediocre kids who will perpetuate your lameness through their own shitty existence.“  So on and so forth. 
 
 So somewhere along the line either :
 
-A. our dreams fade
+A. our dreams fade.
 
 B. They change and morph into something you can live with.
 
-C. By some combination of luck and hard work become reality. Unless your dream has always been to exist mostly  trudging through life on this planet in cubicle C43, third floor, with a view of the break room. Then, by God, you have a fighting chance at all of your dreams coming true and everything about your existence justified by your utter lack of vision.
-
-So for those of us who don’t fit Into the third mold this is for you: the struggling artist working in finance for MegaCorp. The promising rock star now working as a graphic designer, the dancer waiting tables. You get the picture.
+C. By some combination of luck and hard work become reality...Unless your dream has always been to trudge through life in cubicle C43 on the third floor, with a view of the break room. 
 
 \--------------
 
-#### Moving
+#### Just Move!
 
-I’m a Gen-X spawn and have not invented anything, I haven’t written the perfect song or fought in any Great War. Inversely, I haven’t caused any Great Wars or written songs like “Party all the Time”.
+I’m a Gen-X spawn and have not invented anything, I haven’t written the perfect song or fought in any Great War. Inversely, I haven’t caused any Great Wars or written songs like “Party all the Time”.  I grew up in a town about 45 minutes south of Boston called Easton.
 
-Almost everyone I know is living right in the middle. They’re not making much waves, staying relatively safe, maybe even putting money away for kids or a rainy day.  In this culture you are rewarded by keeping your head down and playing the game. You are rewarded for following rules and paying your taxes on time.  Society frowns upon those of us who don’t follow the norms. Usually it is only after you have made a difference or created something new and subsequently got paid for it when people agree with your actions. 
+ Easton used to be a middle of nowhere farm town. Today it’s gentrified to the point of absurdity.  It is strategically located halfway to Cape Cod from Boston, thirty minutes to Providence, RI and located one town over from Foxboro where the New England Patriots play football. Most of the town is public parks and swamp land.
 
-“You’re so lucky!”
+The town elders in their wisdom chose against allowing things like movie theaters, malls, car washes or other places where kids could congregate get into trouble and drive down their real estate investment value.
 
-“Wish I could do that!”
-
-When I gave up my career and possibility of owning a health club with my family to move to the mountains of Utah everyone I knew had an opinion about it. Most of it not good:
-
-“You’re going to Utah to be a ski bum?”
-
-“you are doing what? Utah? I can’t even spot that on the map!”
-
-At 34 you are supposed to be firmly on the road to family life: kids. A wife, white picket fence in the suburbs. You are not supposed to take off, give up your career to go be a snowboard instructor and work in a gym in order to find happiness. 
-
-They say greatness rewards those who take risks.  Eventually however after a few risks and subsequent moves back into your parents basement maybe you start to yearn for the golden handcuffs of corporate life in the 21st century. Safety. When did getting that 70k a year with two weeks off become, for lack of a better word, The Shit?
-
-### \-----------
-
-#### Growing Up
-
-I grew up in a town about 45 minutes south of Boston called Easton. Easton used to be a middle of the road farm town. Today this is not the case as it’s now gentrified to the point of absurdity. It is surrounded by highways taking you to other more exciting and better smelling places. It is strategically located halfway to Cape Cod from Boston, halfway to Providence, RI and located one town over from Foxboro where the New England Patriots play football. Most of the town is public parks and swamp land.
-
-The town elders, in their wisdom, chose against allowing things like movie theaters, malls, car washes or other places where a tweener could get into trouble. These are the places that statistically attract the kind of person that would drive down their real estate value.
-
-Their argument: the copious amount of public swamp land in historic and beautiful Hockomock swamp, Borderland State Park and other public lands would be enough to supply the juices needed for their offspring to thrive and achieve Greatness.  Mostly I believe by avoiding these places for fear of malaria, poison ivy, or lyme disease.
+Their argument is that the copious amount of public swamp land in historic and beautiful Hockomock swamp, Borderland State Park and other public lands would be enough to supply the juices needed for their offspring to thrive and achieve Greatness.  Mostly I believe by avoiding these places for fear of malaria, poison ivy, or lyme disease.
 
 In my experience after watching those around me as I grew up, this type of life lands you squarely in the very middle of middle class with your ambitions ground to a nub, in debt to your eyeballs, living beyond your means where your only escape is a vacation to get drunk on a beach/ski resort bar/casino/pool at least once a year. Everyone I know in this position is unfulfilled. Don’t let their Facebook and Instagram posts fool you. 
 
 In retrospect the only people I grew up with who don't fit that mold either inherited money, won megabucks and took off the mountains of Canada (true story) or died in a drunk driving accident or drug overdose.  I can't count on one hand anymore the people who died in DUI accidents from my graduating class.  I was almost one of them a few times in my 20s.
 
-BUT...just because you have been presented with this type of life doesn’t mean you have to live with it. Really what do you have to lose? If you hate your surroundings and have the opportunity to go where you are happy then by all means go do it.
+BUT...just because you have been presented with this type of life doesn’t mean you have to live with it. Really what do you have to lose? If you hate your surroundings and have the opportunity to go where you are happy then by all means go do it. 
 
-I was 32 years old and living in West Roxbury, Massachusetts. I just went through a very tragic, public, failed engagement. I just started graduate school at Bentley University. I owned a  DJ company and a personal training business and built my business on personality and hard work .  I waited tables at a local Ground Round and worked at several Boston gyms at night.  I had clients who saw results,  I loved my job but I hated living in New England. I didn’t have any sort of plan at all.
+Almost everyone I know is living right in the middle. They’re not making much waves, staying relatively safe, maybe even putting money away for kids or a rainy day.  In this culture you are rewarded by keeping your head down and playing the game. You are rewarded for following rules and paying your taxes on time.  Society frowns upon those of us who don’t follow the norms. Usually it is only after you have made a difference or created something new and subsequently changed the Norm is when people agree with your actions. 
 
-As fate would have it I was in Keystone, CO with friends when my flip phone rang. It was my ex who was living in Park City. After a brief visit I decided to change my flight back home and go to Utah. A month later I was driving my Subaru with all my life in it across the country. I had $2000 to my name and a job teaching snowboarding at park city mountain and managing a gym. 
+They say , “You’re so lucky!”
 
-I got out.
+They say, “I wish I could do that!”
 
- I took a huge pay cut, gave up the dream of opening a gym with my family and ran away. Like most children of my generation we all yearn for something. Change?  Adventure?  Mystery? 
+When I gave up my path and moved to the mountains everyone I knew had an opinion about it. Most of it not good:
 
-\------------
+“You’re going to Utah to be a ski bum?”
 
-#### Forget Money
+“you are doing what? Utah? I can’t even spot that on the map!”
 
-I used to care more about money. It made the world go around after all.  Don’t get me wrong you need money to survive in this world. Making it is a good thing, but it should be the result of your path and not the reason for the path. Not the Be All End All. 
+At that age (34-ish) you are supposed to be firmly on the road to family life or knee deep in it: kids. A wife, white picket fence in the suburbs. 
 
-I left New England in 2005  and there have been giant blunders along the way. I have been broke, had multiple injuries, been laid off from jobs, and had very bad relationships.  I moved back to Boston once, Colorado once, and eventually returned to Utah. I started two IT businesses that failed and had a career path that abruptly ended. I worked at government agencies with people already dead: Counting down the 20 years to retirement. I’ve worked with so many Mormons and have felt very alone and isolated in that culture. 
-
-\-----
-
-#### Lost
+You are not supposed to take off, give up your career to go be a snowboard instructor and work in a gym. 
 
 I started snowboarding in the 80s and worked in a kitchen at a Holiday Inn.  I worked with Mexican guys who told me how lazy I was and who worked circles around me. I showed up late, stole food to survive in college, smoked pot on the food line and drank cooking wine out of monkey dishes. I tried to sleep with every waitress and front desk girl and drank almost every night. I was shitty at cooking. I had no drive.  My executive chef would say I was like a shark "because if you stop moving you are dead".
 
@@ -100,6 +70,20 @@ It was around this time that I started to notice something: I never wanted to be
 I remember a girl I once dated chastising me for trying to learn an instrument at 21. “Why are you even trying? You’re not going to be great at it." 
 
 True I would never be Steve Vai but I never wanted to be or expected to be. Neil Young was more my game: chords and songwriting. Now 28 years later I get to play to some great crowds. Because I didn’t listen to naysayers, put the effort in, and stayed curious and inspired I am able to make my childhood fantasy come alive every other week. It’s a blessing I can’t overestimate and it’s a cornerstone of happiness in life.
+
+I was 32 years old and living in West Roxbury, Massachusetts. I just went through a very tragic, public, failed engagement. I just started graduate school at Bentley University. I owned a DJ company and a personal training business and built my business on personality and hard work.  I waited tables at a local Ground Round and worked at several Boston gyms at night.  I had clients who saw results.  I loved my job but I hated living in New England. I didn’t have any sort of plan at all.
+
+As fate would have it I was in Keystone, Colorado with friends when my flip phone rang. It was my ex who was living in Park City. After a brief conversation I decided to change my flight back home and go to Utah instead. A month later I was driving my Subaru with all my life in it across the country. I had $2000 to my name and a job teaching snowboarding at Park City Mountain and managing a gym.
+
+I took a huge pay cut, gave up the businesses I owned I and drove west. 
+
+\------------
+
+#### Forget Money
+
+I used to care more about money. It made the world go around after all.  Don’t get me wrong you need money to survive in this world. Making it is a good thing but it should be the result of your path and not the reason for the path. Not the Be All End All. 
+
+I left New England in 2005  and there have been giant blunders along the way. I have been broke, had multiple injuries, been laid off from jobs, and had very bad relationships.  I moved back to Boston once, Colorado once, and eventually returned to Utah. I started two IT businesses that failed and had a career path that abruptly ended. I worked at government agencies with people already dead: Counting down the 20 years to retirement. I’ve worked with so many Mormons and have felt very alone and isolated in that culture. 
 
 You can go to a lot of cool places in this world if you are curious and learn enough to do it. 
 
@@ -160,8 +144,6 @@ With that in mind, here’s a list of 10 things experts say can help keep your b
 **10. Keep opening new doorways.** Your brain is endlessly curious about the unknown and appears to be a sponge for new ideas and experiences. You should be, too.
 
 It also helps to pick a hobby that endlessly improves. Something you can get better and better at like piano or guitar or skiing.
-
-
 
 Footnotes:
 
