@@ -4,7 +4,7 @@ isMusic: false
 path: coreyosity
 date: 2022-05-04T14:30:14.929Z
 updated: 2022-05-04T14:27:57.930Z
-title: Stay Coreyous In Life To Achieve Ikigai
+title: Stay Coreyous In Life
 description: stay curious
 ---
 Not all of us can be a Mozart, an Einstein, a Michelangelo. Hell, most of us barely have the energy beyond homeostasis: reproducing and working a full time job to do anything of any importance in the world.
