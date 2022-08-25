@@ -8,7 +8,9 @@ title: "My Take On Student Loan Forgiveness "
 ---
 I , nor anyone in my family, had any idea what to do when I went to college. I was the first in my whole family (cousins too) who got a bachelors degree. My MBTA bus driving Italian dad said, "join the army" my mom said, "take out loans" when I asked for financial help.
 
-I didn't know about grants or scholarships and I was kind of a total fuck up in high school. I didn't go to college until two years out of high school and I didn't have any guidance counselor at 19 or any internet or resource to inquire. I did have a step-father who was a self made doctor, who said, "you are nothing without an education. Go back to school". \
+I didn't know about grants or scholarships and I was kind of a total fuck up in high school. I didn't go to college until two years out of high school and I didn't have any guidance counselor at 19 or any internet or resource to inquire. 
+
+I did have a step-father who was a self made doctor, who said, "you are nothing without an education. Go back to school". \
 \
 So, I simply walked into Bridgewater State College financial aid office and signed my life away. In hindsight I could've tried harder to find money to help but i was a kid and I knew that I didn't want to work in a kitchen my whole life or join the army or be a bus driver. \
 \
