@@ -1,5 +1,5 @@
 ---
-isNews: true
+isNews: false
 isMusic: false
 path: 6-21-2022
 date: 2022-06-21T18:26:42.322Z
