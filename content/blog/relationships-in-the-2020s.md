@@ -3,6 +3,7 @@ isNews: false
 isMusic: false
 path: relationships
 date: 2020-10-22T19:10:57.048Z
+updated: 2023-03-25T09:44:05.061Z
 title: Relationships
 description: relationships in the 2020s
 ---
@@ -109,47 +110,6 @@ Show no emotion. No weaknesses in the armor.
 
 \-------------
 
-## Chapter 5
-
-I knew Sarah for years and she was recently separated from her husband. She is in phenomenal shape. A person trainer obsessed with fitness, diet, supplements, her body.  
-
-We met for coffee and she told me how she cheated on her husband with some rich asshole and she felt bad because she didn't feel quite so bad about it.  He was a *connection* she has never felt.  Something inside of me clicks. My brain and heart goes there.  Instead of seeing this gigantic red flag I see possibility.  As in: if she cheated with this guy, she could cheat with me too!
-
- A month or two later she is separated and living in her own place. She has a party. I go. We drink. We make out. We eventually hook up.  Spiraling down this rusty drain, knowing there is no shot but holding out hope that Love Will Overcome.  It will make a great conversation starter for our grandkids someday. 
-
-Fleeting love.  Shallow connections.
-
-Harry. Sally.  I am playing Peter Gabriel  out of a boom box at her window.  
-
-I know not-so-deep-down that it's doomed.  A friendship ruined by her need for attention and to feel loved by a man again, and my need to have a fit , hot, slightly popular girlfriend who is great in bed and gets my movie references.  
-
-Little did we know, it grew.  We actually really like each other. Walls started to come down. The humor, the long talks, the bike rides, the early morning workouts, taking edibles and lounging on the couch watching Netflix, and the sex. Her friends approved, my friends approved, we had to hide all of it in this little ski town where everyone knows everyone and gossip spreads faster than Covid-19. 
-
-Ultimately one day after four months of deeper and deeper connections, of talks of moving in together and What Could Happen Next she tells me she is going back to him.  
-
-"For the kids" she says.  
-
-Not for the massive amounts of money she will stand to lose in the divorce. Not for the fact that she would have to work again and didn't have much of a career.
-
- "For the kids. I can't let them be out of my sight for fear I may lose them to hate and Fox News and red MAGA hats that their father adorns."
-
-How do i even argue with that?  How do i defend my position or convince her otherwise? How do I get her to pick me over her kids, money, stability, a husband who doesn't cheat but treats her like shit?  A boring future locked away in a gilded cage, surrounded by money and fake friends and attending cocktail parties for pharmaceutical reps in exotic locations?  
-
-The answer is : I don't.  
-
-Let it go man. Let it go. Move on. 
-
-Instead I rail against her like we never crossed that Rubicon. Like she didn't already make the decision to move back in. I cry she didn't even consult me yet she owes me nothing.  
-
-My opinion doesn't matter.  Nothing stands between a mother and her cubs, I told myself.
-
-I fire a text at her, "I hope you enjoyed your vacation.  Mark my words: one day you will be in your nice big kitchen staring out the window knowing you had real love and you blew it. You threw happiness away for money in this dead marriage where this guy just talks to you like you're an idiot and an asshole."
-
-But it's too late.  She's gone.  I'm screaming into a void.
-
-Later she tries to maintain and repair our friendship via Likes on Facebook and making silly little one line comments on pictures I post.  Little flitting waves across the room. I ignore her.  I embrace the Victim Role with open arms.
-
-\---------
 
 ## Chapter 6
 
