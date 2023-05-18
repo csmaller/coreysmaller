@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 import Hero from "../components/hero";
 import YouTube from 'react-youtube';
 
-ReactGA.initialize(process.env.GOOGLE_ID);
+
 
 const MainContainer = styled.div`
   .overlay {
