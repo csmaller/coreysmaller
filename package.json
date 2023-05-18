@@ -39,7 +39,6 @@
     "gatsby-source-filesystem": "^3.14.0",
     "gatsby-transformer-sharp": "^3.14.0",
     "ink": "^3.2.0",
-    "netlify-cms-app": "^2.15.49",
     "netlify-cms-media-library-uploadcare": "^0.5.10",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
