@@ -18,6 +18,8 @@ I know you get bad days and bad races.  I know sometimes you don't rest enough, 
 
 Sometimes, almost daily, I ask myself why I do this?  My ski buddies give me shit about my training and choice of summer sport:  
 
+<img src="https://ucarecdn.com/8e055be8-8555-476d-8356-8687c67b61db/" title="sometimes you win" class="flex float-end w-50 p-4 me-2 blog-img" />
+
 "*What, you trying to be the fastest old guy*?" 
 
 In all honestly triathlon, marathon, ultra-running, Xterra, and any endurance sport that attracts the masochists and fitness freaks of the world is my kind of event.  I love the extreme personalities, the camaraderie, and being close to the people that are the top of their game.  I don't look at any of these races as something I am going to win. Yes, maybe a podium at a local event in my age category, but I am brutally aware of my age and fitness level.  Time is a real bitch, and even though my brain still thinks I am 32, my body says "NOPE". 
@@ -27,7 +29,7 @@ Everyone has a "Why".  Mine is simply that I want to push my body and see what i
 
 So, for whatever reason you find yourself wanting to learn an instrument at 40, or take up surfing at 50, and some nay-sayer starts giving you shit that you are too old, that you will never win anything or be a rock star, tell those people to eat a bag of dicks.  
 
-<img src="https://ucarecdn.com/8e055be8-8555-476d-8356-8687c67b61db/" title="sometimes you win" class="flex float-start w-50 p-4 me-2 blog-img" />
+
 
 This is your life, you live it however you want to. Ask yourself: When you are on your deathbed will you be happy with the choices you made or sad that you went with the status quo so you don't look "foolish" to some asshole who hates themselves and are jealous that you are trying something new?   
 
