@@ -10,7 +10,7 @@ H﻿ere we are, another day.  I check my Training Peaks to see what workout I am
 
 I﻿ am one month away from my very first Half Iron Man In Salem, Oregon and I am  not ready physically, mentally or emotionally.  I look at strava and my fitness has trended downward by 3% this month. How is that possible? I mostly cut out sugars and starchy carbs.  I have been suffering headaches and brain fog and walk around like a damn zombie after my workouts. 
 
-<img src="https://ucarecdn.com/63cbe689-6013-4ebe-a939-62f6dd17e36a/" title="fat guy in the water" class="flex w-50 float-start p-4 me-2" />
+<img src="https://ucarecdn.com/63cbe689-6013-4ebe-a939-62f6dd17e36a/" title="fat guy in the water" class="flex w-50 float-start p-4 me-2 blog-img" />
 
 My workouts have been slowly getting longer and faster. My swim average has gone down about 10 seconds per 100 yard in the past six months.  My run form has improved dramatically and I don't look so much like a hunched over old man shuffling along (to be fair I won't be mistaken for a Kenyan any time soon).  I am told by my girlfriend and mother (not at all biased opinions) that I look way more fit. Yet, I did a race this weekend and my swim was slower than my first triathlon in Sand Hollow a month and a half ago, my body rebelled against me and cramped up, and my run was shit.  
 
@@ -27,7 +27,7 @@ Everyone has a "Why".  Mine is simply that I want to push my body and see what i
 
 So, for whatever reason you find yourself wanting to learn an instrument at 40, or take up surfing at 50, and some nay-sayer starts giving you shit that you are too old, that you will never win anything or be a rock star, tell those people to eat a bag of dicks.  
 
-<img src="https://ucarecdn.com/8e055be8-8555-476d-8356-8687c67b61db/" title="sometimes you win" class="flex float-start w-50 p-4 me-2" />
+<img src="https://ucarecdn.com/8e055be8-8555-476d-8356-8687c67b61db/" title="sometimes you win" class="flex float-start w-50 p-4 me-2 blog-img" />
 
 This is your life, you live it however you want to. Ask yourself: When you are on your deathbed will you be happy with the choices you made or sad that you went with the status quo so you don't look "foolish" to some asshole who hates themselves and are jealous that you are trying something new?   
 
