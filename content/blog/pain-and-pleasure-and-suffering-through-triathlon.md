@@ -1,5 +1,5 @@
 ---
-isNews: false
+isNews: true
 isMusic: false
 path: pain-and-pleasure
 date: 2023-06-28T13:22:51.027Z
