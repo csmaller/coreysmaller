@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.youtube.com">
+    <link rel="dns-prefetch" href="//soundcloud.com">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Theme colors -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    
+    <!-- Default meta tags (will be overridden by SEO component) -->
+    <title>Corey Smaller - Personal Website</title>
+    <meta name="description" content="Personal website of Corey Smaller featuring blog posts, music portfolio, and creative content.">
+    <meta name="keywords" content="Corey Smaller, blog, music, portfolio, personal website">
+    <meta name="author" content="Corey Smaller">
+    
+    <!-- Open Graph defaults -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Corey Smaller">
+    
+    <!-- Twitter Card defaults -->
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

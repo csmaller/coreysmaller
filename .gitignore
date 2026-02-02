@@ -54,9 +54,9 @@ typings/
 # dotenv environment variables file
 .env
 
-# gatsby files
-.cache/
-public
+# Build outputs
+dist/
+build/
 
 # Mac files
 .DS_Store
@@ -67,3 +67,10 @@ yarn-error.log
 .pnp.js
 # Yarn Integrity file
 .yarn-integrity
+
+# IDE files
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
