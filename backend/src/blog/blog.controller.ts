@@ -36,6 +36,7 @@ export class BlogController {
   @Throttle({ default: { limit: 20, ttl: 60000 } }) // 20 requests per minute
   @UseInterceptors(new SerializationInterceptor(BlogPostSummaryDto))
   findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
+    console.log('Controller findAll called with:', { page, limit });
     return this.blogService.findAll(page, limit);
   }
 

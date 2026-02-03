@@ -15,8 +15,8 @@ import {
 @Check(`"content" != ''`)
 @Check(`"status" IN ('draft', 'published', 'archived')`)
 export class BlogPost {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ length: 200 })
   title: string;

@@ -33,8 +33,8 @@ This guide explains how to set up the MySQL database for the Coreysmaller.com ba
    ```env
    DB_HOST=localhost
    DB_PORT=3306
-   DB_USERNAME=your_mysql_username
-   DB_PASSWORD=your_mysql_password
+   DB_USERNAME=root
+   DB_PASSWORD=
    DB_DATABASE=coreysmaller_db
    ```
 

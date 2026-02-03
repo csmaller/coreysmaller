@@ -94,13 +94,14 @@ export class MigrationService {
         this.logger.log(`📝 Processing ${progress.currentFile} (${progress.processedCount}/${progress.totalCount} - ${progress.percentage}%)`);
 
         try {
-          const existingPost = await this.findExistingPost(file);
-          
-          if (existingPost) {
-            this.logger.log(`⏭️  Skipping existing post: ${file.filename}`);
-            result.skippedCount++;
-            continue;
-          }
+          // Skip existing post check for now - force migration
+          // const existingPost = await this.findExistingPost(file);
+          // 
+          // if (existingPost) {
+          //   this.logger.log(`⏭️  Skipping existing post: ${file.filename}`);
+          //   result.skippedCount++;
+          //   continue;
+          // }
 
           await this.createBlogPostFromMarkdown(file);
           result.migratedCount++;
@@ -110,6 +111,7 @@ export class MigrationService {
         } catch (error) {
           const errorMsg = `Failed to migrate ${file.filename}: ${error.message}`;
           this.logger.error(`❌ ${errorMsg}`);
+          this.logger.error(`❌ Stack: ${error.stack}`);
           result.errors.push(errorMsg);
         }
       }
@@ -211,47 +213,46 @@ export class MigrationService {
    * Create a new blog post from markdown file data
    */
   private async createBlogPostFromMarkdown(file: MarkdownFile): Promise<BlogPost> {
-    const blogPost = new BlogPost();
+    this.logger.log(`📝 Creating blog post from: ${file.filename}`);
     
-    // Extract and set basic fields
-    blogPost.title = file.frontmatter.title || this.generateTitleFromFilename(file.filename);
-    blogPost.content = file.content.trim();
-    blogPost.slug = file.frontmatter.path || path.basename(file.filename, '.md');
+    // Create minimal blog post object with UUID
+    const blogPostData = {
+      id: require('crypto').randomUUID(), // Generate UUID for MySQL
+      title: file.frontmatter.title || this.generateTitleFromFilename(file.filename),
+      content: file.content.trim(),
+      slug: file.frontmatter.path || path.basename(file.filename, '.md'),
+      status: 'published' as const,
+      excerpt: file.frontmatter.description || null,
+      tags: [] as string[],
+      publishedAt: file.frontmatter.date ? new Date(file.frontmatter.date) : new Date(),
+    };
     
-    // Set description as excerpt if available
-    if (file.frontmatter.description) {
-      blogPost.excerpt = file.frontmatter.description;
-    }
-
-    // Handle dates
-    if (file.frontmatter.date) {
-      const publishDate = new Date(file.frontmatter.date);
-      if (!isNaN(publishDate.getTime())) {
-        blogPost.publishedAt = publishDate;
-        // Set createdAt to the same date for migrated posts
-        blogPost.createdAt = publishDate;
-      }
-    }
-
-    // Handle status - determine if it's a music post, news, or regular blog
+    // Handle tags
     if (file.frontmatter.isMusic === true) {
-      blogPost.status = 'published'; // Music posts are published
-      blogPost.tags = ['music'];
-    } else if (file.frontmatter.isNews === true) {
-      blogPost.status = 'published'; // News posts are published
-      blogPost.tags = ['news'];
-    } else {
-      blogPost.status = 'published'; // Default to published for migration
+      blogPostData.tags.push('music');
+    }
+    if (file.frontmatter.isNews === true) {
+      blogPostData.tags.push('news');
+    }
+    
+    this.logger.log(`🏷️ Data: ${JSON.stringify(blogPostData, null, 2)}`);
+    
+    // Validate required fields
+    if (!blogPostData.title || !blogPostData.content) {
+      throw new Error(`Missing required fields: title=${!!blogPostData.title}, content=${!!blogPostData.content}`);
     }
 
-    // Handle tags - combine existing tags with inferred ones
-    const existingTags = blogPost.tags || [];
-    if (file.frontmatter.tags && Array.isArray(file.frontmatter.tags)) {
-      blogPost.tags = [...new Set([...existingTags, ...file.frontmatter.tags])];
+    // Save directly using repository
+    try {
+      const savedPost = await this.blogPostRepository.save(blogPostData);
+      this.logger.log(`✅ Successfully saved blog post: ${blogPostData.title} (ID: ${savedPost.id})`);
+      return savedPost;
+    } catch (error) {
+      this.logger.error(`❌ Failed to save blog post: ${blogPostData.title}`);
+      this.logger.error(`❌ Error details: ${error.message}`);
+      this.logger.error(`❌ Stack: ${error.stack}`);
+      throw new Error(`Database save failed: ${error.message}`);
     }
-
-    // Save the blog post
-    return await this.blogPostRepository.save(blogPost);
   }
 
   /**

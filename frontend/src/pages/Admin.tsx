@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AdminDashboard, AdminNavigation } from '../components/admin';
 import { BlogList, BlogEditor } from '../components/blog';
+import { blogService } from '../services/blog';
 import type { BlogPost } from '../types';
 
 type AdminView = 'dashboard' | 'blog-list' | 'blog-editor' | 'blog-create';
@@ -8,10 +9,20 @@ type AdminView = 'dashboard' | 'blog-list' | 'blog-editor' | 'blog-create';
 export const Admin: React.FC = () => {
   const [currentView, setCurrentView] = useState<AdminView>('dashboard');
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
-
-  const handleEditPost = (post: BlogPost) => {
-    setEditingPost(post);
-    setCurrentView('blog-editor');
+console.log(currentView)
+  const handleEditPost = async (post: BlogPost) => {
+    try {
+      // Fetch the full post data including content
+      const response = await blogService.getPostById(post.id);
+      const fullPost = response.data || response;
+      setEditingPost(fullPost);
+      setCurrentView('blog-editor');
+    } catch (error) {
+      console.error('Error fetching full post data:', error);
+      // Fallback to using the partial post data
+      setEditingPost(post);
+      setCurrentView('blog-editor');
+    }
   };
 
   const handleCreatePost = () => {
@@ -60,23 +71,26 @@ export const Admin: React.FC = () => {
     </div>
   );
 
-  const renderBlogEditor = () => (
-    <div>
-      <div className="mb-6">
-        <button
-          onClick={() => setCurrentView('blog-list')}
-          className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
-        >
-          ← Back to Blog List
-        </button>
+  const renderBlogEditor = () => {
+    console.log('Editing post:', editingPost);
+    return (
+      <div>
+        <div className="mb-6">
+          <button
+            onClick={() => setCurrentView('blog-list')}
+            className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
+          >
+            ← Back to Blog List
+          </button>
+        </div>
+        <BlogEditor
+          post={editingPost || undefined}
+          onSave={handlePostSaved}
+          onCancel={handleCancelEdit}
+        />
       </div>
-      <BlogEditor
-        post={editingPost || undefined}
-        onSave={handlePostSaved}
-        onCancel={handleCancelEdit}
-      />
-    </div>
-  );
+    );
+  };
 
   const getPageTitle = () => {
     switch (currentView) {

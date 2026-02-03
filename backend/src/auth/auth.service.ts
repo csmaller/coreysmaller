@@ -20,6 +20,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userRepository.findOne({ where: { email } });
+  
     if (user && await bcrypt.compare(password, user.password)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _password, ...result } = user;
@@ -104,8 +105,9 @@ export class AuthService {
     });
   }
 
-  async findById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id } });
+  async findById(id: string | number): Promise<User> {
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    const user = await this.userRepository.findOne({ where: { id: numericId } });
     if (!user) {
       throw new NotFoundException('User not found');
     }

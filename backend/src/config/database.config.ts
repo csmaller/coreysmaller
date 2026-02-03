@@ -15,18 +15,7 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const nodeEnv = this.configService.get<string>('NODE_ENV', 'development');
     
-    // Use SQLite for development/testing if MySQL is not available
-    if (nodeEnv === 'development' || nodeEnv === 'test') {
-      return {
-        type: 'sqlite',
-        database: ':memory:', // In-memory database for testing
-        entities: [User, BlogPost, MusicTrack, VideoContent, AudioContent],
-        synchronize: true,
-        logging: this.configService.get<string>('DB_LOGGING', 'false') === 'true',
-      };
-    }
-    
-    // MySQL configuration for production
+    // Always use MySQL for now
     const sslConfig = this.configService.get<string>('DB_SSL', 'false');
     
     return {

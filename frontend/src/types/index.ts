@@ -1,11 +1,22 @@
 // Core data types for the application
 
+import { BlogPost } from "../components";
+
 export interface User {
   id: string;
   email: string;
   role: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ApiResponse<T> {
+  message?: string;
+  success: boolean;
+}
+
+export interface BlogApiResponse extends ApiResponse {
+  data:{data:BlogPost[]}
 }
 
 export interface BlogPost {

@@ -53,7 +53,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     try {
       const response = await authService.login(credentials);
-      setUser(response.user);
+      const userData = response.data?.user || response.user;
+      setUser(userData);
       setIsAuthenticated(true);
       return response;
     } catch (error) {

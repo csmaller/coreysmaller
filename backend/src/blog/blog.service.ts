@@ -69,36 +69,33 @@ export class BlogService {
     page: number;
     limit: number;
   }> {
-    const cacheKey = this.cacheService.generateListKey('blog', page, limit, { status: 'published' });
-    
-    return this.cacheService.cacheOrExecute(
-      cacheKey,
-      async () => {
-        const [data, total] = await this.blogPostRepository.findAndCount({
-          where: { status: 'published' },
-          order: { createdAt: 'DESC' },
-          skip: (page - 1) * limit,
-          take: limit,
-        });
+    const [data, total] = await this.blogPostRepository.findAndCount({
+      where: { status: 'published' },
+      order: { createdAt: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
 
-        return {
-          data,
-          total,
-          page,
-          limit,
-        };
-      },
-      { ttl: 300 } // Cache for 5 minutes
-    );
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
   }
 
   async findOne(id: string): Promise<BlogPost> {
+    const numericId = parseInt(id, 10);
+    if (isNaN(numericId)) {
+      throw new NotFoundException(`Invalid blog post ID: ${id}`);
+    }
+    
     const cacheKey = this.cacheService.generateItemKey('blog', id);
     
     return this.cacheService.cacheOrExecute(
       cacheKey,
       async () => {
-        const blogPost = await this.blogPostRepository.findOne({ where: { id } });
+        const blogPost = await this.blogPostRepository.findOne({ where: { id: numericId } });
         if (!blogPost) {
           throw new NotFoundException(`Blog post with ID ${id} not found`);
         }
@@ -120,7 +117,12 @@ export class BlogService {
   }
 
   async remove(id: string): Promise<void> {
-    const result = await this.blogPostRepository.delete(id);
+    const numericId = parseInt(id, 10);
+    if (isNaN(numericId)) {
+      throw new NotFoundException(`Invalid blog post ID: ${id}`);
+    }
+    
+    const result = await this.blogPostRepository.delete(numericId);
     if (result.affected === 0) {
       throw new NotFoundException(`Blog post with ID ${id} not found`);
     }

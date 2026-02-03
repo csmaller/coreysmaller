@@ -29,24 +29,24 @@ export class ContentAggregationService {
   async getRecentContent(limit: number = 3): Promise<RecentContent> {
     try {
       const [postsResponse, tracks, videos, audio] = await Promise.all([
-        blogService.getAllPosts(1, limit),
-        musicService.getAllTracks(),
-        videoService.getAllVideos(),
-        audioService.getAllAudio()
+        blogService.getAllPosts(1, limit).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit, totalPages: 0 } })),
+        musicService.getAllTracks().catch(() => []),
+        videoService.getAllVideos().catch(() => []),
+        audioService.getAllAudio().catch(() => [])
       ]);
 
       // Sort and limit music, video, and audio by creation date
-      const sortedTracks = tracks
+      const sortedTracks = Array.isArray(tracks) ? tracks
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, limit);
+        .slice(0, limit) : [];
 
-      const sortedVideos = videos
+      const sortedVideos = Array.isArray(videos) ? videos
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, limit);
+        .slice(0, limit) : [];
 
-      const sortedAudio = audio
+      const sortedAudio = Array.isArray(audio) ? audio
         .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, limit);
+        .slice(0, limit) : [];
 
       return {
         recentPosts: postsResponse.data || [],
@@ -72,56 +72,64 @@ export class ContentAggregationService {
     const previews: ContentPreview[] = [];
 
     // Add blog posts
-    content.recentPosts.forEach(post => {
-      previews.push({
-        id: post.id,
-        title: post.title,
-        description: post.excerpt || this.truncateContent(post.content, 150),
-        imageUrl: post.featuredImage,
-        publishDate: new Date(post.publishedAt || post.createdAt),
-        contentType: 'blog',
-        url: `/blog/${post.id}`
+    if (Array.isArray(content.recentPosts)) {
+      content.recentPosts.forEach(post => {
+        previews.push({
+          id: post.id,
+          title: post.title,
+          description: post.excerpt || this.truncateContent(post.content, 150),
+          imageUrl: post.featuredImage,
+          publishDate: new Date(post.publishedAt || post.createdAt),
+          contentType: 'blog',
+          url: `/blog/${post.id}`
+        });
       });
-    });
+    }
 
     // Add music tracks
-    content.featuredMusic.forEach(track => {
-      previews.push({
-        id: track.id,
-        title: track.title,
-        description: track.description || `${track.genre ? `${track.genre} • ` : ''}${track.duration ? this.formatDuration(track.duration) : 'Music track'}`,
-        imageUrl: track.coverArt,
-        publishDate: new Date(track.releaseDate || track.createdAt),
-        contentType: 'music',
-        url: `/music#${track.id}`
+    if (Array.isArray(content.featuredMusic)) {
+      content.featuredMusic.forEach(track => {
+        previews.push({
+          id: track.id,
+          title: track.title,
+          description: track.description || `${track.genre ? `${track.genre} • ` : ''}${track.duration ? this.formatDuration(track.duration) : 'Music track'}`,
+          imageUrl: track.coverArt,
+          publishDate: new Date(track.releaseDate || track.createdAt),
+          contentType: 'music',
+          url: `/music#${track.id}`
+        });
       });
-    });
+    }
 
     // Add videos
-    content.latestVideos.forEach(video => {
-      previews.push({
-        id: video.id,
-        title: video.title,
-        description: video.description || `${video.duration ? this.formatDuration(video.duration) : 'Video content'}`,
-        imageUrl: video.thumbnail,
-        publishDate: new Date(video.createdAt),
-        contentType: 'video',
-        url: `/video#${video.id}`
+    if (Array.isArray(content.latestVideos)) {
+      content.latestVideos.forEach(video => {
+        previews.push({
+          id: video.id,
+          title: video.title,
+          description: video.description || `${video.duration ? this.formatDuration(video.duration) : 'Video content'}`,
+          imageUrl: video.thumbnail,
+          publishDate: new Date(video.createdAt),
+          contentType: 'video',
+          url: `/video#${video.id}`
+        });
       });
-    });
+    }
 
     // Add audio content
-    content.latestAudio.forEach(audio => {
-      previews.push({
-        id: audio.id,
-        title: audio.title,
-        description: audio.description || `${audio.duration ? this.formatDuration(audio.duration) : 'Audio content'}`,
-        imageUrl: audio.artwork,
-        publishDate: new Date(audio.createdAt),
-        contentType: 'audio',
-        url: `/audio#${audio.id}`
+    if (Array.isArray(content.latestAudio)) {
+      content.latestAudio.forEach(audio => {
+        previews.push({
+          id: audio.id,
+          title: audio.title,
+          description: audio.description || `${audio.duration ? this.formatDuration(audio.duration) : 'Audio content'}`,
+          imageUrl: audio.artwork,
+          publishDate: new Date(audio.createdAt),
+          contentType: 'audio',
+          url: `/audio#${audio.id}`
+        });
       });
-    });
+    }
 
     // Sort by publish date (newest first)
     return previews.sort((a, b) => b.publishDate.getTime() - a.publishDate.getTime());
@@ -161,17 +169,17 @@ export class ContentAggregationService {
   }> {
     try {
       const [postsResponse, tracks, videos, audio] = await Promise.all([
-        blogService.getAllPosts(1, 1), // Just get pagination info
-        musicService.getAllTracks(),
-        videoService.getAllVideos(),
-        audioService.getAllAudio()
+        blogService.getAllPosts(1, 1).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit: 1, totalPages: 0 } })),
+        musicService.getAllTracks().catch(() => []),
+        videoService.getAllVideos().catch(() => []),
+        audioService.getAllAudio().catch(() => [])
       ]);
 
       return {
         totalPosts: postsResponse.pagination?.total || 0,
-        totalTracks: tracks.length,
-        totalVideos: videos.length,
-        totalAudio: audio.length
+        totalTracks: Array.isArray(tracks) ? tracks.length : 0,
+        totalVideos: Array.isArray(videos) ? videos.length : 0,
+        totalAudio: Array.isArray(audio) ? audio.length : 0
       };
     } catch (error) {
       console.error('Error fetching content stats:', error);

@@ -267,7 +267,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         {/* Content */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Content *
+            Content *. 
           </label>
           <RichTextEditor
             value={formData.content}

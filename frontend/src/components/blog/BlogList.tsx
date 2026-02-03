@@ -29,8 +29,13 @@ export const BlogList: React.FC<BlogListProps> = ({
       setLoading(true);
       setError(null);
       const response = await blogService.getAllPosts(page, pagination.limit);
-      setPosts(response.data);
-      setPagination(response.pagination);
+      setPosts(response.data.data);
+      setPagination({
+        page: response.data.page,
+        limit: response.data.limit,
+        total: response.data.total,
+        totalPages: Math.ceil(response.data.total / response.data.limit)
+      });
     } catch (err) {
       setError('Failed to load blog posts. Please try again.');
       console.error('Error loading posts:', err);
@@ -75,7 +80,9 @@ export const BlogList: React.FC<BlogListProps> = ({
   };
 
   const truncateContent = (content: string, maxLength: number = 200) => {
-    if (content.length <= maxLength) return content;
+    if(!content) return '';
+    else if (content && content.length <= maxLength) return content;
+    
     return content.substring(0, maxLength) + '...';
   };
 
@@ -216,7 +223,7 @@ export const BlogList: React.FC<BlogListProps> = ({
       ))}
 
       {/* Pagination */}
-      {pagination.totalPages > 1 && (
+      {pagination && pagination.totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 mt-8">
           <button
             onClick={() => handlePageChange(pagination.page - 1)}
