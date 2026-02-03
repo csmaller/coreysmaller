@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import type { MusicTrack } from '../../types';
 
 interface MusicPlayerProps {
@@ -7,120 +7,194 @@ interface MusicPlayerProps {
   autoPlay?: boolean;
 }
 
-export const MusicPlayer: React.FC<MusicPlayerProps> = ({ 
-  track, 
-  onClose, 
-  autoPlay = true 
-}) => {
+// Declare SoundCloud widget API
+declare global {
+  interface Window {
+    SC: {
+      Widget: {
+        (element: HTMLIFrameElement): {
+          bind: (event: string, callback: Function) => void;
+          play: () => void;
+          pause: () => void;
+          toggle: () => void;
+          seekTo: (milliseconds: number) => void;
+          setVolume: (volume: number) => void;
+          getPosition: (callback: (position: number) => void) => void;
+          getDuration: (callback: (duration: number) => void) => void;
+          isPaused: (callback: (paused: boolean) => void) => void;
+        };
+        Events: {
+          READY: string;
+          PLAY: string;
+          PAUSE: string;
+          FINISH: string;
+          SEEK: string;
+          PLAY_PROGRESS: string;
+          LOAD_PROGRESS: string;
+          ERROR: string;
+        };
+      };
+    };
+  }
+}
+
+export const MusicPlayer: React.FC<MusicPlayerProps> = ({ track, onClose, autoPlay = false }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [widget, setWidget] = useState<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(100);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const isSoundCloudUrl = (url: string) => {
+    return url.includes('soundcloud.com');
+  };
+
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    if (!track.audioUrl) return;
 
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-      setLoading(false);
-      if (autoPlay) {
-        audio.play().catch(err => {
-          console.error('Auto-play failed:', err);
-          setError('Auto-play failed. Please click play to start.');
-        });
-      }
-    };
+    if (isSoundCloudUrl(track.audioUrl)) {
+      // Load SoundCloud widget
+      const script = document.createElement('script');
+      script.src = 'https://w.soundcloud.com/player/api.js';
+      script.onload = () => {
+        if (iframeRef.current && window.SC) {
+          const widgetInstance = window.SC.Widget(iframeRef.current);
+          setWidget(widgetInstance);
 
-    const handleTimeUpdate = () => {
-      setCurrentTime(audio.currentTime);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.READY, () => {
+            setLoading(false);
+            widgetInstance.getDuration((d: number) => setDuration(d / 1000));
+            if (autoPlay) {
+              widgetInstance.play();
+            }
+          });
 
-    const handlePlay = () => {
-      setIsPlaying(true);
-      setError(null);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.PLAY, () => {
+            setIsPlaying(true);
+            setError(null);
+          });
 
-    const handlePause = () => {
-      setIsPlaying(false);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.PAUSE, () => {
+            setIsPlaying(false);
+          });
 
-    const handleEnded = () => {
-      setIsPlaying(false);
-      setCurrentTime(0);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.FINISH, () => {
+            setIsPlaying(false);
+            setCurrentTime(0);
+          });
 
-    const handleError = () => {
-      setError('Failed to load audio file');
-      setLoading(false);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.PLAY_PROGRESS, (data: any) => {
+            setCurrentTime(data.currentPosition / 1000);
+          });
 
-    const handleLoadStart = () => {
-      setLoading(true);
-      setError(null);
-    };
+          widgetInstance.bind(window.SC.Widget.Events.ERROR, () => {
+            setError('Failed to load SoundCloud track');
+            setLoading(false);
+          });
+        }
+      };
+      document.head.appendChild(script);
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('loadstart', handleLoadStart);
+      return () => {
+        if (document.head.contains(script)) {
+          document.head.removeChild(script);
+        }
+      };
+    } else {
+      // Handle regular audio files
+      const audio = audioRef.current;
+      if (!audio) return;
 
-    return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('loadstart', handleLoadStart);
-    };
+      const handleLoadedMetadata = () => {
+        setDuration(audio.duration);
+        setLoading(false);
+        if (autoPlay) {
+          audio.play().catch(err => {
+            console.error('Auto-play failed:', err);
+            setError('Auto-play failed. Please click play to start.');
+          });
+        }
+      };
+
+      const handleTimeUpdate = () => {
+        setCurrentTime(audio.currentTime);
+      };
+
+      const handlePlay = () => {
+        setIsPlaying(true);
+        setError(null);
+      };
+
+      const handlePause = () => {
+        setIsPlaying(false);
+      };
+
+      const handleEnded = () => {
+        setIsPlaying(false);
+        setCurrentTime(0);
+      };
+
+      const handleError = () => {
+        setError('Failed to load audio file');
+        setLoading(false);
+      };
+
+      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.addEventListener('timeupdate', handleTimeUpdate);
+      audio.addEventListener('play', handlePlay);
+      audio.addEventListener('pause', handlePause);
+      audio.addEventListener('ended', handleEnded);
+      audio.addEventListener('error', handleError);
+
+      return () => {
+        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.removeEventListener('timeupdate', handleTimeUpdate);
+        audio.removeEventListener('play', handlePlay);
+        audio.removeEventListener('pause', handlePause);
+        audio.removeEventListener('ended', handleEnded);
+        audio.removeEventListener('error', handleError);
+      };
+    }
   }, [track.audioUrl, autoPlay]);
 
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = isMuted ? 0 : volume;
-    }
-  }, [volume, isMuted]);
-
   const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
+    if (isSoundCloudUrl(track.audioUrl)) {
+      if (widget) {
+        widget.toggle();
+      }
     } else {
-      audio.play().catch(err => {
-        console.error('Play failed:', err);
-        setError('Failed to play audio');
-      });
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch(err => {
+          console.error('Play failed:', err);
+          setError('Failed to play audio');
+        });
+      }
     }
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
     const newTime = parseFloat(e.target.value);
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    setIsMuted(newVolume === 0);
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
+    
+    if (isSoundCloudUrl(track.audioUrl)) {
+      if (widget) {
+        widget.seekTo(newTime * 1000);
+      }
+    } else {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.currentTime = newTime;
+        setCurrentTime(newTime);
+      }
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -155,16 +229,27 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-      <audio
-        ref={audioRef}
-        src={track.audioUrl}
-        preload="metadata"
-      />
+      {isSoundCloudUrl(track.audioUrl) ? (
+        <iframe
+          ref={iframeRef}
+          width="100%"
+          height="166"
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(track.audioUrl)}&color=%23ff5500&auto_play=${autoPlay}&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true`}
+          className="hidden"
+        />
+      ) : (
+        <audio
+          ref={audioRef}
+          src={track.audioUrl}
+          preload="metadata"
+        />
+      )}
       
       <div className="max-w-4xl mx-auto p-4">
-        {/* Track Info and Controls */}
         <div className="flex items-center gap-4 mb-4">
-          {/* Cover Art */}
           <div className="flex-shrink-0">
             {track.coverArt ? (
               <img
@@ -181,7 +266,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
             )}
           </div>
 
-          {/* Track Details */}
           <div className="flex-grow min-w-0">
             <h4 className="font-semibold text-gray-900 truncate">{track.title}</h4>
             {track.genre && (
@@ -189,7 +273,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
             )}
           </div>
 
-          {/* Play/Pause Button */}
           <button
             onClick={togglePlayPause}
             disabled={loading || !!error}
@@ -209,35 +292,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
             )}
           </button>
 
-          {/* Volume Control */}
-          <div className="hidden sm:flex items-center gap-2">
-            <button
-              onClick={toggleMute}
-              className="text-gray-600 hover:text-gray-800 transition-colors"
-              aria-label={isMuted ? 'Unmute' : 'Mute'}
-            >
-              {isMuted || volume === 0 ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12c0-1.594-.471-3.076-1.343-4.243a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              )}
-            </button>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.1"
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="w-20 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-            />
-          </div>
-
-          {/* Close Button */}
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -249,35 +303,33 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
           </button>
         </div>
 
-        {/* Progress Bar */}
-        <div className="space-y-2">
-          <div className="relative">
-            <input
-              type="range"
-              min="0"
-              max={duration || 0}
-              value={currentTime}
-              onChange={handleSeek}
-              disabled={loading || !!error}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider disabled:cursor-not-allowed"
-            />
-            <div 
-              className="absolute top-0 left-0 h-2 bg-blue-600 rounded-lg pointer-events-none"
-              style={{ width: `${progressPercentage}%` }}
-            />
+        {duration > 0 && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-500 min-w-[3rem]">
+              {formatTime(currentTime)}
+            </span>
+            <div className="flex-1 relative">
+              <input
+                type="range"
+                min="0"
+                max={duration}
+                value={currentTime}
+                onChange={handleSeek}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+              />
+              <div 
+                className="absolute top-0 left-0 h-2 bg-blue-600 rounded-lg pointer-events-none"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+            <span className="text-sm text-gray-500 min-w-[3rem]">
+              {formatTime(duration)}
+            </span>
           </div>
-          
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>{formatTime(currentTime)}</span>
-            <span>{formatTime(duration)}</span>
-          </div>
-        </div>
+        )}
 
-        {/* Error Message */}
         {error && (
-          <div className="mt-2 text-sm text-red-600 text-center">
-            {error}
-          </div>
+          <div className="mt-2 text-red-600 text-sm">{error}</div>
         )}
       </div>
     </div>

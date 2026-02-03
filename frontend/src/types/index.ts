@@ -3,7 +3,7 @@
 import { BlogPost } from "../components";
 
 export interface User {
-  id: string;
+  id: number;
   email: string;
   role: string;
   createdAt: Date;
@@ -19,8 +19,16 @@ export interface BlogApiResponse extends ApiResponse {
   data:{data:BlogPost[]}
 }
 
+export interface MusicApiResponse extends ApiResponse {
+  data:MusicTrack[];
+}
+
+export interface VideoApiResponse extends ApiResponse {
+  data:VideoContent[];
+}
+
 export interface BlogPost {
-  id: string;
+  id: number;
   title: string;
   content: string;
   excerpt?: string;
@@ -34,7 +42,7 @@ export interface BlogPost {
 }
 
 export interface MusicTrack {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   audioUrl?: string;
@@ -48,7 +56,7 @@ export interface MusicTrack {
 }
 
 export interface VideoContent {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   youtubeUrl: string;
@@ -61,7 +69,7 @@ export interface VideoContent {
 }
 
 export interface AudioContent {
-  id: string;
+  id: number;
   title: string;
   description?: string;
   soundcloudUrl: string;

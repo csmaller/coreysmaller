@@ -33,6 +33,11 @@ export class MusicController {
     return this.musicService.findOne(id);
   }
 
+  @Patch(':id/play')
+  incrementPlayCount(@Param('id') id: string) {
+    return this.musicService.incrementPlayCount(id);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMusicTrackDto: UpdateMusicTrackDto) {

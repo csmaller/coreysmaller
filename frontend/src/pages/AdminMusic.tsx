@@ -21,7 +21,9 @@ export const AdminMusic: React.FC = () => {
     try {
       setLoading(true);
       const fetchedTracks = await musicService.getAllTracks();
-      setTracks(fetchedTracks);
+
+      console.table(fetchedTracks); // Debug: Log fetched tracks
+      setTracks(fetchedTracks.data);
     } catch (err) {
       setError('Failed to load music tracks');
       console.error('Error loading tracks:', err);

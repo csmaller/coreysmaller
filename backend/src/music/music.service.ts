@@ -24,7 +24,8 @@ export class MusicService {
   }
 
   async findOne(id: string): Promise<MusicTrack> {
-    const musicTrack = await this.musicTrackRepository.findOne({ where: { id } });
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    const musicTrack = await this.musicTrackRepository.findOne({ where: { id: numericId } });
     if (!musicTrack) {
       throw new NotFoundException(`Music track with ID ${id} not found`);
     }
@@ -34,6 +35,16 @@ export class MusicService {
   async update(id: string, updateMusicTrackDto: UpdateMusicTrackDto): Promise<MusicTrack> {
     const musicTrack = await this.findOne(id);
     Object.assign(musicTrack, updateMusicTrackDto);
+    return this.musicTrackRepository.save(musicTrack);
+  }
+
+  async incrementPlayCount(id: string): Promise<MusicTrack> {
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    const musicTrack = await this.musicTrackRepository.findOne({ where: { id: numericId } });
+    if (!musicTrack) {
+      throw new NotFoundException(`Music track with ID ${id} not found`);
+    }
+    musicTrack.playCount = (musicTrack.playCount || 0) + 1;
     return this.musicTrackRepository.save(musicTrack);
   }
 

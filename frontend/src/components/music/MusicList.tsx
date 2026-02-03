@@ -36,7 +36,7 @@ export const MusicList: React.FC<MusicListProps> = ({
     try {
       setLoading(true);
       const fetchedTracks = await musicService.getAllTracks();
-      setTracks(fetchedTracks);
+      setTracks(fetchedTracks.data);
     } catch (err) {
       setError('Failed to load music tracks');
       console.error('Error loading tracks:', err);

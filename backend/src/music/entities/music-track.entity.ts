@@ -15,8 +15,8 @@ import {
 @Check(`"duration" IS NULL OR "duration" > 0`)
 @Check(`"playCount" >= 0`)
 export class MusicTrack {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ length: 200 })
   title: string;
