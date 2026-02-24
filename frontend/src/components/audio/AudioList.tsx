@@ -89,11 +89,11 @@ export const AudioList: React.FC<AudioListProps> = ({
     }
 
     try {
-      const updatedAudio = await audioService.incrementPlayCount(audioItem.id);
+      const response = await audioService.incrementPlayCount(audioItem.id);
       // Update the play count in the local state
       setAudio(prevAudio => 
         prevAudio.map(a => 
-          a.id === audioItem.id ? { ...a, playCount: updatedAudio.playCount } : a
+          a.id === audioItem.id ? { ...a, playCount: response.data.playCount } : a
         )
       );
     } catch (err) {

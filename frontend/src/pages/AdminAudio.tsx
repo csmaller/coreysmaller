@@ -20,8 +20,8 @@ export const AdminAudio: React.FC = () => {
   const loadAudio = async () => {
     try {
       setLoading(true);
-      const fetchedAudio = await audioService.getAllAudio();
-      setAudio(fetchedAudio);
+      const response = await audioService.getAllAudio();
+      setAudio(response.data);
     } catch (err) {
       console.error('Error loading audio:', err);
       setError('Failed to load audio content');

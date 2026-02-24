@@ -73,7 +73,10 @@ describe('AdminDashboard', () => {
       data: [],
       success: true
     });
-    mockedAudioService.getAllAudio.mockResolvedValue([]);
+    mockedAudioService.getAllAudio.mockResolvedValue({
+      data: [],
+      success: true
+    });
     
     mockedBlogService.getMigrationStatus.mockResolvedValue({
       data: {

@@ -66,7 +66,10 @@ describe('AudioList', () => {
   });
 
   it('renders audio content after loading', async () => {
-    mockedAudioService.getAllAudio.mockResolvedValue(mockAudioContent);
+    mockedAudioService.getAllAudio.mockResolvedValue({
+      data: mockAudioContent,
+      success: true
+    });
     
     render(<AudioList />);
     
@@ -109,8 +112,11 @@ describe('AudioList', () => {
   it('plays audio when play button is clicked', async () => {
     const user = userEvent.setup();
     mockedAudioService.incrementPlayCount.mockResolvedValue({
-      ...mockAudioContent[0],
-      playCount: 11
+      data: {
+        ...mockAudioContent[0],
+        playCount: 11
+      },
+      success: true
     });
     
     render(<AudioList audio={mockAudioContent} showPlayer={true} />);
@@ -156,8 +162,11 @@ describe('AudioList', () => {
   it('does not show player when showPlayer is false', async () => {
     const user = userEvent.setup();
     mockedAudioService.incrementPlayCount.mockResolvedValue({
-      ...mockAudioContent[0],
-      playCount: 11
+      data: {
+        ...mockAudioContent[0],
+        playCount: 11
+      },
+      success: true
     });
     
     render(<AudioList audio={mockAudioContent} showPlayer={false} />);

@@ -60,11 +60,11 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
     setError(null);
 
     try {
-      const validation = await audioService.validateSoundCloudUrl(formData.soundcloudUrl);
-      setUrlValidation(validation);
+      const response = await audioService.validateSoundCloudUrl(formData.soundcloudUrl);
+      setUrlValidation(response.data);
 
-      if (!validation.isValid) {
-        setError(validation.error || 'Invalid SoundCloud URL');
+      if (!response.data.isValid) {
+        setError(response.data.error || 'Invalid SoundCloud URL');
         return false;
       }
 
@@ -120,14 +120,13 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
         duration: formData.duration ? Number(formData.duration) : undefined
       };
 
-      let savedAudio: AudioContent;
       if (audio) {
-        savedAudio = await audioService.updateAudio(audio.id, audioData);
+        const response = await audioService.updateAudio(audio.id, audioData);
+        onSave(response.data);
       } else {
-        savedAudio = await audioService.createAudio(audioData);
+        const response = await audioService.createAudio(audioData);
+        onSave(response.data);
       }
-
-      onSave(savedAudio);
     } catch (err) {
       console.error('Error saving audio:', err);
       setError('Failed to save audio content. Please try again.');
