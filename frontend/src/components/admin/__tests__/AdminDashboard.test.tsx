@@ -65,8 +65,14 @@ describe('AdminDashboard', () => {
       message: 'Success'
     });
     
-    mockedMusicService.getAllTracks.mockResolvedValue([]);
-    mockedVideoService.getAllVideos.mockResolvedValue([]);
+    mockedMusicService.getAllTracks.mockResolvedValue({
+      data: [],
+      success: true
+    });
+    mockedVideoService.getAllVideos.mockResolvedValue({
+      data: [],
+      success: true
+    });
     mockedAudioService.getAllAudio.mockResolvedValue([]);
     
     mockedBlogService.getMigrationStatus.mockResolvedValue({
@@ -107,10 +113,13 @@ describe('AdminDashboard', () => {
       message: 'Success'
     });
     
-    mockedMusicService.getAllTracks.mockResolvedValue([
-      { id: '1', title: 'Track 1' } as any,
-      { id: '2', title: 'Track 2' } as any,
-    ]);
+    mockedMusicService.getAllTracks.mockResolvedValue({
+      data: [
+        { id: 1, title: 'Track 1' } as any,
+        { id: 2, title: 'Track 2' } as any,
+      ],
+      success: true
+    });
     
     renderWithRouter(<AdminDashboard {...mockProps} />);
     

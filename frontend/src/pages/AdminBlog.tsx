@@ -62,11 +62,11 @@ export const AdminBlog: React.FC = () => {
     setEditingPost(undefined);
   };
 
-  const handleDeletePost = async (postId: string) => {
+  const handleDeletePost = async (postId: number | string) => {
     try {
       setDeleteLoading(true);
       await blogService.deletePost(postId);
-      setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+      setPosts(prevPosts => prevPosts.filter(post => post.id !== Number(postId)));
       setTotalPosts(prev => prev - 1);
       setDeleteConfirm(null);
     } catch (err) {
@@ -78,7 +78,7 @@ export const AdminBlog: React.FC = () => {
   };
 
   const handleDeleteClick = (post: BlogPost) => {
-    setDeleteConfirm({ postId: post.id, postTitle: post.title });
+    setDeleteConfirm({ postId: String(post.id), postTitle: post.title });
   };
 
   const formatDate = (date: Date | string) => {

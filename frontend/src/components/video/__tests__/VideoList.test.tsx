@@ -10,7 +10,7 @@ const mockVideoService = videoService as jest.Mocked<typeof videoService>;
 // Mock video data
 const mockVideos: VideoContent[] = [
   {
-    id: '1',
+    id: 1,
     title: 'Test Video 1',
     description: 'A test video description',
     youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -22,7 +22,7 @@ const mockVideos: VideoContent[] = [
     updatedAt: new Date('2023-01-01')
   },
   {
-    id: '2',
+    id: 2,
     title: 'Test Video 2',
     description: 'Another test video',
     youtubeUrl: 'https://www.youtube.com/watch?v=abc123',
@@ -49,7 +49,10 @@ describe('VideoList', () => {
   });
 
   it('renders videos after loading', async () => {
-    mockVideoService.getAllVideos.mockResolvedValue(mockVideos);
+    mockVideoService.getAllVideos.mockResolvedValue({
+      data: mockVideos,
+      success: true
+    });
     
     render(<VideoList />);
     
@@ -60,7 +63,10 @@ describe('VideoList', () => {
   });
 
   it('displays video count', async () => {
-    mockVideoService.getAllVideos.mockResolvedValue(mockVideos);
+    mockVideoService.getAllVideos.mockResolvedValue({
+      data: mockVideos,
+      success: true
+    });
     
     render(<VideoList />);
     
@@ -78,7 +84,10 @@ describe('VideoList', () => {
   });
 
   it('handles empty video list', async () => {
-    mockVideoService.getAllVideos.mockResolvedValue([]);
+    mockVideoService.getAllVideos.mockResolvedValue({
+      data: [],
+      success: true
+    });
     
     render(<VideoList />);
     
@@ -99,7 +108,10 @@ describe('VideoList', () => {
   });
 
   it('hides filters when showFilters is false', async () => {
-    mockVideoService.getAllVideos.mockResolvedValue(mockVideos);
+    mockVideoService.getAllVideos.mockResolvedValue({
+      data: mockVideos,
+      success: true
+    });
     
     render(<VideoList showFilters={false} />);
     
@@ -110,7 +122,10 @@ describe('VideoList', () => {
   });
 
   it('displays video metadata correctly', async () => {
-    mockVideoService.getAllVideos.mockResolvedValue(mockVideos);
+    mockVideoService.getAllVideos.mockResolvedValue({
+      data: mockVideos,
+      success: true
+    });
     
     render(<VideoList />);
     

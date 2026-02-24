@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Auto Jest Test Generator",
+  "description": "Automatically creates Jest test files when new TypeScript/JavaScript files containing functions or classes are created",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "*.ts",
+      "*.tsx",
+      "*.js",
+      "*.jsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Analyze the newly created file for functions and classes. If any are found, create a corresponding Jest test file (.spec.ts or .test.tsx) with basic test structure and placeholder tests for each function/class. Follow the existing test patterns in the project and place the test file in the appropriate location (__tests__ folder or alongside the source file)."
+  }
+}

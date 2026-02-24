@@ -28,12 +28,17 @@ export class ContentAggregationService {
    */
   async getRecentContent(limit: number = 3): Promise<RecentContent> {
     try {
-      const [postsResponse, tracks, videos, audio] = await Promise.all([
-        blogService.getAllPosts(1, limit).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit, totalPages: 0 } })),
-        musicService.getAllTracks().catch(() => []),
-        videoService.getAllVideos().catch(() => []),
+      const [postsResponse, tracksResponse, videosResponse, audio] = await Promise.all([
+        blogService.getAllPosts(1, limit).catch(() => ({ data: { data: [] }, pagination: { total: 0, page: 1, limit, totalPages: 0 }, success: true })),
+        musicService.getAllTracks().catch(() => ({ data: [], success: true })),
+        videoService.getAllVideos().catch(() => ({ data: [], success: true })),
         audioService.getAllAudio().catch(() => [])
       ]);
+
+      // Extract data from API responses
+      const posts = postsResponse.data?.data || [];
+      const tracks = tracksResponse.data || [];
+      const videos = videosResponse.data || [];
 
       // Sort and limit music, video, and audio by creation date
       const sortedTracks = Array.isArray(tracks) ? tracks
@@ -49,7 +54,7 @@ export class ContentAggregationService {
         .slice(0, limit) : [];
 
       return {
-        recentPosts: postsResponse.data || [],
+        recentPosts: posts,
         featuredMusic: sortedTracks,
         latestVideos: sortedVideos,
         latestAudio: sortedAudio
@@ -75,7 +80,7 @@ export class ContentAggregationService {
     if (Array.isArray(content.recentPosts)) {
       content.recentPosts.forEach(post => {
         previews.push({
-          id: post.id,
+          id: String(post.id),
           title: post.title,
           description: post.excerpt || this.truncateContent(post.content, 150),
           imageUrl: post.featuredImage,
@@ -90,7 +95,7 @@ export class ContentAggregationService {
     if (Array.isArray(content.featuredMusic)) {
       content.featuredMusic.forEach(track => {
         previews.push({
-          id: track.id,
+          id: String(track.id),
           title: track.title,
           description: track.description || `${track.genre ? `${track.genre} • ` : ''}${track.duration ? this.formatDuration(track.duration) : 'Music track'}`,
           imageUrl: track.coverArt,
@@ -105,7 +110,7 @@ export class ContentAggregationService {
     if (Array.isArray(content.latestVideos)) {
       content.latestVideos.forEach(video => {
         previews.push({
-          id: video.id,
+          id: String(video.id),
           title: video.title,
           description: video.description || `${video.duration ? this.formatDuration(video.duration) : 'Video content'}`,
           imageUrl: video.thumbnail,
@@ -120,7 +125,7 @@ export class ContentAggregationService {
     if (Array.isArray(content.latestAudio)) {
       content.latestAudio.forEach(audio => {
         previews.push({
-          id: audio.id,
+          id: String(audio.id),
           title: audio.title,
           description: audio.description || `${audio.duration ? this.formatDuration(audio.duration) : 'Audio content'}`,
           imageUrl: audio.artwork,
@@ -168,12 +173,15 @@ export class ContentAggregationService {
     totalAudio: number;
   }> {
     try {
-      const [postsResponse, tracks, videos, audio] = await Promise.all([
-        blogService.getAllPosts(1, 1).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit: 1, totalPages: 0 } })),
-        musicService.getAllTracks().catch(() => []),
-        videoService.getAllVideos().catch(() => []),
+      const [postsResponse, tracksResponse, videosResponse, audio] = await Promise.all([
+        blogService.getAllPosts(1, 1).catch(() => ({ data: { data: [] }, pagination: { total: 0, page: 1, limit: 1, totalPages: 0 }, success: true })),
+        musicService.getAllTracks().catch(() => ({ data: [], success: true })),
+        videoService.getAllVideos().catch(() => ({ data: [], success: true })),
         audioService.getAllAudio().catch(() => [])
       ]);
+
+      const tracks = tracksResponse.data || [];
+      const videos = videosResponse.data || [];
 
       return {
         totalPosts: postsResponse.pagination?.total || 0,

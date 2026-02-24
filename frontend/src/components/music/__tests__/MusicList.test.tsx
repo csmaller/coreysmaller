@@ -19,7 +19,7 @@ jest.mock('../MusicPlayer', () => ({
 
 const mockTracks: MusicTrack[] = [
   {
-    id: '1',
+    id: 1,
     title: 'Test Song 1',
     description: 'A test song',
     audioUrl: 'https://example.com/song1.mp3',
@@ -32,7 +32,7 @@ const mockTracks: MusicTrack[] = [
     releaseDate: new Date('2023-01-01'),
   },
   {
-    id: '2',
+    id: 2,
     title: 'Test Song 2',
     description: 'Another test song',
     audioUrl: 'https://example.com/song2.mp3',
@@ -58,7 +58,10 @@ describe('MusicList', () => {
   });
 
   it('renders tracks when loaded', async () => {
-    mockMusicService.getAllTracks.mockResolvedValue(mockTracks);
+    mockMusicService.getAllTracks.mockResolvedValue({
+      data: mockTracks,
+      success: true
+    });
     
     render(<MusicList />);
     
@@ -76,7 +79,10 @@ describe('MusicList', () => {
   });
 
   it('displays genre filters', async () => {
-    mockMusicService.getAllTracks.mockResolvedValue(mockTracks);
+    mockMusicService.getAllTracks.mockResolvedValue({
+      data: mockTracks,
+      success: true
+    });
     
     render(<MusicList />);
     
@@ -87,7 +93,10 @@ describe('MusicList', () => {
   });
 
   it('displays sort options', async () => {
-    mockMusicService.getAllTracks.mockResolvedValue(mockTracks);
+    mockMusicService.getAllTracks.mockResolvedValue({
+      data: mockTracks,
+      success: true
+    });
     
     render(<MusicList />);
     
@@ -98,7 +107,10 @@ describe('MusicList', () => {
   });
 
   it('shows track count', async () => {
-    mockMusicService.getAllTracks.mockResolvedValue(mockTracks);
+    mockMusicService.getAllTracks.mockResolvedValue({
+      data: mockTracks,
+      success: true
+    });
     
     render(<MusicList />);
     
@@ -108,7 +120,10 @@ describe('MusicList', () => {
   });
 
   it('handles empty track list', async () => {
-    mockMusicService.getAllTracks.mockResolvedValue([]);
+    mockMusicService.getAllTracks.mockResolvedValue({
+      data: [],
+      success: true
+    });
     
     render(<MusicList />);
     

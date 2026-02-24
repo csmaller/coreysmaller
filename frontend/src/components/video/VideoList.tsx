@@ -40,7 +40,7 @@ export const VideoList: React.FC<VideoListProps> = ({
     try {
       setLoading(true);
       const fetchedVideos = await videoService.getAllVideos();
-      setVideos(fetchedVideos);
+      setVideos(fetchedVideos.data);
     } catch (err) {
       setError('Failed to load videos');
       console.error('Error loading videos:', err);

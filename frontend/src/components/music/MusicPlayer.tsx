@@ -45,7 +45,6 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ track, onClose, autoPl
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(100);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -162,7 +161,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ track, onClose, autoPl
   }, [track.audioUrl, autoPlay]);
 
   const togglePlayPause = () => {
-    if (isSoundCloudUrl(track.audioUrl)) {
+    if (track.audioUrl && isSoundCloudUrl(track.audioUrl)) {
       if (widget) {
         widget.toggle();
       }
@@ -184,7 +183,7 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({ track, onClose, autoPl
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(e.target.value);
     
-    if (isSoundCloudUrl(track.audioUrl)) {
+    if (track.audioUrl && isSoundCloudUrl(track.audioUrl)) {
       if (widget) {
         widget.seekTo(newTime * 1000);
       }

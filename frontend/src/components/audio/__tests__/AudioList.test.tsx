@@ -27,7 +27,7 @@ const mockedAudioService = audioService as jest.Mocked<typeof audioService>;
 
 const mockAudioContent: AudioContent[] = [
   {
-    id: '1',
+    id: 1,
     title: 'Test Track 1',
     description: 'A test track',
     soundcloudUrl: 'https://soundcloud.com/test/track1',
@@ -39,7 +39,7 @@ const mockAudioContent: AudioContent[] = [
     updatedAt: new Date('2023-01-01')
   },
   {
-    id: '2',
+    id: 2,
     title: 'Test Track 2',
     description: 'Another test track',
     soundcloudUrl: 'https://soundcloud.com/test/track2',
@@ -121,7 +121,7 @@ describe('AudioList', () => {
     
     expect(screen.getByTestId('audio-player')).toBeInTheDocument();
     expect(screen.getByText('Playing: Test Track 1')).toBeInTheDocument();
-    expect(mockedAudioService.incrementPlayCount).toHaveBeenCalledWith('1');
+    expect(mockedAudioService.incrementPlayCount).toHaveBeenCalledWith(1);
   });
 
   it('handles error state', async () => {

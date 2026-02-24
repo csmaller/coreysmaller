@@ -1,12 +1,12 @@
 import { apiService } from './api';
-import type { VideoContent } from '../types';
+import type { VideoApiResponse, VideoContent } from '../types';
 
 export const videoService = {
-  async getAllVideos(): Promise<VideoContent[]> {
-    return apiService.get<VideoContent[]>('/video');
+  async getAllVideos(): Promise<VideoApiResponse> {
+    return apiService.get<VideoApiResponse>('/video');
   },
 
-  async getVideoById(id: string): Promise<VideoContent> {
+  async getVideoById(id: string|number): Promise<VideoContent> {
     return apiService.get<VideoContent>(`/video/${id}`);
   },
 
@@ -14,15 +14,15 @@ export const videoService = {
     return apiService.post<VideoContent>('/video', videoData);
   },
 
-  async updateVideo(id: string, videoData: Partial<VideoContent>): Promise<VideoContent> {
+  async updateVideo(id: string|number, videoData: Partial<VideoContent>): Promise<VideoContent> {
     return apiService.patch<VideoContent>(`/video/${id}`, videoData);
   },
 
-  async deleteVideo(id: string): Promise<void> {
+  async deleteVideo(id: string|number): Promise<void> {
     await apiService.delete(`/video/${id}`);
   },
 
-  async incrementViewCount(id: string): Promise<void> {
+  async incrementViewCount(id: string|number): Promise<void> {
     // This would typically be a separate endpoint, but for now we'll use the update endpoint
     const video = await this.getVideoById(id);
     await this.updateVideo(id, { viewCount: video.viewCount + 1 });

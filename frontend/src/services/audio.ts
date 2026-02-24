@@ -6,7 +6,7 @@ export const audioService = {
     return apiService.get<AudioContent[]>('/audio');
   },
 
-  async getAudioById(id: string): Promise<AudioContent> {
+  async getAudioById(id: number | string): Promise<AudioContent> {
     return apiService.get<AudioContent>(`/audio/${id}`);
   },
 
@@ -14,15 +14,15 @@ export const audioService = {
     return apiService.post<AudioContent>('/audio', audioData);
   },
 
-  async updateAudio(id: string, audioData: Partial<AudioContent>): Promise<AudioContent> {
+  async updateAudio(id: number | string, audioData: Partial<AudioContent>): Promise<AudioContent> {
     return apiService.patch<AudioContent>(`/audio/${id}`, audioData);
   },
 
-  async deleteAudio(id: string): Promise<void> {
+  async deleteAudio(id: number | string): Promise<void> {
     await apiService.delete(`/audio/${id}`);
   },
 
-  async incrementPlayCount(id: string): Promise<AudioContent> {
+  async incrementPlayCount(id: number | string): Promise<AudioContent> {
     return apiService.post<AudioContent>(`/audio/${id}/play`, {});
   },
 

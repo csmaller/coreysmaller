@@ -12,7 +12,17 @@ interface PerformanceMetrics {
 export const usePerformanceMonitoring = () => {
   useEffect(() => {
     const measurePerformance = () => {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+      // Check if performance API is available (not available in test environment)
+      if (typeof performance === 'undefined' || !performance.getEntriesByType) {
+        return;
+      }
+
+      const navigationEntries = performance.getEntriesByType('navigation');
+      if (navigationEntries.length === 0) {
+        return;
+      }
+
+      const navigation = navigationEntries[0] as PerformanceNavigationTiming;
       
       const metrics: PerformanceMetrics = {
         loadTime: navigation.loadEventEnd - navigation.loadEventStart,

@@ -17,7 +17,7 @@ export class BlogService {
     return apiService.get<PaginatedResponse<BlogApiResponse>>(`/blog?page=${page}&limit=${limit}`);
   }
 
-  async getPostById(id: string): Promise<ApiResponse<BlogPost>> {
+  async getPostById(id: number | string): Promise<ApiResponse<BlogPost>> {
     return apiService.get<ApiResponse<BlogPost>>(`/blog/${id}`);
   }
 
@@ -25,11 +25,11 @@ export class BlogService {
     return apiService.post<ApiResponse<BlogPost>>('/blog', postData);
   }
 
-  async updatePost(id: string, updateData: UpdateBlogPostDto): Promise<ApiResponse<BlogPost>> {
+  async updatePost(id: number | string, updateData: UpdateBlogPostDto): Promise<ApiResponse<BlogPost>> {
     return apiService.patch<ApiResponse<BlogPost>>(`/blog/${id}`, updateData);
   }
 
-  async deletePost(id: string): Promise<ApiResponse<void>> {
+  async deletePost(id: number | string): Promise<ApiResponse<void>> {
     return apiService.delete<ApiResponse<void>>(`/blog/${id}`);
   }
 

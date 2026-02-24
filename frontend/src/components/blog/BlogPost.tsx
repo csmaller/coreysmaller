@@ -9,7 +9,7 @@ interface BlogPostProps {
   post?: BlogPostType;
   showAdminActions?: boolean;
   onEdit?: (post: BlogPostType) => void;
-  onDelete?: (postId: string) => void;
+  onDelete?: (postId: number | string) => void;
 }
 
 export const BlogPost: React.FC<BlogPostProps> = ({ 

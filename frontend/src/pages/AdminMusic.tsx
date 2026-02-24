@@ -58,11 +58,11 @@ export const AdminMusic: React.FC = () => {
     setEditingTrack(undefined);
   };
 
-  const handleDeleteTrack = async (trackId: string) => {
+  const handleDeleteTrack = async (trackId: number | string) => {
     try {
       setDeleteLoading(true);
       await musicService.deleteTrack(trackId);
-      setTracks(prevTracks => prevTracks.filter(track => track.id !== trackId));
+      setTracks(prevTracks => prevTracks.filter(track => track.id !== Number(trackId)));
       setDeleteConfirm(null);
     } catch (err) {
       console.error('Error deleting track:', err);
@@ -73,7 +73,7 @@ export const AdminMusic: React.FC = () => {
   };
 
   const handleDeleteClick = (track: MusicTrack) => {
-    setDeleteConfirm({ trackId: track.id, trackTitle: track.title });
+    setDeleteConfirm({ trackId: String(track.id), trackTitle: track.title });
   };
 
   const formatDate = (date: Date) => {

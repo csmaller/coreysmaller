@@ -23,7 +23,7 @@ const mockBlogService = blogService as jest.Mocked<typeof blogService>;
 // Mock data
 const mockPosts: BlogPost[] = [
   {
-    id: '1',
+    id: 1,
     title: 'Test Post 1',
     content: 'This is test content for post 1',
     excerpt: 'Test excerpt 1',
@@ -34,7 +34,7 @@ const mockPosts: BlogPost[] = [
     tags: ['test', 'blog']
   },
   {
-    id: '2',
+    id: 2,
     title: 'Test Post 2',
     content: 'This is test content for post 2',
     status: 'draft',

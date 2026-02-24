@@ -21,7 +21,7 @@ export const AdminVideo: React.FC = () => {
     try {
       setLoading(true);
       const fetchedVideos = await videoService.getAllVideos();
-      setVideos(fetchedVideos);
+      setVideos(fetchedVideos.data);
     } catch (err) {
       setError('Failed to load videos');
       console.error('Error loading videos:', err);
@@ -56,11 +56,11 @@ export const AdminVideo: React.FC = () => {
     setEditingVideo(undefined);
   };
 
-  const handleDeleteVideo = async (videoId: string) => {
+  const handleDeleteVideo = async (videoId: number | string) => {
     try {
       setDeleteLoading(true);
       await videoService.deleteVideo(videoId);
-      setVideos(prevVideos => prevVideos.filter(video => video.id !== videoId));
+      setVideos(prevVideos => prevVideos.filter(video => video.id !== Number(videoId)));
       setDeleteConfirm(null);
     } catch (err) {
       console.error('Error deleting video:', err);
@@ -71,7 +71,7 @@ export const AdminVideo: React.FC = () => {
   };
 
   const handleDeleteClick = (video: VideoContent) => {
-    setDeleteConfirm({ videoId: video.id, videoTitle: video.title });
+    setDeleteConfirm({ videoId: String(video.id), videoTitle: video.title });
   };
 
   const formatDate = (date: Date) => {

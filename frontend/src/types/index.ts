@@ -10,21 +10,20 @@ export interface User {
   updatedAt: Date;
 }
 
+// API response types
 export interface ApiResponse<T> {
+  data: T;
   message?: string;
   success: boolean;
 }
 
-export interface BlogApiResponse extends ApiResponse {
-  data:{data:BlogPost[]}
+export interface BlogApiResponse extends ApiResponse<{data:BlogPost[]}> {
 }
 
-export interface MusicApiResponse extends ApiResponse {
-  data:MusicTrack[];
+export interface MusicApiResponse extends ApiResponse<MusicTrack[]> {
 }
 
-export interface VideoApiResponse extends ApiResponse {
-  data:VideoContent[];
+export interface VideoApiResponse extends ApiResponse<VideoContent[]> {
 }
 
 export interface BlogPost {
@@ -81,13 +80,6 @@ export interface AudioContent {
   updatedAt: Date;
 }
 
-// API response types
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  success: boolean;
-}
-
 export interface PaginationInfo {
   page: number;
   limit: number;
@@ -108,6 +100,9 @@ export interface LoginCredentials {
 export interface AuthResponse {
   access_token: string;
   user: User;
+  data?: {
+    user: User;
+  };
 }
 
 // Migration types

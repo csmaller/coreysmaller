@@ -54,11 +54,11 @@ export const AdminAudio: React.FC = () => {
     setEditingAudio(undefined);
   };
 
-  const handleDeleteAudio = async (id: string) => {
+  const handleDeleteAudio = async (id: number | string) => {
     try {
       setDeleteLoading(true);
       await audioService.deleteAudio(id);
-      setAudio(prevAudio => prevAudio.filter(a => a.id !== id));
+      setAudio(prevAudio => prevAudio.filter(a => a.id !== Number(id)));
       setDeleteConfirm(null);
     } catch (err) {
       console.error('Error deleting audio:', err);
@@ -69,7 +69,7 @@ export const AdminAudio: React.FC = () => {
   };
 
   const handleDeleteClick = (audioItem: AudioContent) => {
-    setDeleteConfirm({ audioId: audioItem.id, audioTitle: audioItem.title });
+    setDeleteConfirm({ audioId: String(audioItem.id), audioTitle: audioItem.title });
   };
 
   const formatDate = (date: Date) => {

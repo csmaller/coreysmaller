@@ -14,6 +14,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Export AuthContext for testing purposes
+export { AuthContext };
+
 interface AuthProviderProps {
   children: React.ReactNode;
 }
@@ -29,14 +32,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const checkAuth = async () => {
       try {
         if (authService.isAuthenticated()) {
-          const profile = await authService.getProfile();
-          setUser(profile);
-          setIsAuthenticated(true);
+          try {
+            // Try to fetch the latest profile with the existing token
+            const profile = await authService.getProfile();
+            setUser(profile);
+            setIsAuthenticated(true);
+          } catch (profileError) {
+            console.warn('Profile fetch failed, attempting fallback:', profileError);
+            // Profile fetch failed, try to use cached user data from localStorage
+            const cachedUser = authService.getUser();
+            if (cachedUser) {
+              // Use cached user data if available
+              setUser(cachedUser);
+              setIsAuthenticated(true);
+              console.log('Using cached user data from localStorage');
+            } else {
+              // No cached user and fetch failed, clear authentication
+              authService.clearToken();
+              setIsAuthenticated(false);
+              setUser(null);
+            }
+          }
         }
       } catch (error) {
         console.error('Auth check failed:', error);
-        // Clear invalid token
-        authService.clearToken();
         setIsAuthenticated(false);
         setUser(null);
       } finally {

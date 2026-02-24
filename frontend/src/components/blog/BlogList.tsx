@@ -6,7 +6,7 @@ import type { BlogPost, PaginationInfo } from '../../types';
 interface BlogListProps {
   showAdminActions?: boolean;
   onEdit?: (post: BlogPost) => void;
-  onDelete?: (postId: string) => void;
+  onDelete?: (postId: number | string) => void;
 }
 
 export const BlogList: React.FC<BlogListProps> = ({ 
@@ -31,10 +31,10 @@ export const BlogList: React.FC<BlogListProps> = ({
       const response = await blogService.getAllPosts(page, pagination.limit);
       setPosts(response.data.data);
       setPagination({
-        page: response.data.page,
-        limit: response.data.limit,
-        total: response.data.total,
-        totalPages: Math.ceil(response.data.total / response.data.limit)
+        page: response.pagination.page,
+        limit: response.pagination.limit,
+        total: response.pagination.total,
+        totalPages: Math.ceil(response.pagination.total / response.pagination.limit)
       });
     } catch (err) {
       setError('Failed to load blog posts. Please try again.');

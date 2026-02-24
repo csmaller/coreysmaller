@@ -55,12 +55,15 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       setLoading(true);
       
       // Load content counts and recent items
-      const [postsResponse, tracks, videos, audio] = await Promise.all([
+      const [postsResponse, tracksResponse, videosResponse, audio] = await Promise.all([
         blogService.getAllPosts(1, 5),
         musicService.getAllTracks(),
         videoService.getAllVideos(),
         audioService.getAllAudio()
       ]);
+
+      const tracks = tracksResponse.data || [];
+      const videos = videosResponse.data || [];
 
       setStats({
         blogPosts: postsResponse.pagination.total,
