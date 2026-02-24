@@ -25,7 +25,7 @@ class SoundCloudUtils
      */
     public static function extractTrackId(string $url): ?string
     {
-        // Pattern: https://soundcloud.com/artist/track
+        // Pattern: https://soundcloud.com/artist/track (with optional query params)
         // Extract the artist/track portion after soundcloud.com/
         if (preg_match('/^https:\/\/soundcloud\.com\/([^\/]+\/[^\/\?#]+)/', $url, $matches)) {
             return $matches[1];
@@ -43,7 +43,7 @@ class SoundCloudUtils
     public static function isValidUrl(string $url): bool
     {
         // Check if URL matches the SoundCloud URL pattern
-        // Must be https://soundcloud.com/artist/track format
-        return preg_match('/^https:\/\/soundcloud\.com\/[^\/]+\/[^\/\?#]+/', $url) === 1;
+        // Must be https://soundcloud.com/artist/track format (query params allowed)
+        return preg_match('/^https:\/\/soundcloud\.com\/[^\/]+\/[^\/\?#]+(\?.*)?$/', $url) === 1;
     }
 }

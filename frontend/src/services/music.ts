@@ -7,15 +7,18 @@ export const musicService = {
   },
 
   async getTrackById(id: string | number): Promise<MusicTrack> {
-    return apiService.get<MusicTrack>(`/music/${id}`);
+    const response = await apiService.get<{ data: MusicTrack }>(`/music/${id}`);
+    return response.data;
   },
 
   async createTrack(trackData: Omit<MusicTrack, 'id' | 'createdAt' | 'updatedAt' | 'playCount'>): Promise<MusicTrack> {
-    return apiService.post<MusicTrack>('/music', trackData);
+    const response = await apiService.post<{ data: MusicTrack }>('/music', trackData);
+    return response.data;
   },
 
   async updateTrack(id: string | number, trackData: Partial<MusicTrack>): Promise<MusicTrack> {
-    return apiService.patch<MusicTrack>(`/music/${id}`, trackData);
+    const response = await apiService.patch<{ data: MusicTrack }>(`/music/${id}`, trackData);
+    return response.data;
   },
 
   async deleteTrack(id: string | number): Promise<void> {

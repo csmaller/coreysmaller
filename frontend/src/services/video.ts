@@ -7,15 +7,18 @@ export const videoService = {
   },
 
   async getVideoById(id: string|number): Promise<VideoContent> {
-    return apiService.get<VideoContent>(`/video/${id}`);
+    const response = await apiService.get<{ data: VideoContent }>(`/video/${id}`);
+    return response.data;
   },
 
   async createVideo(videoData: Omit<VideoContent, 'id' | 'createdAt' | 'updatedAt' | 'viewCount' | 'youtubeId' | 'thumbnail'>): Promise<VideoContent> {
-    return apiService.post<VideoContent>('/video', videoData);
+    const response = await apiService.post<{ data: VideoContent }>('/video', videoData);
+    return response.data;
   },
 
   async updateVideo(id: string|number, videoData: Partial<VideoContent>): Promise<VideoContent> {
-    return apiService.patch<VideoContent>(`/video/${id}`, videoData);
+    const response = await apiService.patch<{ data: VideoContent }>(`/video/${id}`, videoData);
+    return response.data;
   },
 
   async deleteVideo(id: string|number): Promise<void> {
@@ -34,15 +37,17 @@ export const videoService = {
     thumbnail?: string;
     error?: string;
   }> {
-    return apiService.get<{
+    const response = await apiService.get<{ data: {
       isValid: boolean;
       youtubeId?: string;
       thumbnail?: string;
       error?: string;
-    }>(`/video/validate-youtube?url=${encodeURIComponent(url)}`);
+    } }>(`/video/validate-youtube?url=${encodeURIComponent(url)}`);
+    return response.data;
   },
 
   async findByYouTubeId(youtubeId: string): Promise<VideoContent | null> {
-    return apiService.get<VideoContent | null>(`/video/by-youtube-id/${youtubeId}`);
+    const response = await apiService.get<{ data: VideoContent | null }>(`/video/by-youtube-id/${youtubeId}`);
+    return response.data;
   }
 };

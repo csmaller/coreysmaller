@@ -6,16 +6,25 @@ export class AuthService {
   private readonly USER_KEY = 'auth_user';
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await apiService.post<AuthResponse>('/auth/login', credentials);
-    if (response.access_token) {
-      this.setToken(response.access_token);
-      // Store user data for fallback on page refresh
-      const userData = response.data?.user || response.user;
+    const response = await apiService.post<any>('/auth/login', credentials);
+    
+    // Laravel returns: { data: { access_token, user, session_id }, success, statusCode, timestamp }
+    const token = response.data?.access_token || response.access_token;
+    const userData = response.data?.user || response.user;
+    
+    if (token) {
+      this.setToken(token);
       if (userData) {
         this.setUser(userData);
       }
     }
-    return response;
+    
+    // Return normalized response
+    return {
+      access_token: token,
+      user: userData,
+      data: response.data
+    };
   }
 
   async logout(): Promise<void> {

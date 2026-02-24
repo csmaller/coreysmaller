@@ -77,16 +77,6 @@ describe('AdminDashboard', () => {
       data: [],
       success: true
     });
-    
-    mockedBlogService.getMigrationStatus.mockResolvedValue({
-      data: {
-        totalMarkdownFiles: 0,
-        totalBlogPosts: 0,
-        unmigrated: []
-      },
-      success: true,
-      message: 'Success'
-    });
   });
 
   it('renders loading state initially', () => {

@@ -1,5 +1,5 @@
 import { apiService } from './api';
-import type { BlogPost, PaginatedResponse, ApiResponse, MigrationResult, MigrationStatus } from '../types';
+import type { BlogPost, PaginatedResponse, ApiResponse } from '../types';
 
 export interface CreateBlogPostDto {
   title: string;
@@ -31,14 +31,6 @@ export class BlogService {
 
   async deletePost(id: number | string): Promise<ApiResponse<void>> {
     return apiService.delete<ApiResponse<void>>(`/blog/${id}`);
-  }
-
-  async migrateMarkdownFiles(): Promise<ApiResponse<MigrationResult>> {
-    return apiService.post<ApiResponse<MigrationResult>>('/blog/migrate');
-  }
-
-  async getMigrationStatus(): Promise<ApiResponse<MigrationStatus>> {
-    return apiService.get<ApiResponse<MigrationStatus>>('/blog/migration-status');
   }
 }
 

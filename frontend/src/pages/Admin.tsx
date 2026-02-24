@@ -9,7 +9,6 @@ type AdminView = 'dashboard' | 'blog-list' | 'blog-editor' | 'blog-create';
 export const Admin: React.FC = () => {
   const [currentView, setCurrentView] = useState<AdminView>('dashboard');
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
-console.log(currentView)
   const handleEditPost = async (post: BlogPost) => {
     try {
       // Fetch the full post data including content

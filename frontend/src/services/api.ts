@@ -43,8 +43,11 @@ export class ApiService {
       'Content-Type': 'application/json',
     };
 
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
+    // Always check localStorage for the latest token
+    const currentToken = this.token || localStorage.getItem(TOKEN_KEY);
+    
+    if (currentToken) {
+      headers.Authorization = `Bearer ${currentToken}`;
     }
 
     return headers;

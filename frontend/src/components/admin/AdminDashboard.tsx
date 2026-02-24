@@ -4,7 +4,7 @@ import { blogService } from '../../services/blog';
 import { musicService } from '../../services/music';
 import { videoService } from '../../services/video';
 import { audioService } from '../../services/audio';
-import type { BlogPost, MusicTrack, VideoContent, AudioContent, MigrationResult, MigrationStatus } from '../../types';
+import type { BlogPost, MusicTrack, VideoContent, AudioContent } from '../../types';
 
 interface ContentStats {
   blogPosts: number;
@@ -40,14 +40,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     audio: []
   });
   const [loading, setLoading] = useState(true);
-  const [migrationStatus, setMigrationStatus] = useState<MigrationStatus | null>(null);
-  const [migrationLoading, setMigrationLoading] = useState(false);
-  const [migrationResult, setMigrationResult] = useState<MigrationResult | null>(null);
-  const [showMigrationDetails, setShowMigrationDetails] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
-    loadMigrationStatus();
   }, []);
 
   const loadDashboardData = async () => {
@@ -86,51 +81,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     }
   };
 
-  const loadMigrationStatus = async () => {
-    try {
-      const response = await blogService.getMigrationStatus();
-      setMigrationStatus(response.data);
-    } catch (error) {
-      console.error('Failed to load migration status:', error);
-    }
-  };
 
-  const handleRunMigration = async () => {
-    try {
-      setMigrationLoading(true);
-      setMigrationResult(null);
-      setShowMigrationDetails(false);
-      
-      const response = await blogService.migrateMarkdownFiles();
-      setMigrationResult(response.data);
-      setShowMigrationDetails(true);
-      
-      // Refresh migration status and dashboard data after migration
-      await Promise.all([loadMigrationStatus(), loadDashboardData()]);
-      
-    } catch (error) {
-      setMigrationResult({
-        success: false,
-        message: 'Migration failed. Please try again.',
-        migratedCount: 0,
-        skippedCount: 0,
-        errors: [error instanceof Error ? error.message : 'Unknown error occurred'],
-        migratedFiles: [],
-        duration: 0,
-        startTime: new Date().toISOString(),
-        endTime: new Date().toISOString(),
-      });
-      setShowMigrationDetails(true);
-      console.error('Migration error:', error);
-    } finally {
-      setMigrationLoading(false);
-    }
-  };
 
-  const formatDuration = (milliseconds: number): string => {
-    const seconds = (milliseconds / 1000).toFixed(2);
-    return `${seconds}s`;
-  };
 
   const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -140,123 +92,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     });
   };
 
-  const renderMigrationStatus = () => {
-    if (!migrationStatus) return null;
 
-    const hasUnmigratedFiles = migrationStatus.unmigrated.length > 0;
-
-    return (
-      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-        <h4 className="font-semibold text-gray-900 mb-2">Migration Status</h4>
-        <div className="grid grid-cols-3 gap-4 text-sm">
-          <div>
-            <span className="text-gray-600">Markdown Files:</span>
-            <div className="font-medium">{migrationStatus.totalMarkdownFiles}</div>
-          </div>
-          <div>
-            <span className="text-gray-600">Blog Posts:</span>
-            <div className="font-medium">{migrationStatus.totalBlogPosts}</div>
-          </div>
-          <div>
-            <span className="text-gray-600">Pending:</span>
-            <div className={`font-medium ${hasUnmigratedFiles ? 'text-orange-600' : 'text-green-600'}`}>
-              {migrationStatus.unmigrated.length}
-            </div>
-          </div>
-        </div>
-        
-        {hasUnmigratedFiles && (
-          <div className="mt-3">
-            <details className="text-sm">
-              <summary className="cursor-pointer text-gray-600 hover:text-gray-800">
-                View pending files ({migrationStatus.unmigrated.length})
-              </summary>
-              <ul className="mt-2 ml-4 space-y-1">
-                {migrationStatus.unmigrated.map((file, index) => (
-                  <li key={index} className="text-gray-700">• {file}</li>
-                ))}
-              </ul>
-            </details>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const renderMigrationResults = () => {
-    if (!migrationResult || !showMigrationDetails) return null;
-
-    return (
-      <div className={`mb-4 p-4 rounded-lg ${
-        migrationResult.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'
-      }`}>
-        <div className="flex items-center justify-between mb-3">
-          <h4 className={`font-semibold ${
-            migrationResult.success ? 'text-green-800' : 'text-red-800'
-          }`}>
-            Migration Results
-          </h4>
-          <button
-            onClick={() => setShowMigrationDetails(false)}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            ✕
-          </button>
-        </div>
-        
-        <div className={`text-sm mb-3 ${
-          migrationResult.success ? 'text-green-700' : 'text-red-700'
-        }`}>
-          {migrationResult.message}
-        </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
-          <div>
-            <span className="text-gray-600">Migrated:</span>
-            <div className="font-medium text-green-600">{migrationResult.migratedCount}</div>
-          </div>
-          <div>
-            <span className="text-gray-600">Skipped:</span>
-            <div className="font-medium text-blue-600">{migrationResult.skippedCount}</div>
-          </div>
-          <div>
-            <span className="text-gray-600">Errors:</span>
-            <div className="font-medium text-red-600">{migrationResult.errors.length}</div>
-          </div>
-          <div>
-            <span className="text-gray-600">Duration:</span>
-            <div className="font-medium">{formatDuration(migrationResult.duration)}</div>
-          </div>
-        </div>
-
-        {migrationResult.migratedFiles.length > 0 && (
-          <details className="mb-3">
-            <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
-              Successfully migrated files ({migrationResult.migratedFiles.length})
-            </summary>
-            <ul className="mt-2 ml-4 space-y-1 text-sm">
-              {migrationResult.migratedFiles.map((file, index) => (
-                <li key={index} className="text-green-700">✅ {file}</li>
-              ))}
-            </ul>
-          </details>
-        )}
-
-        {migrationResult.errors.length > 0 && (
-          <details className="mb-3">
-            <summary className="cursor-pointer text-sm font-medium text-red-700 hover:text-red-900">
-              Errors encountered ({migrationResult.errors.length})
-            </summary>
-            <ul className="mt-2 ml-4 space-y-1 text-sm">
-              {migrationResult.errors.map((error, index) => (
-                <li key={index} className="text-red-700">❌ {error}</li>
-              ))}
-            </ul>
-          </details>
-        )}
-      </div>
-    );
-  };
 
   if (loading) {
     return (
@@ -391,40 +227,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           >
             Manage Audio
           </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-xl font-semibold mb-2">Migration Tools</h3>
-          <p className="text-gray-600 mb-4">
-            Migrate content from markdown files to database
-          </p>
-          
-          {renderMigrationStatus()}
-          {renderMigrationResults()}
-          
-          <div className="flex space-x-3">
-            <button 
-              onClick={handleRunMigration}
-              disabled={migrationLoading}
-              className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-            >
-              {migrationLoading && (
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              )}
-              <span>{migrationLoading ? 'Running Migration...' : 'Run Migration'}</span>
-            </button>
-            
-            <button 
-              onClick={loadMigrationStatus}
-              disabled={migrationLoading}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Refresh Status
-            </button>
-          </div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border">

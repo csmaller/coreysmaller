@@ -82,6 +82,34 @@ class Video extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['thumbnail'];
+
+    /**
+     * Get the thumbnail URL for the video.
+     * Generates YouTube thumbnail URL from youtubeId if not explicitly set.
+     *
+     * @return string|null
+     */
+    public function getThumbnailAttribute($value)
+    {
+        // Return explicit thumbnail if set
+        if ($value) {
+            return $value;
+        }
+
+        // Generate YouTube thumbnail URL from youtubeId
+        if ($this->youtubeId) {
+            return "https://img.youtube.com/vi/{$this->youtubeId}/maxresdefault.jpg";
+        }
+
+        return null;
+    }
+
+    /**
      * Boot the model and set up event listeners.
      */
     protected static function boot()

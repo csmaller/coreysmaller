@@ -9,7 +9,26 @@
 
 ## Deployment Steps
 
-### 1. Upload Frontend Files
+### 1. Upload Backend Files
+
+Upload the Laravel backend code to the server:
+- Source: `backend-laravel/*` (excluding `vendor/`, `node_modules/`, `.env`)
+- Destination: `/home/u189823124/domains/coreysmaller.com/public_html/laravel/`
+
+Important files to upload:
+- `app/` folder (all controllers, services, models)
+- `config/` folder
+- `database/` folder (migrations, seeders)
+- `routes/` folder
+- `composer.json` and `composer.lock`
+
+Then SSH into the server and run:
+```bash
+cd /home/u189823124/domains/coreysmaller.com/public_html/laravel
+composer install --no-dev --optimize-autoloader
+```
+
+### 2. Upload Frontend Files
 
 Upload the contents of `frontend/dist/` to your website root:
 - Source: `frontend/dist/*`
@@ -19,7 +38,13 @@ This will deploy:
 - `index.html`
 - `assets/` folder with all JS and CSS files
 
-### 2. Run Database Migration
+### 3. Upload Environment File
+
+Upload the production environment file:
+- Source: `backend-laravel/.env-prod`
+- Destination: `/home/u189823124/domains/coreysmaller.com/public_html/laravel/.env`
+
+### 4. Run Database Migration
 
 Visit this URL in your browser:
 ```
@@ -34,7 +59,9 @@ This will:
 
 Expected output: Green checkmarks indicating success
 
-### 3. Test the Deployment
+### 4. Run Database Migration
+
+Visit this URL in your browser:
 
 After uploading and running migrations:
 
