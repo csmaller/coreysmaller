@@ -70,8 +70,8 @@ export const AudioList: React.FC<AudioListProps> = ({
   const loadAudio = async () => {
     try {
       setLoading(true);
-      const fetchedAudio = await audioService.getAllAudio();
-      setAudio(fetchedAudio);
+      const response = await audioService.getAllAudio();
+      setAudio(response.data);
     } catch (err) {
       setError('Failed to load audio content');
       console.error('Error loading audio:', err);

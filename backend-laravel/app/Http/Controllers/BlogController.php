@@ -70,6 +70,7 @@ class BlogController extends Controller
         return response()->json([
             'data' => BlogPostSummaryResource::collection($result['data']),
             'pagination' => $result['pagination'],
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -94,6 +95,7 @@ class BlogController extends Controller
         
         return response()->json([
             'data' => BlogPostSummaryResource::collection($posts),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -110,6 +112,7 @@ class BlogController extends Controller
         
         return response()->json([
             'data' => $stats,
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -128,6 +131,7 @@ class BlogController extends Controller
             
             return response()->json([
                 'data' => new BlogPostResource($post),
+                'success' => true,
                 'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
@@ -154,6 +158,7 @@ class BlogController extends Controller
             
             return response()->json([
                 'data' => new BlogPostResource($post),
+                'success' => true,
                 'statusCode' => 201,
                 'timestamp' => now()->toIso8601String(),
             ], 201);
@@ -182,6 +187,7 @@ class BlogController extends Controller
             
             return response()->json([
                 'data' => new BlogPostResource($post),
+                'success' => true,
                 'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
@@ -216,6 +222,7 @@ class BlogController extends Controller
                 'data' => [
                     'message' => 'Blog post deleted successfully',
                 ],
+                'success' => true,
                 'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);

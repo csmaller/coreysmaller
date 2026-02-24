@@ -107,18 +107,5 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    /**
-     * Boot the model and set up event listeners.
-     */
-    protected static function boot()
-    {
-        parent::boot();
 
-        // Hash password before creating or updating
-        static::saving(function ($user) {
-            if ($user->isDirty('password')) {
-                $user->password = bcrypt($user->password);
-            }
-        });
-    }
 }

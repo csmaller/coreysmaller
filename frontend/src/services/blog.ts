@@ -1,5 +1,5 @@
 import { apiService } from './api';
-import type { BlogPost, PaginatedResponse, ApiResponse, MigrationResult, MigrationStatus, BlogApiResponse } from '../types';
+import type { BlogPost, PaginatedResponse, ApiResponse, MigrationResult, MigrationStatus } from '../types';
 
 export interface CreateBlogPostDto {
   title: string;
@@ -13,8 +13,8 @@ export interface CreateBlogPostDto {
 export interface UpdateBlogPostDto extends Partial<CreateBlogPostDto> {}
 
 export class BlogService {
-  async getAllPosts(page: number = 1, limit: number = 10): Promise<PaginatedResponse<BlogApiResponse>> {
-    return apiService.get<PaginatedResponse<BlogApiResponse>>(`/blog?page=${page}&limit=${limit}`);
+  async getAllPosts(page: number = 1, limit: number = 10): Promise<PaginatedResponse<BlogPost>> {
+    return apiService.get<PaginatedResponse<BlogPost>>(`/blog?page=${page}&limit=${limit}`);
   }
 
   async getPostById(id: number | string): Promise<ApiResponse<BlogPost>> {

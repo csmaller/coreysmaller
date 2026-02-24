@@ -57,6 +57,7 @@ class AudioController extends Controller
         
         return response()->json([
             'data' => AudioResource::collection($audio),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -75,6 +76,7 @@ class AudioController extends Controller
         
         return response()->json([
             'data' => $result,
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -100,6 +102,7 @@ class AudioController extends Controller
         
         return response()->json([
             'data' => new AudioResource($audio),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -118,7 +121,8 @@ class AudioController extends Controller
             
             return response()->json([
                 'data' => new AudioResource($audio),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -143,7 +147,8 @@ class AudioController extends Controller
             
             return response()->json([
                 'data' => new AudioResource($audio),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -176,7 +181,8 @@ class AudioController extends Controller
             
             return response()->json([
                 'data' => new AudioResource($audio),
-                'statusCode' => 201,
+                'success' => true,
+            'statusCode' => 201,
                 'timestamp' => now()->toIso8601String(),
             ], 201);
         } catch (\Exception $e) {
@@ -204,7 +210,8 @@ class AudioController extends Controller
             
             return response()->json([
                 'data' => new AudioResource($audio),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -238,7 +245,8 @@ class AudioController extends Controller
                 'data' => [
                     'message' => 'Audio deleted successfully',
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {

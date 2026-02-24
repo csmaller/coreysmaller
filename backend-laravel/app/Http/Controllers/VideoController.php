@@ -56,6 +56,7 @@ class VideoController extends Controller
         
         return response()->json([
             'data' => VideoResource::collection($videos),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -74,6 +75,7 @@ class VideoController extends Controller
         
         return response()->json([
             'data' => $result,
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -99,6 +101,7 @@ class VideoController extends Controller
         
         return response()->json([
             'data' => new VideoResource($video),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -117,7 +120,8 @@ class VideoController extends Controller
             
             return response()->json([
                 'data' => new VideoResource($video),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -143,7 +147,8 @@ class VideoController extends Controller
             
             return response()->json([
                 'data' => new VideoResource($video),
-                'statusCode' => 201,
+                'success' => true,
+            'statusCode' => 201,
                 'timestamp' => now()->toIso8601String(),
             ], 201);
         } catch (\Exception $e) {
@@ -171,7 +176,8 @@ class VideoController extends Controller
             
             return response()->json([
                 'data' => new VideoResource($video),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -205,7 +211,8 @@ class VideoController extends Controller
                 'data' => [
                     'message' => 'Video deleted successfully',
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {

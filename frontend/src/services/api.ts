@@ -7,15 +7,9 @@ const getApiBaseUrl = (): string => {
     return process.env.VITE_API_URL || 'http://localhost:3000/api';
   }
   
-  // In browser environment, try to get from import.meta.env
-  if (typeof window !== 'undefined') {
-    try {
-      // Use dynamic access to avoid Jest parsing issues
-      const importMeta = (globalThis as any).import?.meta;
-      return importMeta?.env?.VITE_API_URL || 'http://localhost:3000/api';
-    } catch {
-      return 'http://localhost:3000/api';
-    }
+  // In browser environment, use import.meta.env
+  if (typeof window !== 'undefined' && import.meta.env) {
+    return import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
   }
   
   // Fallback for other environments

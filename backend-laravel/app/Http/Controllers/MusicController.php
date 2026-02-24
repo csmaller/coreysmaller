@@ -54,6 +54,7 @@ class MusicController extends Controller
         
         return response()->json([
             'data' => MusicResource::collection($tracks),
+            'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
         ]);
@@ -72,7 +73,8 @@ class MusicController extends Controller
             
             return response()->json([
                 'data' => new MusicResource($track),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -97,7 +99,8 @@ class MusicController extends Controller
             
             return response()->json([
                 'data' => new MusicResource($track),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -130,7 +133,8 @@ class MusicController extends Controller
             
             return response()->json([
                 'data' => new MusicResource($track),
-                'statusCode' => 201,
+                'success' => true,
+            'statusCode' => 201,
                 'timestamp' => now()->toIso8601String(),
             ], 201);
         } catch (\Exception $e) {
@@ -158,7 +162,8 @@ class MusicController extends Controller
             
             return response()->json([
                 'data' => new MusicResource($track),
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {
@@ -192,7 +197,8 @@ class MusicController extends Controller
                 'data' => [
                     'message' => 'Music track deleted successfully',
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ]);
         } catch (ModelNotFoundException $e) {

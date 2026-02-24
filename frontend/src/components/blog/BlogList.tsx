@@ -29,7 +29,7 @@ export const BlogList: React.FC<BlogListProps> = ({
       setLoading(true);
       setError(null);
       const response = await blogService.getAllPosts(page, pagination.limit);
-      setPosts(response.data.data);
+      setPosts(response.data);
       setPagination({
         page: response.pagination.page,
         limit: response.pagination.limit,
@@ -52,7 +52,7 @@ export const BlogList: React.FC<BlogListProps> = ({
     loadPosts(newPage);
   };
 
-  const handleDelete = async (postId: string) => {
+  const handleDelete = async (postId: number | string) => {
     if (!window.confirm('Are you sure you want to delete this post?')) {
       return;
     }

@@ -17,7 +17,7 @@ export interface ApiResponse<T> {
   success: boolean;
 }
 
-export interface BlogApiResponse extends ApiResponse<{data:BlogPost[]}> {
+export interface BlogApiResponse extends ApiResponse<BlogPost[]> {
 }
 
 export interface MusicApiResponse extends ApiResponse<MusicTrack[]> {

@@ -66,7 +66,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'data' => $result,
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ], 200);
         } catch (AuthenticationException $e) {
@@ -121,7 +122,8 @@ class AuthController extends Controller
                     'createdAt' => $user->createdAt->toIso8601String(),
                     'updatedAt' => $user->updatedAt->toIso8601String(),
                 ],
-                'statusCode' => 201,
+                'success' => true,
+            'statusCode' => 201,
                 'timestamp' => now()->toIso8601String(),
             ], 201);
         } catch (\Exception $e) {
@@ -162,7 +164,8 @@ class AuthController extends Controller
                     'createdAt' => $user->createdAt->toIso8601String(),
                     'updatedAt' => $user->updatedAt->toIso8601String(),
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ], 200);
         } catch (\Exception $e) {
@@ -202,7 +205,8 @@ class AuthController extends Controller
                 'data' => [
                     'message' => 'Logged out successfully',
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ], 200);
         } catch (\Exception $e) {
@@ -241,7 +245,8 @@ class AuthController extends Controller
                 'data' => [
                     'message' => 'All sessions logged out successfully',
                 ],
-                'statusCode' => 200,
+                'success' => true,
+            'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
             ], 200);
         } catch (\Exception $e) {
