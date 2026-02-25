@@ -44,6 +44,7 @@ export interface MusicTrack {
   id: number;
   title: string;
   description?: string;
+  lyrics?: string;
   audioUrl?: string;
   coverArt?: string;
   genre?: string;

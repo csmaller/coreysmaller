@@ -26,6 +26,7 @@ class MusicResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'lyrics' => $this->lyrics,
             'audioUrl' => $this->audioUrl,
             'coverArt' => $this->coverArt,
             'genre' => $this->genre,

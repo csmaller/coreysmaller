@@ -12,6 +12,7 @@ export const MusicEditor: React.FC<MusicEditorProps> = ({ track, onSave, onCance
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    lyrics: '',
     audioUrl: '',
     coverArt: '',
     genre: '',
@@ -26,6 +27,7 @@ export const MusicEditor: React.FC<MusicEditorProps> = ({ track, onSave, onCance
       setFormData({
         title: track.title || '',
         description: track.description || '',
+        lyrics: track.lyrics || '',
         audioUrl: track.audioUrl || '',
         coverArt: track.coverArt || '',
         genre: track.genre || '',
@@ -86,6 +88,7 @@ export const MusicEditor: React.FC<MusicEditorProps> = ({ track, onSave, onCance
       const trackData = {
         title: formData.title.trim(),
         description: formData.description.trim() || undefined,
+        lyrics: formData.lyrics.trim() || undefined,
         audioUrl: formData.audioUrl.trim() || undefined,
         coverArt: formData.coverArt.trim() || undefined,
         genre: formData.genre.trim() || undefined,
@@ -165,6 +168,25 @@ export const MusicEditor: React.FC<MusicEditorProps> = ({ track, onSave, onCance
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter track description"
               />
+            </div>
+
+            {/* Lyrics */}
+            <div>
+              <label htmlFor="lyrics" className="block text-sm font-medium text-gray-700 mb-2">
+                Lyrics
+              </label>
+              <textarea
+                id="lyrics"
+                name="lyrics"
+                value={formData.lyrics}
+                onChange={handleInputChange}
+                rows={8}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm"
+                placeholder="Enter song lyrics (optional)"
+              />
+              <p className="text-sm text-gray-600 mt-1">
+                Add the full lyrics for this track
+              </p>
             </div>
 
             {/* Audio URL */}

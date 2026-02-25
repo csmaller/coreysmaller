@@ -29,7 +29,7 @@ class BlogPostResource extends JsonResource
             'content' => $this->content,
             'excerpt' => $this->excerpt,
             'featuredImage' => $this->featuredImage,
-            'tags' => is_array($this->tags) ? implode(',', $this->tags) : $this->tags,
+            'tags' => is_string($this->tags) ? explode(',', $this->tags) : ($this->tags ?? []),
             'status' => $this->status,
             'slug' => $this->slug,
             'publishedAt' => $this->publishedAt?->toIso8601String(),

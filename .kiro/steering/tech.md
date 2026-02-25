@@ -42,7 +42,7 @@ npm run test:frontend    # Run Jest tests
 npm run test:pbt         # Run property-based tests
 ```
 
-### Backend (from root or backend-laravel/)
+### Backend (from root or laravel/)
 ```bash
 npm run dev:backend      # Dev server on http://localhost:8000
 npm run test:backend     # Run PHPUnit tests

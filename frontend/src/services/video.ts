@@ -26,9 +26,7 @@ export const videoService = {
   },
 
   async incrementViewCount(id: string|number): Promise<void> {
-    // This would typically be a separate endpoint, but for now we'll use the update endpoint
-    const video = await this.getVideoById(id);
-    await this.updateVideo(id, { viewCount: video.viewCount + 1 });
+    await apiService.post(`/video/${id}/view`, {});
   },
 
   async validateYouTubeUrl(url: string): Promise<{

@@ -4,7 +4,7 @@
 
 ```
 ├── frontend/              # React frontend application
-├── backend-laravel/       # Laravel backend API
+├── laravel/               # Laravel backend API
 ├── content/               # Legacy markdown content files
 ├── static/                # Static assets
 └── .kiro/                 # Kiro configuration
@@ -17,7 +17,7 @@
 
 ### Directory Organization
 ```
-backend-laravel/
+laravel/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/   # API controllers

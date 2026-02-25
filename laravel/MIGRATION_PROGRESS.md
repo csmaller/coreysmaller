@@ -3,7 +3,7 @@
 ## Completed Foundation (Critical Path)
 
 ### ✅ Task 1: Laravel Project Setup
-- Laravel 10.x project created in `backend-laravel/`
+- Laravel 10.x project created in `laravel/`
 - All required packages installed (JWT, Redis, property testing)
 - Complete directory structure created
 - Environment configuration complete
@@ -62,7 +62,7 @@ To get a minimal working backend, you need:
 
 ### Run Migrations
 ```bash
-cd backend-laravel
+cd laravel
 php artisan migrate
 ```
 

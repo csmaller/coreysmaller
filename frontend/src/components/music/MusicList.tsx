@@ -19,6 +19,7 @@ export const MusicList: React.FC<MusicListProps> = ({
   const [loading, setLoading] = useState(!propTracks);
   const [error, setError] = useState<string | null>(null);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(null);
+  const [showLyrics, setShowLyrics] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'title' | 'playCount'>('newest');
 
@@ -237,26 +238,80 @@ export const MusicList: React.FC<MusicListProps> = ({
                   </div>
                 </div>
 
-                {/* Play Button */}
-                {track.audioUrl && (
-                  <button
-                    onClick={() => handlePlayTrack(track)}
-                    className="flex-shrink-0 bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    aria-label={`Play ${track.title}`}
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                )}
+                {/* Action Buttons */}
+                <div className="flex-shrink-0 flex gap-2">
+                  {/* Lyrics Button */}
+                  {track.lyrics && (
+                    <button
+                      onClick={() => {
+                        setCurrentTrack(track);
+                        setShowLyrics(true);
+                      }}
+                      className="bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-sm"
+                      aria-label={`View lyrics for ${track.title}`}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </button>
+                  )}
+                  
+                  {/* Play Button */}
+                  {track.audioUrl && (
+                    <button
+                      onClick={() => handlePlayTrack(track)}
+                      className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      aria-label={`Play ${track.title}`}
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
 
+      {/* Lyrics Modal */}
+      {showLyrics && currentTrack && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900">{currentTrack.title}</h3>
+                  {currentTrack.genre && (
+                    <p className="text-gray-600 mt-1">{currentTrack.genre}</p>
+                  )}
+                </div>
+                <button
+                  onClick={() => {
+                    setShowLyrics(false);
+                    setCurrentTrack(null);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  aria-label="Close"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[calc(80vh-120px)]">
+              <pre className="whitespace-pre-wrap font-sans text-gray-800 leading-relaxed">
+                {currentTrack.lyrics}
+              </pre>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Music Player */}
-      {showPlayer && currentTrack && (
+      {showPlayer && currentTrack && !showLyrics && (
         <MusicPlayer
           track={currentTrack}
           onClose={() => setCurrentTrack(null)}

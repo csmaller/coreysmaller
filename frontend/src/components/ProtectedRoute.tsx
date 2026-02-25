@@ -14,11 +14,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isAuthenticated, isLoading, user } = useAuthContext();
   const location = useLocation();
 
-  console.log('ProtectedRoute - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading, 'user:', user);
-
   // Show loading spinner while checking authentication
   if (isLoading) {
-    console.log('ProtectedRoute - showing loading spinner');
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -28,7 +25,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Redirect to login if not authenticated
   if (!isAuthenticated) {
-    console.log('ProtectedRoute - redirecting to login');
     return (
       <Navigate 
         to="/login" 
@@ -40,7 +36,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Check role-based access if required
   if (requiredRole && user?.role !== requiredRole) {
-    console.log('ProtectedRoute - access denied, user role:', user?.role, 'required:', requiredRole);
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -56,6 +51,5 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  console.log('ProtectedRoute - rendering children');
   return <>{children}</>;
 };

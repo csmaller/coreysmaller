@@ -60,6 +60,7 @@ class Music extends Model
     protected $fillable = [
         'title',
         'description',
+        'lyrics',
         'audioUrl',
         'coverArt',
         'genre',

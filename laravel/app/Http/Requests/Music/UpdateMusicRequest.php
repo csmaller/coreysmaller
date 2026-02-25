@@ -24,6 +24,7 @@ class UpdateMusicRequest extends FormRequest
         return [
             'title' => ['sometimes', 'string', 'max:200', 'min:1'],
             'description' => ['nullable', 'string'],
+            'lyrics' => ['nullable', 'string'],
             'audioUrl' => ['nullable', 'url', 'max:255'],
             'coverArt' => ['nullable', 'url', 'max:255'],
             'genre' => ['nullable', 'string', 'max:255'],

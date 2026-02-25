@@ -220,4 +220,37 @@ class VideoService
             throw $e;
         }
     }
+
+    /**
+     * Increment view count for a video
+     * 
+     * @param string $id
+     * @return Video
+     * @throws ModelNotFoundException
+     */
+    public function incrementViewCount(string $id): Video
+    {
+        try {
+            $video = Video::findOrFail($id);
+            $video->increment('viewCount');
+            
+            Log::info('Video view count incremented', [
+                'id' => $id,
+                'viewCount' => $video->viewCount,
+            ]);
+            
+            return $video->fresh();
+        } catch (ModelNotFoundException $e) {
+            Log::warning('Video not found for view count increment', [
+                'id' => $id,
+            ]);
+            throw $e;
+        } catch (\Exception $e) {
+            Log::error('Failed to increment video view count', [
+                'id' => $id,
+                'error' => $e->getMessage(),
+            ]);
+            throw $e;
+        }
+    }
 }

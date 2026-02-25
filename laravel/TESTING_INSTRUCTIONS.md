@@ -9,7 +9,7 @@ There's a file permission issue with the vendor directory that's preventing arti
 Run these commands in your terminal:
 
 ```bash
-cd backend-laravel
+cd laravel
 
 # Fix vendor directory permissions
 chmod -R 755 vendor/

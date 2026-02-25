@@ -6,7 +6,7 @@
 
 1. **Created Laravel 10.x Project**
    - Installed Laravel 10.3.3 with PHP 8.1+ requirement
-   - Project created in `backend-laravel/` directory
+   - Project created in `laravel/` directory
 
 2. **Installed Required Packages**
    - ✅ `tymon/jwt-auth` (v2.2.1) - JWT authentication

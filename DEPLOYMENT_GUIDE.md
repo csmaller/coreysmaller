@@ -12,7 +12,7 @@
 ### 1. Upload Backend Files
 
 Upload the Laravel backend code to the server:
-- Source: `backend-laravel/*` (excluding `vendor/`, `node_modules/`, `.env`)
+- Source: `laravel/*` (excluding `vendor/`, `node_modules/`, `.env`)
 - Destination: `/home/u189823124/domains/coreysmaller.com/public_html/laravel/`
 
 Important files to upload:
@@ -41,7 +41,7 @@ This will deploy:
 ### 3. Upload Environment File
 
 Upload the production environment file:
-- Source: `backend-laravel/.env-prod`
+- Source: `laravel/.env-prod`
 - Destination: `/home/u189823124/domains/coreysmaller.com/public_html/laravel/.env`
 
 ### 4. Run Database Migration
@@ -132,7 +132,7 @@ If you want to remove `index.php` from the API URL:
 ### Frontend Shows Connection Errors
 - Verify API URL in browser console
 - Test API directly: `https://coreysmaller.com/api/index.php/api/blog`
-- Check CORS settings in `backend-laravel/config/cors.php`
+- Check CORS settings in `laravel/config/cors.php`
 
 ### Migration Script Fails
 - Check database connection in `.env` file

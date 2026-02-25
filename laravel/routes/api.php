@@ -72,6 +72,7 @@ Route::prefix('video')->group(function () {
     Route::get('/validate-youtube', [VideoController::class, 'validateYoutube']);
     Route::get('/by-youtube-id/{youtubeId}', [VideoController::class, 'getByYoutubeId']);
     Route::get('/{id}', [VideoController::class, 'show']);
+    Route::post('/{id}/view', [VideoController::class, 'incrementViewCount']);
     
     // Protected routes
     Route::middleware('jwt.auth')->group(function () {

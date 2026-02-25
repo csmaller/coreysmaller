@@ -230,4 +230,38 @@ class VideoController extends Controller
             ], 400);
         }
     }
+
+    /**
+     * Increment view count for a video.
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function incrementViewCount(string $id): JsonResponse
+    {
+        try {
+            $video = $this->videoService->incrementViewCount($id);
+
+            return response()->json([
+                'data' => new VideoResource($video),
+                'success' => true,
+                'statusCode' => 200,
+                'timestamp' => now()->toIso8601String(),
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Video not found',
+                'timestamp' => now()->toIso8601String(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'statusCode' => 400,
+                'message' => 'Failed to increment view count',
+                'error' => $e->getMessage(),
+                'timestamp' => now()->toIso8601String(),
+            ], 400);
+        }
+    }
+
 }
