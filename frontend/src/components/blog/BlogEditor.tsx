@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RichTextEditor } from './RichTextEditor';
 import { blogService } from '../../services/blog';
+import { isValidUrl, sanitizeUrl } from '../../utils/security';
 import type { CreateBlogPostDto, UpdateBlogPostDto } from '../../services/blog';
 import type { BlogPost } from '../../types';
 
@@ -83,6 +84,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       setError('Content is required');
       return false;
     }
+    if (formData.featuredImage && !isValidUrl(formData.featuredImage)) {
+      setError('Featured image URL is invalid');
+      return false;
+    }
     return true;
   };
 
@@ -94,7 +99,11 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       setError(null);
 
       const finalStatus = status || formData.status || 'draft';
-      const dataToSave = { ...formData, status: finalStatus };
+      const dataToSave = { 
+        ...formData, 
+        status: finalStatus,
+        featuredImage: formData.featuredImage ? sanitizeUrl(formData.featuredImage) : undefined
+      };
 
       let savedPost: BlogPost;
       if (isEditing && post) {

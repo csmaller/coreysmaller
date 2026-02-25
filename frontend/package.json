@@ -19,6 +19,8 @@
     "@lexical/rich-text": "^0.39.0",
     "@lexical/selection": "^0.39.0",
     "@lexical/utils": "^0.39.0",
+    "@types/dompurify": "^3.0.5",
+    "dompurify": "^3.3.1",
     "lexical": "^0.39.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

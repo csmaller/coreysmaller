@@ -20,7 +20,7 @@ use App\Http\Controllers\AudioController;
 */
 
 // Authentication routes
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('rate.limit:auth')->group(function () {
     // Public routes
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
@@ -42,7 +42,7 @@ Route::prefix('blog')->group(function () {
     Route::get('/{id}', [BlogController::class, 'show']);
     
     // Protected routes
-    Route::middleware('jwt.auth')->group(function () {
+    Route::middleware(['jwt.auth', 'rate.limit:write'])->group(function () {
         Route::post('/', [BlogController::class, 'store']);
         Route::patch('/{id}', [BlogController::class, 'update']);
         Route::delete('/{id}', [BlogController::class, 'destroy']);
@@ -58,7 +58,7 @@ Route::prefix('music')->group(function () {
     Route::patch('/{id}/play', [MusicController::class, 'play']);
     
     // Protected routes
-    Route::middleware('jwt.auth')->group(function () {
+    Route::middleware(['jwt.auth', 'rate.limit:write'])->group(function () {
         Route::post('/', [MusicController::class, 'store']);
         Route::patch('/{id}', [MusicController::class, 'update']);
         Route::delete('/{id}', [MusicController::class, 'destroy']);
@@ -75,7 +75,7 @@ Route::prefix('video')->group(function () {
     Route::post('/{id}/view', [VideoController::class, 'incrementViewCount']);
     
     // Protected routes
-    Route::middleware('jwt.auth')->group(function () {
+    Route::middleware(['jwt.auth', 'rate.limit:write'])->group(function () {
         Route::post('/', [VideoController::class, 'store']);
         Route::patch('/{id}', [VideoController::class, 'update']);
         Route::delete('/{id}', [VideoController::class, 'destroy']);
@@ -92,7 +92,7 @@ Route::prefix('audio')->group(function () {
     Route::post('/{id}/play', [AudioController::class, 'play']);
     
     // Protected routes
-    Route::middleware('jwt.auth')->group(function () {
+    Route::middleware(['jwt.auth', 'rate.limit:write'])->group(function () {
         Route::post('/', [AudioController::class, 'store']);
         Route::patch('/{id}', [AudioController::class, 'update']);
         Route::delete('/{id}', [AudioController::class, 'destroy']);

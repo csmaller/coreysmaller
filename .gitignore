@@ -53,6 +53,20 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.local
+.env.*.local
+.env-prod
+
+# Security: Never commit these files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+**/public/run-migration.php
+**/public/check-auth.php
+**/public/debug*.php
+**/public/test*.php
 
 # Build outputs
 dist/

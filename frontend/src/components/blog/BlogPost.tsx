@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { blogService } from '../../services/blog';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { createSafeHtml } from '../../utils/security';
 import type { BlogPost as BlogPostType } from '../../types';
 
 interface BlogPostProps {
@@ -79,8 +80,8 @@ export const BlogPost: React.FC<BlogPostProps> = ({
   };
 
   const renderContent = (content: string) => {
-    // Simple HTML rendering - in a production app, you'd want to sanitize this
-    return { __html: content };
+    // Sanitize HTML content to prevent XSS attacks
+    return createSafeHtml(content);
   };
 
   if (loading) {
