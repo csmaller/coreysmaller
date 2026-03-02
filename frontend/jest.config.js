@@ -18,6 +18,13 @@ export default {
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^react-helmet-async$': '<rootDir>/src/__mocks__/react-helmet-async.tsx',
+    '^@/services/api$': '<rootDir>/src/services/__mocks__/api.ts',
+    '^../services/api$': '<rootDir>/src/services/__mocks__/api.ts',
+    '^../../services/api$': '<rootDir>/src/services/__mocks__/api.ts',
+    '^\\.\\./\\.\\./services/api$': '<rootDir>/src/services/__mocks__/api.ts',
+    '^\\.\\./services/api$': '<rootDir>/src/services/__mocks__/api.ts',
+    '^\\./api$': '<rootDir>/src/services/__mocks__/api.ts',
   },
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {

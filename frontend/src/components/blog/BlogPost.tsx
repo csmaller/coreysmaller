@@ -3,6 +3,13 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { blogService } from '../../services/blog';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { createSafeHtml } from '../../utils/security';
+import { SEO } from '../SEO';
+import { 
+  generateDescription, 
+  generateCanonicalUrl, 
+  generateBlogPostSchema,
+  generateBreadcrumbSchema 
+} from '../../utils/seo';
 import type { BlogPost as BlogPostType } from '../../types';
 
 interface BlogPostProps {
@@ -148,8 +155,43 @@ export const BlogPost: React.FC<BlogPostProps> = ({
     );
   }
 
+  const postUrl = generateCanonicalUrl(`/blog/${post.id}`);
+  const description = generateDescription(post.content, post.excerpt);
+  
+  const blogPostSchema = generateBlogPostSchema({
+    title: post.title,
+    description,
+    content: post.content,
+    author: 'Corey Smaller',
+    publishedDate: new Date(post.publishedAt || post.createdAt).toISOString(),
+    modifiedDate: new Date(post.updatedAt).toISOString(),
+    image: post.featuredImage,
+    url: postUrl,
+  });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: generateCanonicalUrl('/') },
+    { name: 'Blog', url: generateCanonicalUrl('/blog') },
+    { name: post.title, url: postUrl },
+  ]);
+
   return (
-    <div className="max-w-4xl mx-auto">
+    <>
+      <SEO
+        title={post.title}
+        description={description}
+        keywords={post.tags}
+        image={post.featuredImage}
+        url={postUrl}
+        type="article"
+        author="Corey Smaller"
+        publishedTime={new Date(post.publishedAt || post.createdAt).toISOString()}
+        modifiedTime={new Date(post.updatedAt).toISOString()}
+        section="Blog"
+        tags={post.tags}
+        structuredData={[blogPostSchema, breadcrumbSchema]}
+      />
+      <div className="max-w-4xl mx-auto">
       {/* Navigation */}
       <div className="mb-6">
         <Link
@@ -266,5 +308,6 @@ export const BlogPost: React.FC<BlogPostProps> = ({
         </footer>
       </article>
     </div>
+    </>
   );
 };

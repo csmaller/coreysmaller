@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\SitemapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,3 +100,8 @@ Route::prefix('audio')->group(function () {
     });
 });
 
+
+
+// SEO routes
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+Route::get('/robots.txt', [SitemapController::class, 'robots']);

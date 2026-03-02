@@ -1,165 +1,94 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import {
+  generateTitle,
+  generateCanonicalUrl,
+  generateOpenGraphTags,
+  generateTwitterTags,
+  generateRobotsTag,
+  type SEOMetadata,
+} from '../utils/seo';
 
-interface SEOProps {
-  title?: string;
-  description?: string;
-  keywords?: string | string[];
-  image?: string;
-  url?: string;
-  type?: 'website' | 'article' | 'music.song' | 'video.other';
-  publishedTime?: string;
-  modifiedTime?: string;
-  author?: string;
-  structuredData?: object;
+interface SEOProps extends SEOMetadata {
+  children?: React.ReactNode;
+  structuredData?: object | object[];
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
 export const SEO: React.FC<SEOProps> = ({
-  title = 'Corey Smaller - Personal Website',
-  description = 'Personal website of Corey Smaller featuring blog posts, music portfolio, and creative content.',
-  keywords = 'Corey Smaller, blog, music, portfolio, personal website',
-  image = '/default-og-image.jpg',
-  url = window.location.href,
+  title,
+  description,
+  keywords,
+  image,
+  url,
   type = 'website',
+  author,
   publishedTime,
   modifiedTime,
-  author = 'Corey Smaller',
-  structuredData
+  section,
+  tags,
+  children,
+  structuredData,
+  noindex = false,
+  nofollow = false,
 }) => {
-  useEffect(() => {
-    // Update document title
-    document.title = title;
-
-    // Convert keywords to string if it's an array
-    const keywordsString = Array.isArray(keywords) ? keywords.join(', ') : keywords;
-
-    // Update or create meta tags
-    const updateMetaTag = (name: string, content: string, property?: boolean) => {
-      const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
-      let meta = document.querySelector(selector) as HTMLMetaElement;
-      
-      if (!meta) {
-        meta = document.createElement('meta');
-        if (property) {
-          meta.setAttribute('property', name);
-        } else {
-          meta.setAttribute('name', name);
-        }
-        document.head.appendChild(meta);
-      }
-      
-      meta.setAttribute('content', content);
-    };
-
-    // Basic meta tags
-    updateMetaTag('description', description);
-    updateMetaTag('keywords', keywordsString);
-    updateMetaTag('author', author);
-
-    // Open Graph tags
-    updateMetaTag('og:title', title, true);
-    updateMetaTag('og:description', description, true);
-    updateMetaTag('og:image', image, true);
-    updateMetaTag('og:url', url, true);
-    updateMetaTag('og:type', type, true);
-    updateMetaTag('og:site_name', 'Corey Smaller', true);
-
-    // Twitter Card tags
-    updateMetaTag('twitter:card', 'summary_large_image');
-    updateMetaTag('twitter:title', title);
-    updateMetaTag('twitter:description', description);
-    updateMetaTag('twitter:image', image);
-
-    // Article-specific tags
-    if (type === 'article' && publishedTime) {
-      updateMetaTag('article:published_time', publishedTime, true);
-      updateMetaTag('article:author', author, true);
-    }
-
-    if (modifiedTime) {
-      updateMetaTag('article:modified_time', modifiedTime, true);
-    }
-
-    // Structured data
-    if (structuredData) {
-      let script = document.querySelector('script[type="application/ld+json"]');
-      if (!script) {
-        script = document.createElement('script');
-        script.setAttribute('type', 'application/ld+json');
-        document.head.appendChild(script);
-      }
-      script.textContent = JSON.stringify(structuredData);
-    }
-
-    // Canonical URL
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', url);
-
-  }, [title, description, keywords, image, url, type, publishedTime, modifiedTime, author, structuredData]);
-
-  return null;
-};
-
-// Helper function to generate structured data for different content types
-export const generateStructuredData = {
-  website: (name: string, url: string, description: string) => ({
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name,
-    url,
+  const pageTitle = generateTitle(title);
+  const canonicalUrl = url || generateCanonicalUrl(window.location.pathname);
+  
+  const metadata: SEOMetadata = {
+    title: pageTitle,
     description,
-    author: {
-      '@type': 'Person',
-      name: 'Corey Smaller'
-    }
-  }),
+    keywords,
+    image,
+    url: canonicalUrl,
+    type,
+    author,
+    publishedTime,
+    modifiedTime,
+    section,
+    tags,
+  };
 
-  article: (title: string, description: string, url: string, publishedTime: string, modifiedTime?: string) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: title,
-    description,
-    url,
-    datePublished: publishedTime,
-    dateModified: modifiedTime || publishedTime,
-    author: {
-      '@type': 'Person',
-      name: 'Corey Smaller'
-    },
-    publisher: {
-      '@type': 'Person',
-      name: 'Corey Smaller'
-    }
-  }),
+  const ogTags = generateOpenGraphTags(metadata);
+  const twitterTags = generateTwitterTags(metadata);
+  const robotsContent = generateRobotsTag({ 
+    index: !noindex, 
+    follow: !nofollow 
+  });
 
-  musicRecording: (name: string, description: string, url: string, duration?: number) => ({
-    '@context': 'https://schema.org',
-    '@type': 'MusicRecording',
-    name,
-    description,
-    url,
-    duration: duration ? `PT${duration}S` : undefined,
-    byArtist: {
-      '@type': 'Person',
-      name: 'Corey Smaller'
-    }
-  }),
+  return (
+    <Helmet>
+      {/* Basic Meta Tags */}
+      <title>{pageTitle}</title>
+      <meta name="description" content={description} />
+      {keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(', ')} />
+      )}
+      <meta name="robots" content={robotsContent} />
+      <link rel="canonical" href={canonicalUrl} />
 
-  videoObject: (name: string, description: string, url: string, thumbnailUrl?: string, duration?: number) => ({
-    '@context': 'https://schema.org',
-    '@type': 'VideoObject',
-    name,
-    description,
-    contentUrl: url,
-    thumbnailUrl,
-    duration: duration ? `PT${duration}S` : undefined,
-    creator: {
-      '@type': 'Person',
-      name: 'Corey Smaller'
-    }
-  })
+      {/* Open Graph Tags */}
+      {Object.entries(ogTags).map(([property, content]) => (
+        <meta key={property} property={property} content={content} />
+      ))}
+
+      {/* Twitter Card Tags */}
+      {Object.entries(twitterTags).map(([name, content]) => (
+        <meta key={name} name={name} content={content} />
+      ))}
+
+      {/* Structured Data */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(
+            Array.isArray(structuredData) ? structuredData : [structuredData]
+          )}
+        </script>
+      )}
+
+      {/* Additional custom tags */}
+      {children}
+    </Helmet>
+  );
 };

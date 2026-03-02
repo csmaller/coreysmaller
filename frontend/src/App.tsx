@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoadingSpinner } from './components/LoadingSpinner';
@@ -27,7 +28,8 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <AuthProvider>
+      <HelmetProvider>
+        <AuthProvider>
         <Router>
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
@@ -88,6 +90,7 @@ function App() {
           </Suspense>
         </Router>
       </AuthProvider>
+      </HelmetProvider>
     </ErrorBoundary>
   );
 }

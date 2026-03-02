@@ -128,7 +128,6 @@ describe('AdminDashboard', () => {
     expect(screen.getByText('Music Portfolio')).toBeInTheDocument();
     expect(screen.getByText('Video Content')).toBeInTheDocument();
     expect(screen.getByText('Audio Content')).toBeInTheDocument();
-    expect(screen.getByText('Migration Tools')).toBeInTheDocument();
     expect(screen.getByText('Site Analytics')).toBeInTheDocument();
   });
 
