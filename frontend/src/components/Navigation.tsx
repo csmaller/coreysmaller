@@ -1,11 +1,32 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContext';
 
 export const Navigation: React.FC = () => {
   const { isAuthenticated, user, logout } = useAuthContext();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Debug: Log authentication state
+  useEffect(() => {
+    console.log('Navigation: Auth state changed', { 
+      isAuthenticated, 
+      user: user?.email,
+      currentPath: location.pathname 
+    });
+  }, [isAuthenticated, user, location.pathname]);
+
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    console.log('Admin link clicked - navigating programmatically', { 
+      isAuthenticated, 
+      user,
+      currentPath: location.pathname,
+      targetPath: '/admin'
+    });
+    navigate('/admin');
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -82,6 +103,8 @@ export const Navigation: React.FC = () => {
                   <Link 
                     to="/admin" 
                     className="text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    onClick={handleAdminClick}
+                    data-testid="admin-link"
                   >
                     Admin
                   </Link>
@@ -186,7 +209,16 @@ export const Navigation: React.FC = () => {
                   <Link 
                     to="/admin" 
                     className="block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors duration-200"
-                    onClick={closeMobileMenu}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      console.log('Mobile Admin link clicked - navigating programmatically', { 
+                        isAuthenticated, 
+                        currentPath: location.pathname,
+                        targetPath: '/admin'
+                      });
+                      closeMobileMenu();
+                      navigate('/admin');
+                    }}
                   >
                     Admin Dashboard
                   </Link>
