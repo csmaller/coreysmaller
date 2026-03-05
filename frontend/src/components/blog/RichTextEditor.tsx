@@ -29,10 +29,14 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     handleInput();
   }, [handleInput]);
 
-  // Set initial content
+  // Set initial content and update when value changes
   React.useEffect(() => {
-    if (editorRef.current && editorRef.current.innerHTML !== value) {
-      editorRef.current.innerHTML = value;
+    if (editorRef.current) {
+      // Only update if the content is actually different to avoid cursor jumping
+      const currentContent = editorRef.current.innerHTML;
+      if (currentContent !== value) {
+        editorRef.current.innerHTML = value || '';
+      }
     }
   }, [value]);
 

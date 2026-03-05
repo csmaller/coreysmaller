@@ -35,6 +35,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
 
   useEffect(() => {
     if (post) {
+      console.log('BlogEditor: Loading post data', { 
+        id: post.id, 
+        title: post.title,
+        contentLength: post.content?.length || 0,
+        tags: post.tags
+      });
       setFormData({
         title: post.title,
         content: post.content,
@@ -42,6 +48,17 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         featuredImage: post.featuredImage || '',
         tags: post.tags || [],
         status: post.status
+      });
+    } else {
+      // Reset form when creating new post
+      console.log('BlogEditor: Creating new post, resetting form');
+      setFormData({
+        title: '',
+        content: '',
+        excerpt: '',
+        featuredImage: '',
+        tags: [],
+        status: 'draft'
       });
     }
   }, [post]);
@@ -126,8 +143,13 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
           onClose();
         }, 1500);
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to save post. Please try again.');
+    } catch (err: unknown) {
+      let errorMessage = 'Failed to save post. Please try again.';
+      if (err && typeof err === 'object' && 'response' in err) {
+        const response = (err as { response?: { data?: { message?: string } } }).response;
+        errorMessage = response?.data?.message || errorMessage;
+      }
+      setError(errorMessage);
       console.error('Error saving post:', err);
     } finally {
       setLoading(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { BlogPost } from '../types';
 import { blogService } from '../services/blog';
 import { BlogEditor } from '../components/blog/BlogEditor';
@@ -16,11 +16,7 @@ export const AdminBlog: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
 
-  useEffect(() => {
-    loadPosts();
-  }, [currentPage]);
-
-  const loadPosts = async () => {
+  const loadPosts = useCallback(async () => {
     try {
       setLoading(true);
       const response = await blogService.getAllPosts(currentPage, 10);
@@ -33,7 +29,11 @@ export const AdminBlog: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    loadPosts();
+  }, [loadPosts]);
 
   const handleCreatePost = () => {
     setEditingPost(undefined);
@@ -41,6 +41,11 @@ export const AdminBlog: React.FC = () => {
   };
 
   const handleEditPost = (post: BlogPost) => {
+    console.log('AdminBlog: Edit button clicked', { 
+      postId: post.id, 
+      title: post.title,
+      contentLength: post.content?.length || 0 
+    });
     setEditingPost(post);
     setShowEditor(true);
   };
@@ -446,6 +451,7 @@ export const AdminBlog: React.FC = () => {
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
             <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
               <BlogEditor
+                key={editingPost?.id || 'new'}
                 post={editingPost}
                 onSave={handleSavePost}
                 onCancel={() => {
