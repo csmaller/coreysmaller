@@ -48,9 +48,14 @@ Route::prefix('blog')->group(function () {
     Route::get('/', [BlogController::class, 'index']);
     Route::get('/recent', [BlogController::class, 'recent']);
     Route::get('/stats', [BlogController::class, 'stats']);
+    Route::get('/volumes/{slug}', [BlogController::class, 'volume']);
+    Route::middleware(['jwt.auth', 'admin'])->group(function () {
+        Route::get('/volumes', [BlogController::class, 'volumes']);
+        Route::put('/volumes', [BlogController::class, 'updateVolume']);
+        Route::put('/volumes/order', [BlogController::class, 'reorderVolume']);
+    });
     Route::get('/{id}', [BlogController::class, 'show']);
-    
-    // Protected routes
+
     Route::middleware(['jwt.auth', 'rate.limit:write'])->group(function () {
         Route::post('/', [BlogController::class, 'store']);
         Route::patch('/{id}', [BlogController::class, 'update']);

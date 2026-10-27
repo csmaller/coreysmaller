@@ -13,6 +13,7 @@ const Login = lazy(() => import('./pages/Login').then(module => ({ default: modu
 const Admin = lazy(() => import('./pages/Admin').then(module => ({ default: module.Admin })));
 const Blog = lazy(() => import('./pages/Blog').then(module => ({ default: module.Blog })));
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage').then(module => ({ default: module.BlogPostPage })));
+const BlogVolume = lazy(() => import('./pages/BlogVolume').then(module => ({ default: module.BlogVolume })));
 const Music = lazy(() => import('./pages/Music').then(module => ({ default: module.Music })));
 const AdminMusic = lazy(() => import('./pages/AdminMusic').then(module => ({ default: module.AdminMusic })));
 const AdminBlog = lazy(() => import('./pages/AdminBlog').then(module => ({ default: module.AdminBlog })));
@@ -38,6 +39,7 @@ function App() {
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/volume/:slug" element={<BlogVolume />} />
               <Route path="/blog/:id" element={<BlogPostPage />} />
               <Route path="/music" element={<Music />} />
               <Route path="/video" element={<Video />} />

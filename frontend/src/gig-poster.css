@@ -262,12 +262,63 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .blog-body a * {
   color: var(--accent) !important;
 }
+.post-entry,
+.post-sheet,
+.blog-body {
+  width: 100%;
+  text-align: left;
+}
+.post-turn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.post-turn a {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
+.post-turn-prev { margin-right: auto; }
+.post-turn-next { margin-left: auto; }
 .private-mark {
   color: #e10600 !important;
   font-family: var(--font-mono);
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
+}
+.word-count {
+  display: inline-block;
+  margin-left: 0.65em;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1;
+  text-transform: uppercase;
+  vertical-align: middle;
+  color: var(--text-muted);
+}
+.volume-mark {
+  display: inline-block;
+  margin-left: 0.65em;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-transform: uppercase;
+  vertical-align: middle;
 }
 .login-panel {
   max-width: 480px;

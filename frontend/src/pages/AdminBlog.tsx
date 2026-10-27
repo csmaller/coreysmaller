@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { BlogPost } from '../types';
-import { blogService } from '../services/blog';
+import { blogService, type BlogChapter } from '../services/blog';
 import { BlogEditor } from '../components/blog/BlogEditor';
+import { VolumeSorter } from '../components/blog/VolumeSorter';
 import { AdminNavigation, ConfirmationDialog } from '../components/admin';
+import { parseTags } from '../utils/tags';
+import { formatWordCount } from '../components/blog/WordCount';
 
 export const AdminBlog: React.FC = () => {
   const { id: editId } = useParams<{ id: string }>();
@@ -19,6 +22,8 @@ export const AdminBlog: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
+  const [volumeVersion, setVolumeVersion] = useState(0);
+  const [openVolume, setOpenVolume] = useState<string | null>(null);
 
   const loadPosts = useCallback(async () => {
     try {
@@ -84,6 +89,23 @@ export const AdminBlog: React.FC = () => {
     setShowEditor(true);
   };
 
+  const handleEditVolume = (title: string) => {
+    setShowEditor(false);
+    setEditingPost(undefined);
+    setOpenVolume(title);
+  };
+
+  const handleEditChapter = async (chapter: BlogChapter) => {
+    try {
+      const response = await blogService.getPostById(chapter.id);
+      setEditingPost(response.data);
+      setShowEditor(true);
+    } catch (err) {
+      console.error('Error loading chapter:', err);
+      setError('Failed to load blog post');
+    }
+  };
+
   const handleEditPost = (post: BlogPost) => {
     console.log('AdminBlog: Edit button clicked', { 
       postId: post.id, 
@@ -108,6 +130,7 @@ export const AdminBlog: React.FC = () => {
       setTotalPosts(prev => prev + 1);
     }
     closeEditor();
+    setVolumeVersion((version) => version + 1);
   };
 
   const handleDeletePost = async (postId: number | string) => {
@@ -116,6 +139,7 @@ export const AdminBlog: React.FC = () => {
       await blogService.deletePost(postId);
       setPosts(prevPosts => prevPosts.filter(post => post.id !== Number(postId)));
       setTotalPosts(prev => prev - 1);
+      setVolumeVersion((version) => version + 1);
       setDeleteConfirm(null);
     } catch (err) {
       console.error('Error deleting post:', err);
@@ -201,8 +225,16 @@ export const AdminBlog: React.FC = () => {
           </div>
         )}
 
+        <VolumeSorter
+          refreshKey={volumeVersion}
+          openRequest={openVolume}
+          onOpenChange={setOpenVolume}
+          onEditChapter={handleEditChapter}
+          onDeleteChapter={(chapter) => setDeleteConfirm({ postId: String(chapter.id), postTitle: chapter.title })}
+        />
+
         {/* Blog Posts */}
-        {posts.length === 0 ? (
+        {!openVolume && posts.length === 0 ? (
           <div className="text-center py-12">
             <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -216,7 +248,7 @@ export const AdminBlog: React.FC = () => {
               Create Your First Post
             </button>
           </div>
-        ) : (
+        ) : !openVolume ? (
           <div className="space-y-6">
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -338,6 +370,9 @@ export const AdminBlog: React.FC = () => {
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
                                 {post.title}
+                                {post.wordCount != null ? (
+                                  <span className="word-count">{formatWordCount(post.wordCount)}</span>
+                                ) : null}
                               </div>
                               {post.excerpt && (
                                 <div className="text-sm text-gray-500 truncate max-w-xs">
@@ -361,8 +396,8 @@ export const AdminBlog: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex flex-wrap gap-1 max-w-xs">
-                            {post.tags && post.tags.length > 0 ? (
-                              post.tags.slice(0, 2).map((tag, index) => (
+                            {parseTags(post.tags).length > 0 ? (
+                              parseTags(post.tags).slice(0, 2).map((tag, index) => (
                                 <span
                                   key={index}
                                   className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
@@ -373,8 +408,8 @@ export const AdminBlog: React.FC = () => {
                             ) : (
                               <span className="text-gray-400 text-xs">No tags</span>
                             )}
-                            {post.tags && post.tags.length > 2 && (
-                              <span className="text-xs text-gray-500">+{post.tags.length - 2}</span>
+                            {parseTags(post.tags).length > 2 && (
+                              <span className="text-xs text-gray-500">+{parseTags(post.tags).length - 2}</span>
                             )}
                           </div>
                         </td>
@@ -497,7 +532,7 @@ export const AdminBlog: React.FC = () => {
               )}
             </div>
           </div>
-        )}
+        ) : null}
 
         {/* Blog Editor Modal */}
         {showEditor && (
@@ -509,6 +544,7 @@ export const AdminBlog: React.FC = () => {
                 onSave={handleSavePost}
                 onCancel={closeEditor}
                 onClose={closeEditor}
+                onEditVolume={handleEditVolume}
               />
             </div>
           </div>

@@ -11,6 +11,8 @@ import {
   generateBreadcrumbSchema 
 } from '../../utils/seo';
 import type { BlogPost as BlogPostType } from '../../types';
+import { parseTags } from '../../utils/tags';
+import { WordCount } from './WordCount';
 
 interface BlogPostProps {
   postId?: string;
@@ -140,7 +142,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
                   to="/blog"
                   className="bg-gray-100 px-4 py-2 rounded-md text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors"
                 >
-                  Back to Blog
+                  Back To Words
                 </Link>
               </div>
             </div>
@@ -159,13 +161,14 @@ export const BlogPost: React.FC<BlogPostProps> = ({
           to="/blog"
           className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors"
         >
-          Back to Blog
+          Back To Words
         </Link>
       </div>
     );
   }
 
   const postUrl = generateCanonicalUrl(`/blog/${post.id}`);
+  const tags = parseTags(post.tags);
   const description = generateDescription(post.content, post.excerpt);
   
   const blogPostSchema = generateBlogPostSchema({
@@ -181,7 +184,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: generateCanonicalUrl('/') },
-    { name: 'Blog', url: generateCanonicalUrl('/blog') },
+    { name: 'Words', url: generateCanonicalUrl('/blog') },
     { name: post.title, url: postUrl },
   ]);
 
@@ -190,7 +193,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
       <SEO
         title={post.title}
         description={description}
-        keywords={post.tags}
+        keywords={tags}
         image={post.featuredImage}
         url={postUrl}
         type="article"
@@ -198,22 +201,30 @@ export const BlogPost: React.FC<BlogPostProps> = ({
         publishedTime={new Date(post.publishedAt || post.createdAt).toISOString()}
         modifiedTime={new Date(post.updatedAt).toISOString()}
         section="Blog"
-        tags={post.tags}
+        tags={tags}
         structuredData={[blogPostSchema, breadcrumbSchema]}
       />
-      <div className="max-w-4xl mx-auto">
+      <div className="post-entry">
       {/* Navigation */}
       <div className="mb-6">
         <Link
           to="/blog"
           className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
         >
-          ← Back to Blog
+          ← Back To Words
         </Link>
+        {post.volume && post.volumeSlug ? (
+          <Link
+            to={`/blog/volume/${post.volumeSlug}`}
+            className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-800"
+          >
+            {post.volume}
+          </Link>
+        ) : null}
       </div>
 
       {/* Post content */}
-      <article className="bg-white p-8 rounded-lg shadow-sm border">
+      <article className="post-sheet">
         {/* Header */}
         <header className="mb-8">
           <div className="flex justify-between items-start mb-4">
@@ -234,6 +245,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
                 {post.visibility === 'private' && (
                   <span className="private-mark">Private</span>
                 )}
+                <WordCount count={post.wordCount} />
                 {post.updatedAt !== post.createdAt && (
                   <span className="text-xs text-gray-400">
                     Updated: {formatDate(post.updatedAt)}
@@ -241,9 +253,9 @@ export const BlogPost: React.FC<BlogPostProps> = ({
                 )}
               </div>
 
-              {post.tags && post.tags.length > 0 && (
+              {tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.map((tag, index) => (
+                  {tags.map((tag, index) => (
                     <span
                       key={index}
                       className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full hover:bg-blue-200 cursor-pointer transition-colors"
@@ -297,29 +309,14 @@ export const BlogPost: React.FC<BlogPostProps> = ({
           dangerouslySetInnerHTML={renderContent(post.content)}
         />
 
-        {/* Footer */}
-        <footer className="mt-8 pt-6 border-t border-gray-200">
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-500">
-              Published on {formatDate(post.publishedAt || post.createdAt)}
-            </div>
-            
-            <div className="flex space-x-4">
-              <button
-                onClick={() => window.history.back()}
-                className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors"
-              >
-                ← Previous
-              </button>
-              <Link
-                to="/blog"
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors"
-              >
-                All Posts
-              </Link>
-            </div>
-          </div>
-        </footer>
+        <nav className="post-turn" aria-label="More posts">
+          {post.previous ? (
+            <Link className="post-turn-prev" to={post.previous.href}>← Previous</Link>
+          ) : <span />}
+          {post.next ? (
+            <Link className="post-turn-next" to={post.next.href}>Next →</Link>
+          ) : <span />}
+        </nav>
       </article>
     </div>
     </>

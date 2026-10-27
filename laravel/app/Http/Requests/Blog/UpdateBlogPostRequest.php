@@ -32,6 +32,7 @@ class UpdateBlogPostRequest extends FormRequest
             'tags.*' => ['string', 'max:255'],
             'status' => ['sometimes', 'in:draft,published,archived'],
             'visibility' => ['sometimes', 'in:public,private'],
+            'volume' => ['nullable', 'string', 'max:160'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:blog,slug,' . $blogId],
         ];
     }

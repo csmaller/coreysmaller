@@ -381,4 +381,37 @@ class BlogTest extends TestCase
         $this->assertTrue($titles->contains('Draft note'));
         $this->assertTrue($titles->contains('Private note'));
     }
+
+    public function test_public_list_groups_a_volume_into_one_title(): void
+    {
+        BlogPost::factory()->published()->create([
+            'title' => 'Relationships chapters 1-4',
+            'volume' => 'Relationships',
+            'chapterOrder' => 2,
+            'visibility' => 'public',
+        ]);
+        BlogPost::factory()->published()->create([
+            'title' => 'Relationships chapters 5-8',
+            'volume' => 'Relationships',
+            'chapterOrder' => 1,
+            'visibility' => 'public',
+        ]);
+        BlogPost::factory()->published()->create([
+            'title' => 'A single essay',
+            'visibility' => 'public',
+        ]);
+
+        $response = $this->getJson('/api/blog');
+        $response->assertOk();
+
+        $titles = collect($response->json('data'))->pluck('title');
+        $this->assertEquals(['A single essay', 'Relationships'], $titles->sort()->values()->all());
+        $this->assertFalse($titles->contains('Relationships chapters 1-4'));
+
+        $volume = collect($response->json('data'))->firstWhere('type', 'volume');
+        $this->getJson('/api/blog/volumes/' . $volume['slug'])
+            ->assertOk()
+            ->assertJsonPath('data.chapters.0.title', 'Relationships chapters 5-8')
+            ->assertJsonPath('data.chapters.1.title', 'Relationships chapters 1-4');
+    }
 }

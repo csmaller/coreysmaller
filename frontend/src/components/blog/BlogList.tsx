@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { blogService } from '../../services/blog';
 import type { BlogPost, PaginationInfo } from '../../types';
+import { blogEntryHref } from '../../utils/blogHref';
+import { parseTags } from '../../utils/tags';
+import { WordCount } from './WordCount';
 
 interface BlogListProps {
   showAdminActions?: boolean;
@@ -136,21 +139,74 @@ export const BlogList: React.FC<BlogListProps> = ({
     );
   }
 
+  const entryHref = (post: BlogPost) => blogEntryHref(post);
+
+  const renderPager = () => {
+    if (!pagination || pagination.totalPages <= 1) return null;
+
+    return (
+      <div className="blog-pager flex justify-center items-center space-x-2">
+        <button
+          onClick={() => handlePageChange(pagination.page - 1)}
+          disabled={pagination.page === 1}
+          className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Previous
+        </button>
+
+        <div className="flex space-x-1">
+          {[...Array(pagination.totalPages)].map((_, index) => {
+            const pageNumber = index + 1;
+            const isCurrentPage = pageNumber === pagination.page;
+
+            return (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isCurrentPage
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={() => handlePageChange(pagination.page + 1)}
+          disabled={pagination.page === pagination.totalPages}
+          className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        >
+          Next
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-6">
+      {renderPager()}
       {/* Blog posts */}
       {posts.map((post) => (
-        <article key={post.id} className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+        <article key={post.type === 'volume' ? `volume-${post.slug}` : post.id} className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
           <div className="flex justify-between items-start mb-4">
             <div className="flex-1">
               <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                <Link to={`/blog/${post.id}`}>
+                <Link to={entryHref(post)}>
                   {post.title}
                 </Link>
+                {post.type === 'volume' ? <span className="volume-mark">Volume</span> : null}
               </h2>
               
               <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
                 <span>{formatDate(post.publishedAt || post.createdAt)}</span>
+                {post.type === 'volume' ? (
+                  <span>{post.chapterCount || 0} chapters</span>
+                ) : null}
+                <WordCount count={post.wordCount} />
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                   post.status === 'published' 
                     ? 'bg-green-100 text-green-800' 
@@ -163,15 +219,15 @@ export const BlogList: React.FC<BlogListProps> = ({
                 {post.visibility === 'private' && (
                   <span className="private-mark">Private</span>
                 )}
-                {post.tags && post.tags.length > 0 && (
+                {parseTags(post.tags).length > 0 && (
                   <div className="flex space-x-1">
-                    {post.tags.slice(0, 3).map((tag, index) => (
+                    {parseTags(post.tags).slice(0, 3).map((tag, index) => (
                       <span key={index} className="text-blue-600 hover:text-blue-800 cursor-pointer">
                         #{tag}
                       </span>
                     ))}
-                    {post.tags.length > 3 && (
-                      <span className="text-gray-400">+{post.tags.length - 3} more</span>
+                    {parseTags(post.tags).length > 3 && (
+                      <span className="text-gray-400">+{parseTags(post.tags).length - 3} more</span>
                     )}
                   </div>
                 )}
@@ -216,7 +272,7 @@ export const BlogList: React.FC<BlogListProps> = ({
 
           <div className="flex justify-between items-center">
             <Link
-              to={`/blog/${post.id}`}
+              to={entryHref(post)}
               className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
             >
               Read more →
@@ -225,47 +281,7 @@ export const BlogList: React.FC<BlogListProps> = ({
         </article>
       ))}
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="flex justify-center items-center space-x-2 mt-8">
-          <button
-            onClick={() => handlePageChange(pagination.page - 1)}
-            disabled={pagination.page === 1}
-            className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Previous
-          </button>
-
-          <div className="flex space-x-1">
-            {[...Array(pagination.totalPages)].map((_, index) => {
-              const pageNumber = index + 1;
-              const isCurrentPage = pageNumber === pagination.page;
-              
-              return (
-                <button
-                  key={pageNumber}
-                  onClick={() => handlePageChange(pageNumber)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isCurrentPage
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  {pageNumber}
-                </button>
-              );
-            })}
-          </div>
-
-          <button
-            onClick={() => handlePageChange(pagination.page + 1)}
-            disabled={pagination.page === pagination.totalPages}
-            className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {renderPager()}
     </div>
   );
 };

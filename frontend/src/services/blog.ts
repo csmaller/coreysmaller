@@ -9,6 +9,25 @@ export interface CreateBlogPostDto {
   tags?: string[];
   status?: 'draft' | 'published' | 'archived';
   visibility?: 'public' | 'private';
+  volume?: string | null;
+}
+
+export interface BlogChapter {
+  id: number;
+  title: string;
+  chapterOrder: number;
+  status: string;
+  visibility?: 'public' | 'private';
+  wordCount?: number;
+}
+
+export interface BlogVolume {
+  title: string;
+  slug: string;
+  description?: string | null;
+  chapterCount?: number;
+  wordCount?: number;
+  chapters: Array<BlogChapter | BlogPost>;
 }
 
 export interface UpdateBlogPostDto extends Partial<CreateBlogPostDto> {}
@@ -33,6 +52,22 @@ export class BlogService {
 
   async deletePost(id: number | string): Promise<ApiResponse<void>> {
     return apiService.delete<ApiResponse<void>>(`/blog/${id}`);
+  }
+
+  async listVolumes(): Promise<ApiResponse<BlogVolume[]>> {
+    return apiService.get<ApiResponse<BlogVolume[]>>('/blog/volumes');
+  }
+
+  async getVolume(slug: string): Promise<ApiResponse<BlogVolume>> {
+    return apiService.get<ApiResponse<BlogVolume>>(`/blog/volumes/${encodeURIComponent(slug)}`);
+  }
+
+  async updateVolume(volume: string, title: string, description: string): Promise<ApiResponse<BlogVolume>> {
+    return apiService.put<ApiResponse<BlogVolume>>('/blog/volumes', { volume, title, description });
+  }
+
+  async reorderVolume(volume: string, ids: Array<number | string>): Promise<ApiResponse<BlogVolume[]>> {
+    return apiService.put<ApiResponse<BlogVolume[]>>('/blog/volumes/order', { volume, ids });
   }
 }
 

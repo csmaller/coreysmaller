@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { AdminDashboard, AdminNavigation } from '../components/admin';
 import { BlogList, BlogEditor } from '../components/blog';
-import { blogService } from '../services/blog';
+import { VolumeSorter } from '../components/blog/VolumeSorter';
+import { blogService, type BlogChapter } from '../services/blog';
 import type { BlogPost } from '../types';
 
 type AdminView = 'dashboard' | 'blog-list' | 'blog-editor' | 'blog-create';
@@ -9,6 +10,34 @@ type AdminView = 'dashboard' | 'blog-list' | 'blog-editor' | 'blog-create';
 export const Admin: React.FC = () => {
   const [currentView, setCurrentView] = useState<AdminView>('dashboard');
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
+  const [openVolume, setOpenVolume] = useState<string | null>(null);
+  const [volumeVersion, setVolumeVersion] = useState(0);
+  const handleEditVolume = (title: string) => {
+    setOpenVolume(title);
+    setEditingPost(null);
+    setCurrentView('blog-list');
+  };
+
+  const handleEditChapter = async (chapter: BlogChapter) => {
+    try {
+      const response = await blogService.getPostById(chapter.id);
+      setEditingPost(response.data);
+      setCurrentView('blog-editor');
+    } catch (error) {
+      console.error('Error fetching chapter:', error);
+    }
+  };
+
+  const handleDeleteChapter = async (chapter: BlogChapter) => {
+    if (!window.confirm(`Delete "${chapter.title}"? This cannot be undone.`)) return;
+    try {
+      await blogService.deletePost(chapter.id);
+      setVolumeVersion((version) => version + 1);
+    } catch (error) {
+      console.error('Error deleting chapter:', error);
+    }
+  };
+
   const handleEditPost = async (post: BlogPost) => {
     try {
       // Fetch the full post data including content
@@ -86,6 +115,7 @@ export const Admin: React.FC = () => {
           post={editingPost || undefined}
           onSave={handlePostSaved}
           onCancel={handleCancelEdit}
+          onEditVolume={handleEditVolume}
         />
       </div>
     );
@@ -125,7 +155,18 @@ export const Admin: React.FC = () => {
             onManagePosts={handleManagePosts}
           />
         )}
-        {currentView === 'blog-list' && renderBlogList()}
+        {currentView === 'blog-list' && (
+          <>
+            <VolumeSorter
+              refreshKey={volumeVersion}
+              openRequest={openVolume}
+              onOpenChange={setOpenVolume}
+              onEditChapter={handleEditChapter}
+              onDeleteChapter={handleDeleteChapter}
+            />
+            {!openVolume ? renderBlogList() : null}
+          </>
+        )}
         {(currentView === 'blog-editor' || currentView === 'blog-create') && renderBlogEditor()}
       </div>
     </div>

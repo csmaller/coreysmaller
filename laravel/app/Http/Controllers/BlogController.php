@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Services\BlogService;
 use App\Http\Requests\Blog\CreateBlogPostRequest;
 use App\Http\Requests\Blog\UpdateBlogPostRequest;
@@ -69,9 +70,16 @@ class BlogController extends Controller
         $audience = $this->audience($request);
         $manage = $request->query('manage') === '1';
         $result = $this->blogService->findAll($page, $limit, $audience, $manage);
+        $data = ($result['grouped'] ?? false)
+            ? $result['data']
+            : $this->attachWordCounts(
+                BlogPostSummaryResource::collection($result['data'])->resolve($request),
+                $result['data'],
+                $audience
+            );
         
         return response()->json([
-            'data' => BlogPostSummaryResource::collection($result['data']),
+            'data' => $data,
             'pagination' => $result['pagination'],
             'success' => true,
             'statusCode' => 200,
@@ -94,10 +102,15 @@ class BlogController extends Controller
             $limit = 5;
         }
         
-        $posts = $this->blogService->getRecentPosts($limit, $this->audience($request));
+        $audience = $this->audience($request);
+        $posts = $this->blogService->getRecentPosts($limit, $audience);
         
         return response()->json([
-            'data' => BlogPostSummaryResource::collection($posts),
+            'data' => $this->attachWordCounts(
+                BlogPostSummaryResource::collection($posts)->resolve($request),
+                $posts,
+                $audience
+            ),
             'success' => true,
             'statusCode' => 200,
             'timestamp' => now()->toIso8601String(),
@@ -132,12 +145,21 @@ class BlogController extends Controller
         try {
             $post = $this->blogService->findOne($id);
 
-            if (!$post->isVisibleTo($this->audience($request))) {
+            $audience = $this->audience($request);
+            if (!$post->isVisibleTo($audience)) {
                 throw new ModelNotFoundException("Blog post with ID {$id} not found");
             }
-            
+
+            $data = (new BlogPostResource($post))->resolve($request);
+            if ($audience === 'admin') {
+                $data['wordCount'] = BlogPost::plainWordCount($post->content);
+            }
+            $neighbors = $this->blogService->readingNeighbors($post, $audience);
+            $data['previous'] = $neighbors['previous'];
+            $data['next'] = $neighbors['next'];
+
             return response()->json([
-                'data' => new BlogPostResource($post),
+                'data' => $data,
                 'success' => true,
                 'statusCode' => 200,
                 'timestamp' => now()->toIso8601String(),
@@ -247,6 +269,122 @@ class BlogController extends Controller
                 'timestamp' => now()->toIso8601String(),
             ], 400);
         }
+    }
+
+    /**
+     * Chapters in one volume, in the saved reading order.
+     */
+    public function volume(Request $request, string $slug): JsonResponse
+    {
+        try {
+            return response()->json([
+                'data' => $this->blogService->findVolume($slug, $this->audience($request)),
+                'success' => true,
+                'statusCode' => 200,
+                'timestamp' => now()->toIso8601String(),
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Volume not found',
+                'timestamp' => now()->toIso8601String(),
+            ], 404);
+        }
+    }
+
+    /**
+     * Every volume and its chapters, for arranging the reading order.
+     */
+    public function volumes(): JsonResponse
+    {
+        return response()->json([
+            'data' => $this->blogService->listVolumes(),
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * Change a volume title and the description shown with that title.
+     */
+    public function updateVolume(Request $request): JsonResponse
+    {
+        $payload = $request->validate([
+            'volume' => ['required', 'string', 'max:160'],
+            'title' => ['required', 'string', 'max:160'],
+            'description' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        try {
+            $volume = $this->blogService->updateVolume(
+                $payload['volume'],
+                $payload['title'],
+                $payload['description'] ?? ''
+            );
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'statusCode' => 404,
+                'message' => 'Volume not found',
+                'timestamp' => now()->toIso8601String(),
+            ], 404);
+        } catch (\InvalidArgumentException $e) {
+            return response()->json([
+                'statusCode' => 422,
+                'message' => $e->getMessage(),
+                'timestamp' => now()->toIso8601String(),
+            ], 422);
+        }
+
+        return response()->json([
+            'data' => $volume,
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * Save a drag-and-drop chapter order.
+     */
+    public function reorderVolume(Request $request): JsonResponse
+    {
+        $payload = $request->validate([
+            'volume' => ['required', 'string', 'max:160'],
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $this->blogService->reorderVolume($payload['volume'], $payload['ids']);
+
+        return response()->json([
+            'data' => $this->blogService->listVolumes(),
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     * @param iterable<int, BlogPost> $posts
+     * @return array<int, array<string, mixed>>
+     */
+    private function attachWordCounts(array $rows, iterable $posts, string $audience): array
+    {
+        if ($audience !== 'admin') {
+            return $rows;
+        }
+
+        $index = 0;
+        foreach ($posts as $post) {
+            if (isset($rows[$index]) && is_array($rows[$index])) {
+                $rows[$index]['wordCount'] = BlogPost::plainWordCount($post->content);
+            }
+            $index++;
+        }
+
+        return $rows;
     }
 
     /**

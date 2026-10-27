@@ -5,6 +5,7 @@ import { musicService } from '../../services/music';
 import { videoService } from '../../services/video';
 import { audioService } from '../../services/audio';
 import type { BlogPost, MusicTrack, VideoContent, AudioContent } from '../../types';
+import { formatWordCount } from '../blog/WordCount';
 
 interface ContentStats {
   blogPosts: number;
@@ -256,7 +257,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       {post.title}
                       {post.visibility === 'private' ? <span className="private-mark"> Private</span> : null}
                     </h4>
-                    <p className="text-sm text-gray-600">{formatDate(post.createdAt)}</p>
+                    <p className="text-sm text-gray-600">
+                      {formatDate(post.createdAt)}
+                      {post.wordCount != null ? ` · ${formatWordCount(post.wordCount)}` : ''}
+                    </p>
                   </div>
                   <span className={`px-2 py-1 text-xs rounded-full ${
                     post.status === 'published' ? 'bg-green-100 text-green-800' :

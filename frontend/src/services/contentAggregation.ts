@@ -3,6 +3,7 @@ import { musicService } from './music';
 import { videoService } from './video';
 import { audioService } from './audio';
 import type { BlogPost, MusicTrack, VideoContent, AudioContent } from '../types';
+import { blogEntryHref } from '../utils/blogHref';
 
 export interface RecentContent {
   recentPosts: BlogPost[];
@@ -87,7 +88,7 @@ export class ContentAggregationService {
           imageUrl: post.featuredImage,
           publishDate: new Date(post.publishedAt || post.createdAt),
           contentType: 'blog',
-          url: `/blog/${post.id}`
+          url: blogEntryHref(post)
         });
       });
     }

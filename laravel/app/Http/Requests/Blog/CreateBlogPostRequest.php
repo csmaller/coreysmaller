@@ -30,6 +30,7 @@ class CreateBlogPostRequest extends FormRequest
             'tags.*' => ['string', 'max:255'],
             'status' => ['required', 'in:draft,published,archived'],
             'visibility' => ['nullable', 'in:public,private'],
+            'volume' => ['nullable', 'string', 'max:160'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:blog,slug'],
         ];
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RichTextEditor } from './RichTextEditor';
 import { blogService } from '../../services/blog';
 import { isValidUrl, sanitizeUrl } from '../../utils/security';
+import { parseTags } from '../../utils/tags';
 import type { CreateBlogPostDto, UpdateBlogPostDto } from '../../services/blog';
 import type { BlogPost } from '../../types';
 
@@ -10,6 +11,7 @@ interface BlogEditorProps {
   onSave?: (post: BlogPost) => void;
   onCancel?: () => void;
   onClose?: () => void;
+  onEditVolume?: (title: string) => void;
 }
 
 const EXCERPT_LIMIT = 250;
@@ -38,7 +40,8 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   post,
   onSave,
   onCancel,
-  onClose
+  onClose,
+  onEditVolume,
 }) => {
   const [formData, setFormData] = useState<CreateBlogPostDto>({
     title: '',
@@ -47,12 +50,15 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     featuredImage: '',
     tags: [],
     status: 'draft',
-    visibility: 'public'
+    visibility: 'public',
+    volume: ''
   });
   const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [volumeNames, setVolumeNames] = useState<string[]>([]);
+  const [volumeMode, setVolumeMode] = useState<'list' | 'new'>('list');
 
   const isEditing = !!post;
 
@@ -69,10 +75,12 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         content: post.content,
         excerpt: post.excerpt || '',
         featuredImage: post.featuredImage || '',
-        tags: post.tags || [],
+        tags: parseTags(post.tags),
         status: post.status,
-        visibility: post.visibility === 'private' ? 'private' : 'public'
+        visibility: post.visibility === 'private' ? 'private' : 'public',
+        volume: post.volume || ''
       });
+      setVolumeMode('list');
     } else {
       // Reset form when creating new post
       console.log('BlogEditor: Creating new post, resetting form');
@@ -83,10 +91,26 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         featuredImage: '',
         tags: [],
         status: 'draft',
-        visibility: 'public'
+        visibility: 'public',
+        volume: ''
       });
+      setVolumeMode('list');
     }
   }, [post]);
+
+  useEffect(() => {
+    let active = true;
+    blogService.listVolumes()
+      .then((response) => {
+        if (active) setVolumeNames((response.data || []).map((volume) => volume.title));
+      })
+      .catch(() => {
+        if (active) setVolumeNames([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleInputChange = (field: keyof CreateBlogPostDto, value: string | string[]) => {
     setFormData(prev => ({
@@ -99,11 +123,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   };
 
   const handleAddTag = () => {
-    const tag = tagInput.trim();
-    if (tag && !formData.tags?.includes(tag)) {
-      handleInputChange('tags', [...(formData.tags || []), tag]);
-      setTagInput('');
-    }
+    const incoming = parseTags(tagInput);
+    if (incoming.length === 0) return;
+    handleInputChange('tags', parseTags([...(formData.tags || []), ...incoming]));
+    setTagInput('');
   };
 
   const handleRemoveTag = (tagToRemove: string) => {
@@ -140,8 +163,10 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
       setLoading(true);
       setError(null);
 
+      const volume = formData.volume?.trim() ?? '';
       const dataToSave = { 
-        ...formData, 
+        ...formData,
+        volume: volume === '' ? null : volume,
         excerpt: excerptFromContent(formData.content),
         status: formData.status || 'draft',
         featuredImage: formData.featuredImage ? sanitizeUrl(formData.featuredImage) : undefined
@@ -263,7 +288,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
             Tags
           </label>
           <div className="flex flex-wrap gap-2 mb-2">
-            {formData.tags?.map((tag, index) => (
+            {parseTags(formData.tags).map((tag, index) => (
               <span
                 key={index}
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800"
@@ -287,7 +312,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               onChange={(e) => setTagInput(e.target.value)}
               onKeyPress={handleKeyPress}
               className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Add a tag"
+              placeholder="ski, music, writing"
               disabled={loading}
             />
             <button
@@ -299,6 +324,9 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
               Add
             </button>
           </div>
+          <p className="text-sm text-gray-500 mt-2">
+            Separate tags with commas. Each one is shown with a #.
+          </p>
         </div>
 
         {/* Content */}
@@ -313,6 +341,61 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
             disabled={loading}
             className="min-h-[300px]"
           />
+        </div>
+
+        <div>
+          <label htmlFor="volume" className="block text-sm font-medium text-gray-700 mb-2">
+            Volume
+          </label>
+          <select
+            id="volume"
+            value={volumeMode === 'new' ? '__new' : (formData.volume || '')}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '__new') {
+                setVolumeMode('new');
+                handleInputChange('volume', '');
+                return;
+              }
+              setVolumeMode('list');
+              handleInputChange('volume', value);
+            }}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            disabled={loading}
+          >
+            <option value="">Select a volume</option>
+            {volumeNames.map((name) => (
+              <option key={name} value={name}>{name}</option>
+            ))}
+            {formData.volume && volumeMode === 'list' && !volumeNames.includes(formData.volume) ? (
+              <option value={formData.volume}>{formData.volume}</option>
+            ) : null}
+            <option value="__new">New volume</option>
+          </select>
+          {volumeMode === 'list' && formData.volume && onEditVolume ? (
+            <button
+              type="button"
+              onClick={() => onEditVolume(formData.volume || '')}
+              className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-800"
+            >
+              Edit volume
+            </button>
+          ) : null}
+          {volumeMode === 'new' ? (
+            <input
+              type="text"
+              id="new-volume"
+              aria-label="New volume name"
+              value={formData.volume || ''}
+              onChange={(e) => handleInputChange('volume', e.target.value)}
+              className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Volume name"
+              disabled={loading}
+            />
+          ) : null}
+          <p className="text-sm text-gray-500 mt-2">
+            Leave this on Select a volume for a standalone post. Posts that share a volume name show up as one title on Words.
+          </p>
         </div>
 
         {/* Status */}

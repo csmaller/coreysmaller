@@ -25,6 +25,7 @@ jest.mock('../../services/blog', () => ({
     getAllPosts: jest.fn(),
     getPostById: jest.fn(),
     deletePost: jest.fn(),
+    listVolumes: jest.fn().mockResolvedValue({ data: [], success: true }),
   },
 }));
 

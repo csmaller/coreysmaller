@@ -35,7 +35,15 @@ export interface BlogPost {
   tags?: string[];
   status: 'draft' | 'published' | 'archived';
   visibility?: 'public' | 'private';
+  type?: 'post' | 'volume';
+  volume?: string | null;
+  volumeSlug?: string | null;
+  chapterOrder?: number;
+  chapterCount?: number;
+  wordCount?: number;
   slug?: string;
+  previous?: { title: string; href: string } | null;
+  next?: { title: string; href: string } | null;
   createdAt: Date;
   updatedAt: Date;
   publishedAt?: Date;

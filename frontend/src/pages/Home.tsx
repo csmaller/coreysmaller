@@ -4,6 +4,8 @@ import { Layout } from '../components/Layout';
 import { SEO } from '../components/SEO';
 import { contentAggregationService } from '../services/contentAggregation';
 import type { RecentContent } from '../services/contentAggregation';
+import { blogEntryHref } from '../utils/blogHref';
+import { WordCount } from '../components/blog/WordCount';
 
 const emptyContent: RecentContent = {
   recentPosts: [],
@@ -153,10 +155,18 @@ export const Home: React.FC = () => {
           {!loading && content.recentPosts.length === 0 ? <p>No posts yet.</p> : null}
           <div className="grid">
             {content.recentPosts.map((post) => (
-              <Link className="post" to={`/blog/${post.id}`} key={post.id}>
+              <Link
+                className="post"
+                to={blogEntryHref(post)}
+                key={post.type === 'volume' ? `volume-${post.slug || post.volumeSlug}` : post.id}
+              >
                 <span className="post-date mono-label">{labelDate(post.publishedAt || post.createdAt)}</span>
                 {post.visibility === 'private' ? <span className="private-mark">Private</span> : null}
-                <span className="post-title">{post.title}</span>
+                <span className="post-title">
+                  {post.title}
+                  {post.type === 'volume' ? <span className="volume-mark">Volume</span> : null}
+                </span>
+                <WordCount count={post.wordCount} />
                 <span className="mono-label">Read &rarr;</span>
               </Link>
             ))}

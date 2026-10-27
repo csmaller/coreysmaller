@@ -69,6 +69,9 @@ class BlogPost extends Model
         'tags',
         'status',
         'visibility',
+        'volume',
+        'volumeDescription',
+        'chapterOrder',
         'slug',
         'publishedAt',
     ];
@@ -115,7 +118,26 @@ class BlogPost extends Model
      */
     public function getWordCountAttribute(): int
     {
-        return str_word_count($this->content ?? '');
+        return self::plainWordCount($this->content);
+    }
+
+    /**
+     * Words in the visible post body. Tags and extra whitespace do not count.
+     */
+    public static function plainWordCount(?string $html): int
+    {
+        $withBreaks = preg_replace('/<(br|\/p|\/div|\/li|\/h[1-6]|\/blockquote)\b[^>]*>/i', ' ', (string) $html) ?? (string) $html;
+        $text = html_entity_decode(strip_tags($withBreaks), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = str_replace("\xc2\xa0", ' ', $text);
+        $text = preg_replace('/\s+/u', ' ', $text) ?? $text;
+        $text = trim($text);
+        if ($text === '') {
+            return 0;
+        }
+
+        $words = preg_split('/\s+/u', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+        return is_array($words) ? count($words) : 0;
     }
 
     /**
@@ -145,8 +167,67 @@ class BlogPost extends Model
         }
 
         static::ensureContentCapacity();
+        static::ensureVolumeColumns();
 
         $ready = true;
+    }
+
+    /**
+     * Group related posts under a volume title and remember their reading order.
+     */
+    public static function ensureVolumeColumns(): void
+    {
+        if (!Schema::hasColumn('blog', 'volume')) {
+            Schema::table('blog', function (Blueprint $table) {
+                $table->string('volume', 160)->nullable();
+            });
+        }
+
+        if (!Schema::hasColumn('blog', 'chapterOrder')) {
+            Schema::table('blog', function (Blueprint $table) {
+                $table->unsignedInteger('chapterOrder')->default(0);
+            });
+        }
+
+        if (!Schema::hasColumn('blog', 'volumeDescription')) {
+            Schema::table('blog', function (Blueprint $table) {
+                $table->text('volumeDescription')->nullable();
+            });
+        }
+    }
+
+    /**
+     * Turn a tag field into one trimmed name per entry.
+     * Commas separate tags. A leading # is display-only and is not stored.
+     *
+     * @return array<int, string>
+     */
+    public static function parseTags(mixed $tags): array
+    {
+        if (is_string($tags)) {
+            $decoded = json_decode($tags, true);
+            $tags = is_array($decoded) ? $decoded : explode(',', $tags);
+        }
+
+        if (!is_array($tags)) {
+            return [];
+        }
+
+        $clean = [];
+        foreach ($tags as $tag) {
+            foreach (explode(',', (string) $tag) as $piece) {
+                $piece = trim(ltrim(trim($piece), '#'));
+                if ($piece === '') {
+                    continue;
+                }
+                $piece = mb_substr($piece, 0, 255);
+                if (!in_array($piece, $clean, true)) {
+                    $clean[] = $piece;
+                }
+            }
+        }
+
+        return $clean;
     }
 
     /**

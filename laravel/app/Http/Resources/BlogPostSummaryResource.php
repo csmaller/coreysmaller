@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /**
  * BlogPostSummaryResource
@@ -28,9 +30,12 @@ class BlogPostSummaryResource extends JsonResource
             'title' => $this->title,
             'excerpt' => $this->excerpt,
             'featuredImage' => $this->featuredImage,
-            'tags' => is_string($this->tags) ? explode(',', $this->tags) : ($this->tags ?? []),
+            'tags' => BlogPost::parseTags($this->tags),
             'status' => $this->status,
             'visibility' => $this->visibility ?? 'public',
+            'volume' => $this->volume,
+            'volumeSlug' => $this->volume ? Str::slug($this->volume) : null,
+            'chapterOrder' => (int) ($this->chapterOrder ?? 0),
             'slug' => $this->slug,
             'publishedAt' => $this->publishedAt?->toIso8601String(),
             'createdAt' => $this->createdAt->toIso8601String(),

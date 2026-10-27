@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /**
  * BlogPostResource
@@ -29,15 +31,17 @@ class BlogPostResource extends JsonResource
             'content' => $this->content,
             'excerpt' => $this->excerpt,
             'featuredImage' => $this->featuredImage,
-            'tags' => is_string($this->tags) ? explode(',', $this->tags) : ($this->tags ?? []),
+            'tags' => BlogPost::parseTags($this->tags),
             'status' => $this->status,
             'visibility' => $this->visibility ?? 'public',
+            'volume' => $this->volume,
+            'volumeSlug' => $this->volume ? Str::slug($this->volume) : null,
+            'chapterOrder' => (int) ($this->chapterOrder ?? 0),
             'slug' => $this->slug,
             'publishedAt' => $this->publishedAt?->toIso8601String(),
             'createdAt' => $this->createdAt->toIso8601String(),
             'updatedAt' => $this->updatedAt->toIso8601String(),
             'readingTimeMinutes' => $this->readingTimeMinutes,
-            'wordCount' => $this->wordCount,
             'isPublished' => $this->isPublished,
         ];
     }

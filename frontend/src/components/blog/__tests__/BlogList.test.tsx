@@ -4,6 +4,20 @@ import { BrowserRouter } from 'react-router-dom';
 import { BlogList } from '../BlogList';
 import type { BlogPost, PaginatedResponse } from '../../../types';
 
+let viewerRole: string | null = null;
+
+jest.mock('../../../contexts/AuthContext', () => ({
+  useAuthContext: () => ({
+    isAuthenticated: viewerRole != null,
+    user: viewerRole ? { id: 1, email: 'a@example.com', role: viewerRole } : null,
+    logout: jest.fn(),
+    login: jest.fn(),
+    isLoading: false,
+    error: null,
+    clearError: jest.fn(),
+  }),
+}));
+
 // Mock the entire blog service module
 jest.mock('../../../services/blog', () => ({
   blogService: {
@@ -65,6 +79,7 @@ const renderWithRouter = (component: React.ReactElement) => {
 
 describe('BlogList', () => {
   beforeEach(() => {
+    viewerRole = null;
     jest.clearAllMocks();
   });
 
@@ -137,6 +152,71 @@ describe('BlogList', () => {
       expect(screen.getByText('published')).toBeInTheDocument();
       expect(screen.getByText('draft')).toBeInTheDocument();
     });
+  });
+
+  it('shows page controls at the top and the bottom', async () => {
+    mockBlogService.getAllPosts.mockResolvedValue({
+      ...mockResponse,
+      pagination: { ...mockResponse.pagination, total: 20, totalPages: 2 },
+    });
+
+    renderWithRouter(<BlogList />);
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('button', { name: 'Next' })).toHaveLength(2);
+      expect(screen.getAllByRole('button', { name: 'Previous' })).toHaveLength(2);
+    });
+  });
+
+  it('lists a volume as one title', async () => {
+    mockBlogService.getAllPosts.mockResolvedValue({
+      ...mockResponse,
+      data: [{
+        id: 9,
+        type: 'volume',
+        title: 'Relationships',
+        content: '',
+        slug: 'relationships',
+        chapterCount: 2,
+        status: 'published',
+        createdAt: new Date('2024-02-01'),
+        updatedAt: new Date('2024-02-01'),
+        publishedAt: new Date('2024-02-01'),
+      }],
+    });
+
+    renderWithRouter(<BlogList />);
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('link', { name: 'Relationships' })[0]).toHaveAttribute(
+        'href',
+        '/blog/volume/relationships'
+      );
+    });
+    expect(screen.getByText('2 chapters')).toBeInTheDocument();
+    expect(screen.getByText('Volume')).toBeInTheDocument();
+  });
+
+  it('shows character counts to admins and hides them from guests', async () => {
+    mockBlogService.getAllPosts.mockResolvedValue({
+      ...mockResponse,
+      data: [{
+        ...mockPosts[0],
+        wordCount: 1280,
+      }],
+    });
+
+    viewerRole = 'guest';
+    const { unmount } = renderWithRouter(<BlogList />);
+    await waitFor(() => {
+      expect(screen.getByText('Test Post 1')).toBeInTheDocument();
+    });
+    expect(screen.queryByText('1,280 words')).not.toBeInTheDocument();
+    unmount();
+
+    viewerRole = 'admin';
+    renderWithRouter(<BlogList />);
+    expect(await screen.findByText('1,280 words')).toBeInTheDocument();
   });
 
   it('displays post tags', async () => {

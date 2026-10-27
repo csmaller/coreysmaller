@@ -24,6 +24,7 @@ jest.mock('../../../services/blog', () => ({
   blogService: {
     createPost: jest.fn(),
     updatePost: jest.fn(),
+    listVolumes: jest.fn().mockResolvedValue({ data: [], success: true }),
   },
 }));
 
@@ -100,6 +101,70 @@ describe('BlogEditor', () => {
 
     expect(mockBlogService.createPost).toHaveBeenCalledWith(
       expect.objectContaining({ visibility: 'private', title: 'Members only' })
+    );
+  });
+
+  it('saves the volume name with the post', async () => {
+    const user = userEvent.setup();
+    mockBlogService.createPost.mockResolvedValue({
+      data: { ...existingPost, id: 10, volume: 'Relationships' },
+      success: true,
+    });
+
+    render(<BlogEditor />);
+
+    fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'Chapters 1-4' } });
+    fireEvent.change(screen.getByLabelText('Content'), { target: { value: '<p>First part</p>' } });
+    expect(screen.getByRole('option', { name: 'Select a volume' })).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText('Volume'), 'New volume');
+    await user.type(screen.getByLabelText('New volume name'), 'Relationships');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(mockBlogService.createPost).toHaveBeenCalledWith(
+      expect.objectContaining({ volume: 'Relationships', title: 'Chapters 1-4' })
+    );
+  });
+
+  it('gives each comma-separated tag its own hashtag', async () => {
+    const user = userEvent.setup();
+    mockBlogService.createPost.mockResolvedValue({
+      data: { ...existingPost, id: 12, tags: ['ski', 'music'] },
+      success: true,
+    });
+
+    render(<BlogEditor />);
+
+    fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'Tagged' } });
+    fireEvent.change(screen.getByLabelText('Content'), { target: { value: '<p>Tags</p>' } });
+    await user.type(screen.getByPlaceholderText('ski, music, writing'), 'ski, music, writing');
+    await user.click(screen.getByRole('button', { name: 'Add' }));
+
+    expect(screen.getByText('#ski')).toBeInTheDocument();
+    expect(screen.getByText('#music')).toBeInTheDocument();
+    expect(screen.getByText('#writing')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    expect(mockBlogService.createPost).toHaveBeenCalledWith(
+      expect.objectContaining({ tags: ['ski', 'music', 'writing'] })
+    );
+  });
+
+  it('keeps a post standalone when no volume is selected', async () => {
+    const user = userEvent.setup();
+    mockBlogService.createPost.mockResolvedValue({
+      data: { ...existingPost, id: 11, volume: null },
+      success: true,
+    });
+
+    render(<BlogEditor />);
+
+    fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'A single essay' } });
+    fireEvent.change(screen.getByLabelText('Content'), { target: { value: '<p>On its own</p>' } });
+    expect(screen.getByLabelText('Volume')).toHaveValue('');
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(mockBlogService.createPost).toHaveBeenCalledWith(
+      expect.objectContaining({ volume: null, title: 'A single essay' })
     );
   });
 });
