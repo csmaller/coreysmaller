@@ -80,7 +80,7 @@ All API endpoints are prefixed with `/api`:
 
 ### Authentication
 - `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
+- `POST /api/auth/register` - Disabled. Accounts are created with `AdminUserSeeder`, not a public endpoint.
 - `GET /api/auth/profile` - Get user profile (protected)
 - `POST /api/auth/logout` - Logout single session (protected)
 - `POST /api/auth/logout-all` - Logout all sessions (protected)

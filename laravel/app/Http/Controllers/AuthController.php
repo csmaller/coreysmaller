@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -98,8 +99,7 @@ class AuthController extends Controller
         // Validate request
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'role' => 'nullable|string',
+            'password' => 'required|string|min:12',
         ]);
 
         if ($validator->fails()) {
@@ -112,7 +112,7 @@ class AuthController extends Controller
         }
 
         try {
-            $user = $this->authService->register($request->only(['email', 'password', 'role']));
+            $user = $this->authService->register($request->only(['email', 'password']));
 
             return response()->json([
                 'data' => [
@@ -255,6 +255,66 @@ class AuthController extends Controller
                 'message' => 'Internal server error',
                 'timestamp' => now()->toIso8601String(),
             ], 500);
+        }
+    }
+
+    public function users(): JsonResponse
+    {
+        $users = User::query()
+            ->orderByDesc('createdAt')
+            ->get(['id', 'email', 'role', 'createdAt']);
+
+        return response()->json([
+            'data' => $users,
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    public function storeUser(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:12',
+            'role' => 'required|in:guest,admin',
+        ], [
+            'password.min' => 'The password must be at least 12 characters.',
+            'role.in' => 'User level must be guest or admin.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'statusCode' => 400,
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors(),
+                'timestamp' => now()->toIso8601String(),
+            ], 400);
+        }
+
+        try {
+            $user = $this->authService->createAccount(
+                $request->input('email'),
+                $request->input('password'),
+                $request->input('role')
+            );
+
+            return response()->json([
+                'data' => [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                ],
+                'success' => true,
+                'statusCode' => 201,
+                'timestamp' => now()->toIso8601String(),
+            ], 201);
+        } catch (\RuntimeException $e) {
+            return response()->json([
+                'statusCode' => 409,
+                'message' => $e->getMessage(),
+                'timestamp' => now()->toIso8601String(),
+            ], 409);
         }
     }
 }

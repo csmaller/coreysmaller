@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MusicController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SitemapController;
 
 /*
@@ -24,15 +25,22 @@ use App\Http\Controllers\SitemapController;
 Route::prefix('auth')->middleware('rate.limit:auth')->group(function () {
     // Public routes
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
-    
+
     // Protected routes
     Route::middleware('jwt.auth')->group(function () {
         Route::get('profile', [AuthController::class, 'profile']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('logout-all', [AuthController::class, 'logoutAll']);
+
+        Route::middleware('admin')->group(function () {
+            Route::get('users', [AuthController::class, 'users']);
+            Route::post('users', [AuthController::class, 'storeUser']);
+        });
     });
 });
+
+Route::post('analytics/views', [AnalyticsController::class, 'store'])->middleware('rate.limit:api');
+Route::get('analytics', [AnalyticsController::class, 'show'])->middleware(['jwt.auth', 'admin']);
 
 // Blog routes
 Route::prefix('blog')->group(function () {

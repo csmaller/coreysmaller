@@ -30,12 +30,15 @@ class BlogService
      * @param int $limit Items per page (default: 10)
      * @return array Paginated blog posts with metadata
      */
-    public function findAll(int $page = 1, int $limit = 10): array
+    public function findAll(int $page = 1, int $limit = 10, string $audience = 'public', bool $manage = false): array
     {
-        $cacheKey = "blog:list:page:{$page}:limit:{$limit}";
+        BlogPost::ensureVisibilityColumn();
+        $includeDrafts = $manage && $audience === 'admin';
+        $cacheKey = "blog:list:page:{$page}:limit:{$limit}:audience:{$audience}:manage:" . ($includeDrafts ? '1' : '0');
         
-        return Cache::remember($cacheKey, 300, function () use ($page, $limit) {
-            $query = BlogPost::orderBy('createdAt', 'desc');
+        return Cache::remember($cacheKey, 300, function () use ($page, $limit, $audience, $includeDrafts) {
+            $query = BlogPost::query()->orderBy('createdAt', 'desc');
+            $this->applyAudience($query, $audience, $includeDrafts);
             
             $total = $query->count();
             $totalPages = (int) ceil($total / $limit);
@@ -66,6 +69,7 @@ class BlogService
      */
     public function findOne(int $id): BlogPost
     {
+        BlogPost::ensureVisibilityColumn();
         $cacheKey = "blog:item:{$id}";
         
         return Cache::remember($cacheKey, 600, function () use ($id) {
@@ -85,16 +89,23 @@ class BlogService
      * @param int $limit Number of posts to retrieve (default: 5)
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getRecentPosts(int $limit = 5)
+    public function getRecentPosts(int $limit = 5, string $audience = 'public')
     {
-        $cacheKey = "blog:recent:limit:{$limit}";
+        BlogPost::ensureVisibilityColumn();
+        $cacheKey = "blog:recent:limit:{$limit}:audience:{$audience}";
         
-        return Cache::remember($cacheKey, 180, function () use ($limit) {
-            return BlogPost::where('status', 'published')
+        return Cache::remember($cacheKey, 180, function () use ($limit, $audience) {
+            $query = BlogPost::where('status', 'published')
                 ->whereNotNull('publishedAt')
-                ->orderBy('publishedAt', 'desc')
-                ->take($limit)
-                ->get();
+                ->orderBy('publishedAt', 'desc');
+
+            if ($audience !== 'admin' && $audience !== 'member') {
+                $query->where(function ($builder) {
+                    $builder->where('visibility', 'public')->orWhereNull('visibility');
+                });
+            }
+
+            return $query->take($limit)->get();
         });
     }
 
@@ -129,6 +140,8 @@ class BlogService
     public function create(array $data): BlogPost
     {
         try {
+            BlogPost::ensureVisibilityColumn();
+            $data['visibility'] = ($data['visibility'] ?? 'public') === 'private' ? 'private' : 'public';
             $post = BlogPost::create($data);
             
             // Invalidate relevant caches
@@ -166,8 +179,12 @@ class BlogService
     public function update(int $id, array $data): BlogPost
     {
         try {
+            BlogPost::ensureVisibilityColumn();
             $post = BlogPost::findOrFail($id);
             $oldStatus = $post->status;
+            if (array_key_exists('visibility', $data)) {
+                $data['visibility'] = $data['visibility'] === 'private' ? 'private' : 'public';
+            }
             
             $post->update($data);
             
@@ -258,6 +275,10 @@ class BlogService
         for ($page = 1; $page <= 10; $page++) {
             foreach ([10, 20, 50] as $limit) {
                 Cache::forget("blog:list:page:{$page}:limit:{$limit}");
+                foreach (['public', 'member', 'admin'] as $audience) {
+                    Cache::forget("blog:list:page:{$page}:limit:{$limit}:audience:{$audience}:manage:0");
+                    Cache::forget("blog:list:page:{$page}:limit:{$limit}:audience:{$audience}:manage:1");
+                }
             }
         }
     }
@@ -270,6 +291,9 @@ class BlogService
     {
         foreach ([5, 10, 20] as $limit) {
             Cache::forget("blog:recent:limit:{$limit}");
+            foreach (['public', 'member', 'admin'] as $audience) {
+                Cache::forget("blog:recent:limit:{$limit}:audience:{$audience}");
+            }
         }
     }
 
@@ -279,5 +303,27 @@ class BlogService
     private function invalidateStatsCaches(): void
     {
         Cache::forget('blog:stats');
+    }
+
+    /**
+     * Public readers get published public posts.
+     * Logged-in guests also get published private posts.
+     * The admin manager gets drafts and archived posts too.
+     */
+    private function applyAudience($query, string $audience, bool $includeDrafts): void
+    {
+        if ($includeDrafts) {
+            return;
+        }
+
+        $query->where('status', 'published');
+
+        if ($audience === 'admin' || $audience === 'member') {
+            return;
+        }
+
+        $query->where(function ($builder) {
+            $builder->where('visibility', 'public')->orWhereNull('visibility');
+        });
     }
 }

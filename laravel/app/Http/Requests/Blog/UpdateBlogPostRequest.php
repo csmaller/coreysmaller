@@ -31,6 +31,7 @@ class UpdateBlogPostRequest extends FormRequest
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string', 'max:255'],
             'status' => ['sometimes', 'in:draft,published,archived'],
+            'visibility' => ['sometimes', 'in:public,private'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:blog,slug,' . $blogId],
         ];
     }
@@ -49,6 +50,7 @@ class UpdateBlogPostRequest extends FormRequest
             'excerpt.max' => 'The excerpt may not be greater than 255 characters.',
             'featuredImage.url' => 'The featured image must be a valid URL.',
             'status.in' => 'The status must be one of: draft, published, archived.',
+            'visibility.in' => 'The visibility must be public or private.',
             'slug.unique' => 'The slug has already been taken.',
         ];
     }

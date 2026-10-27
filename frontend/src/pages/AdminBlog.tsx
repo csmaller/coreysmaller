@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { BlogPost } from '../types';
 import { blogService } from '../services/blog';
 import { BlogEditor } from '../components/blog/BlogEditor';
 import { AdminNavigation, ConfirmationDialog } from '../components/admin';
 
 export const AdminBlog: React.FC = () => {
+  const { id: editId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const mounted = useRef(true);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +23,7 @@ export const AdminBlog: React.FC = () => {
   const loadPosts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await blogService.getAllPosts(currentPage, 10);
+      const response = await blogService.getAllPosts(currentPage, 10, true);
       setPosts(response.data);
       setTotalPages(response.pagination.totalPages);
       setTotalPosts(response.pagination.total);
@@ -32,8 +36,48 @@ export const AdminBlog: React.FC = () => {
   }, [currentPage]);
 
   useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
     loadPosts();
   }, [loadPosts]);
+
+  useEffect(() => {
+    if (!editId) return;
+
+    let active = true;
+    const loadPost = async () => {
+      try {
+        const response = await blogService.getPostById(editId);
+        if (!active) return;
+        setEditingPost(response.data);
+        setShowEditor(true);
+      } catch (err) {
+        if (!active) return;
+        setError('Failed to load blog post');
+        console.error('Error loading post:', err);
+      }
+    };
+
+    loadPost();
+    return () => {
+      active = false;
+    };
+  }, [editId]);
+
+  const closeEditor = () => {
+    if (!mounted.current) return;
+    const postId = editingPost?.id || editId;
+    setShowEditor(false);
+    setEditingPost(undefined);
+    if (editId && postId) {
+      navigate(`/blog/${postId}`);
+    }
+  };
 
   const handleCreatePost = () => {
     setEditingPost(undefined);
@@ -63,8 +107,7 @@ export const AdminBlog: React.FC = () => {
       setPosts(prevPosts => [savedPost, ...prevPosts]);
       setTotalPosts(prev => prev + 1);
     }
-    setShowEditor(false);
-    setEditingPost(undefined);
+    closeEditor();
   };
 
   const handleDeletePost = async (postId: number | string) => {
@@ -256,6 +299,9 @@ export const AdminBlog: React.FC = () => {
                         Status
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Visibility
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Tags
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -305,6 +351,13 @@ export const AdminBlog: React.FC = () => {
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(post.status)}`}>
                             {post.status}
                           </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {post.visibility === 'private' ? (
+                            <span className="private-mark">Private</span>
+                          ) : (
+                            <span className="text-sm text-gray-500">public</span>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex flex-wrap gap-1 max-w-xs">
@@ -454,14 +507,8 @@ export const AdminBlog: React.FC = () => {
                 key={editingPost?.id || 'new'}
                 post={editingPost}
                 onSave={handleSavePost}
-                onCancel={() => {
-                  setShowEditor(false);
-                  setEditingPost(undefined);
-                }}
-                onClose={() => {
-                  setShowEditor(false);
-                  setEditingPost(undefined);
-                }}
+                onCancel={closeEditor}
+                onClose={closeEditor}
               />
             </div>
           </div>

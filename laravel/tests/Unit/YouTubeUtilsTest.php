@@ -45,6 +45,21 @@ class YouTubeUtilsTest extends TestCase
         $this->assertEquals('M7lc1UVf-VE', $videoId);
     }
 
+    public function test_extract_video_id_from_shorts_url(): void
+    {
+        $url = 'https://www.youtube.com/shorts/bChAwT1SaEg';
+        $videoId = YouTubeUtils::extractVideoId($url);
+
+        $this->assertEquals('bChAwT1SaEg', $videoId);
+    }
+
+    public function test_is_valid_url_with_shorts_format(): void
+    {
+        $url = 'https://www.youtube.com/shorts/bChAwT1SaEg';
+
+        $this->assertTrue(YouTubeUtils::isValidUrl($url));
+    }
+
     /**
      * Test extractVideoId returns null for invalid URL
      */

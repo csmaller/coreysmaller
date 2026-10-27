@@ -28,7 +28,7 @@ export const BlogList: React.FC<BlogListProps> = ({
     try {
       setLoading(true);
       setError(null);
-      const response = await blogService.getAllPosts(page, pagination.limit);
+      const response = await blogService.getAllPosts(page, pagination.limit, showAdminActions);
       setPosts(response.data);
       setPagination({
         page: response.pagination.page,
@@ -160,6 +160,9 @@ export const BlogList: React.FC<BlogListProps> = ({
                 }`}>
                   {post.status}
                 </span>
+                {post.visibility === 'private' && (
+                  <span className="private-mark">Private</span>
+                )}
                 {post.tags && post.tags.length > 0 && (
                   <div className="flex space-x-1">
                     {post.tags.slice(0, 3).map((tag, index) => (

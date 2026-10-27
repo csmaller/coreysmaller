@@ -20,6 +20,8 @@ const Video = lazy(() => import('./pages/Video').then(module => ({ default: modu
 const AdminVideo = lazy(() => import('./pages/AdminVideo').then(module => ({ default: module.AdminVideo })));
 const Audio = lazy(() => import('./pages/Audio').then(module => ({ default: module.Audio })));
 const AdminAudio = lazy(() => import('./pages/AdminAudio').then(module => ({ default: module.AdminAudio })));
+const AdminAnalytics = lazy(() => import('./pages/AdminAnalytics').then(module => ({ default: module.AdminAnalytics })));
+const AdminUsers = lazy(() => import('./pages/AdminUsers').then(module => ({ default: module.AdminUsers })));
 const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
 
 function App() {
@@ -60,6 +62,14 @@ function App() {
                 } 
               />
               <Route 
+                path="/admin/blog/:id" 
+                element={
+                  <ProtectedRoute>
+                    <AdminBlog />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path="/admin/music" 
                 element={
                   <ProtectedRoute>
@@ -80,6 +90,22 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AdminAudio />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/analytics" 
+                element={
+                  <ProtectedRoute>
+                    <AdminAnalytics />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/users" 
+                element={
+                  <ProtectedRoute>
+                    <AdminUsers />
                   </ProtectedRoute>
                 } 
               />

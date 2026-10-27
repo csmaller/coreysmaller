@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,8 +23,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:6'],
-            'role' => ['nullable', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:12'],
         ];
     }
 
@@ -40,7 +39,7 @@ class RegisterRequest extends FormRequest
             'email.email' => 'The email must be a valid email address.',
             'email.unique' => 'The email has already been taken.',
             'password.required' => 'The password field is required.',
-            'password.min' => 'The password must be at least 6 characters.',
+            'password.min' => 'The password must be at least 12 characters.',
         ];
     }
 }

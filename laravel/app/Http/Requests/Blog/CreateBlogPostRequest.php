@@ -29,6 +29,7 @@ class CreateBlogPostRequest extends FormRequest
             'tags' => ['nullable', 'array'],
             'tags.*' => ['string', 'max:255'],
             'status' => ['required', 'in:draft,published,archived'],
+            'visibility' => ['nullable', 'in:public,private'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:blog,slug'],
         ];
     }
@@ -50,6 +51,7 @@ class CreateBlogPostRequest extends FormRequest
             'featuredImage.url' => 'The featured image must be a valid URL.',
             'status.required' => 'The status field is required.',
             'status.in' => 'The status must be one of: draft, published, archived.',
+            'visibility.in' => 'The visibility must be public or private.',
             'slug.unique' => 'The slug has already been taken.',
         ];
     }

@@ -1,5 +1,40 @@
 @import "tailwindcss";
 
+@theme {
+  --color-white: #101011;
+  --color-gray-50: #0a0a0b;
+  --color-gray-100: #151516;
+  --color-gray-200: #2a2a2c;
+  --color-gray-300: #2a2a2c;
+  --color-gray-400: #a29d94;
+  --color-gray-500: #a29d94;
+  --color-gray-600: #cfcac1;
+  --color-gray-700: #ebe7df;
+  --color-gray-800: #ebe7df;
+  --color-gray-900: #ebe7df;
+  --color-blue-50: #151516;
+  --color-blue-100: #151516;
+  --color-blue-600: #ff4a1c;
+  --color-blue-700: #ff4a1c;
+  --color-blue-800: #ff4a1c;
+  --color-green-600: #ff4a1c;
+  --color-green-700: #ff4a1c;
+  --color-green-100: #151516;
+  --color-green-800: #ebe7df;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 0 #0000;
+  --shadow-lg: 0 0 #0000;
+  --shadow-xl: 0 0 #0000;
+  --font-sans: "Archivo", system-ui, sans-serif;
+}
+
 /* Lexical Editor Styles */
 .editor-paragraph {
   margin: 0 0 1rem 0;
@@ -64,31 +99,25 @@
 }
 
 .editor-text-code {
-  background-color: #f3f4f6;
+  background-color: var(--surface-2);
   padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 0.875rem;
 }
 
-/* Music Player Slider Styles */
 .slider::-webkit-slider-thumb {
   appearance: none;
   height: 16px;
   width: 16px;
-  border-radius: 50%;
-  background: #2563eb;
+  background: var(--accent);
   cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--bg);
 }
 
 .slider::-moz-range-thumb {
   height: 16px;
   width: 16px;
-  border-radius: 50%;
-  background: #2563eb;
+  background: var(--accent);
   cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--bg);
 }

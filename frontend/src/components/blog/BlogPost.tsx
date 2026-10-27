@@ -29,7 +29,8 @@ export const BlogPost: React.FC<BlogPostProps> = ({
 }) => {
   const { id: paramPostId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthContext();
+  const { user } = useAuthContext();
+  const canEdit = showAdminActions || user?.role === 'admin';
   
   const [post, setPost] = useState<BlogPostType | null>(propPost || null);
   const [loading, setLoading] = useState(!propPost);
@@ -55,6 +56,15 @@ export const BlogPost: React.FC<BlogPostProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = () => {
+    if (!post) return;
+    if (onEdit) {
+      onEdit(post);
+      return;
+    }
+    navigate(`/admin/blog/${post.id}`);
   };
 
   const handleDelete = async () => {
@@ -221,6 +231,9 @@ export const BlogPost: React.FC<BlogPostProps> = ({
                 }`}>
                   {post.status}
                 </span>
+                {post.visibility === 'private' && (
+                  <span className="private-mark">Private</span>
+                )}
                 {post.updatedAt !== post.createdAt && (
                   <span className="text-xs text-gray-400">
                     Updated: {formatDate(post.updatedAt)}
@@ -242,10 +255,11 @@ export const BlogPost: React.FC<BlogPostProps> = ({
               )}
             </div>
 
-            {(showAdminActions || isAuthenticated) && (
+            {canEdit && (
               <div className="flex space-x-2 ml-6">
                 <button
-                  onClick={() => onEdit && onEdit(post)}
+                  type="button"
+                  onClick={handleEdit}
                   className="text-blue-600 hover:text-blue-800 px-4 py-2 rounded-md text-sm font-medium border border-blue-200 hover:bg-blue-50 transition-colors"
                 >
                   Edit
@@ -279,7 +293,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
 
         {/* Content */}
         <div 
-          className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-50 prose-pre:border prose-blockquote:border-l-4 prose-blockquote:border-blue-200 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4"
+          className="blog-body prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-50 prose-pre:border prose-blockquote:border-l-4 prose-blockquote:border-blue-200 prose-blockquote:bg-blue-50 prose-blockquote:py-2 prose-blockquote:px-4"
           dangerouslySetInnerHTML={renderContent(post.content)}
         />
 

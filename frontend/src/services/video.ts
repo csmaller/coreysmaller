@@ -31,17 +31,25 @@ export const videoService = {
 
   async validateYouTubeUrl(url: string): Promise<{
     isValid: boolean;
+    provider?: 'youtube' | 'instagram';
     youtubeId?: string;
+    videoId?: string;
     thumbnail?: string;
     error?: string;
   }> {
     const response = await apiService.get<{ data: {
       isValid: boolean;
+      provider?: 'youtube' | 'instagram';
       youtubeId?: string;
+      videoId?: string;
       thumbnail?: string;
       error?: string;
     } }>(`/video/validate-youtube?url=${encodeURIComponent(url)}`);
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      youtubeId: data.youtubeId ?? (data.provider === 'instagram' ? undefined : data.videoId),
+    };
   },
 
   async findByYouTubeId(youtubeId: string): Promise<VideoContent | null> {

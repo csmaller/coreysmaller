@@ -16,6 +16,11 @@
 # Disable directory browsing
 Options -Indexes
 
+# YouTube rejects embeds that arrive with no referrer and shows a sign-in wall.
+<IfModule mod_headers.c>
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
 # Enable GZIP compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
@@ -41,3 +46,9 @@ Options -Indexes
   # HTML
   ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
+
+<Files "sw.js">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache"
+  </IfModule>
+</Files>

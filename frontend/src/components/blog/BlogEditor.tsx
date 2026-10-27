@@ -12,6 +12,28 @@ interface BlogEditorProps {
   onClose?: () => void;
 }
 
+const EXCERPT_LIMIT = 250;
+const ELLIPSIS = '...';
+
+export function excerptFromContent(content: string): string {
+  const text = content
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (text.length <= EXCERPT_LIMIT) return text;
+
+  const room = EXCERPT_LIMIT - ELLIPSIS.length;
+  let shortened = text.slice(0, room);
+  const lastSpace = shortened.lastIndexOf(' ');
+  if (lastSpace > 0) shortened = shortened.slice(0, lastSpace);
+  return `${shortened.trimEnd()}${ELLIPSIS}`;
+}
+
 export const BlogEditor: React.FC<BlogEditorProps> = ({
   post,
   onSave,
@@ -24,7 +46,8 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     excerpt: '',
     featuredImage: '',
     tags: [],
-    status: 'draft'
+    status: 'draft',
+    visibility: 'public'
   });
   const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,7 +70,8 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         excerpt: post.excerpt || '',
         featuredImage: post.featuredImage || '',
         tags: post.tags || [],
-        status: post.status
+        status: post.status,
+        visibility: post.visibility === 'private' ? 'private' : 'public'
       });
     } else {
       // Reset form when creating new post
@@ -58,7 +82,8 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         excerpt: '',
         featuredImage: '',
         tags: [],
-        status: 'draft'
+        status: 'draft',
+        visibility: 'public'
       });
     }
   }, [post]);
@@ -108,17 +133,17 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
     return true;
   };
 
-  const handleSave = async (status?: 'draft' | 'published') => {
+  const handleSave = async () => {
     if (!validateForm()) return;
 
     try {
       setLoading(true);
       setError(null);
 
-      const finalStatus = status || formData.status || 'draft';
       const dataToSave = { 
         ...formData, 
-        status: finalStatus,
+        excerpt: excerptFromContent(formData.content),
+        status: formData.status || 'draft',
         featuredImage: formData.featuredImage ? sanitizeUrl(formData.featuredImage) : undefined
       };
 
@@ -165,7 +190,7 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm border">
+    <div className="blog-form max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-sm border">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900">
           {isEditing ? 'Edit Post' : 'Create New Post'}
@@ -202,25 +227,6 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
             placeholder="Enter post title"
             disabled={loading}
           />
-        </div>
-
-        {/* Excerpt */}
-        <div>
-          <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
-            Excerpt
-          </label>
-          <textarea
-            id="excerpt"
-            value={formData.excerpt}
-            onChange={(e) => handleInputChange('excerpt', e.target.value)}
-            rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Brief description of the post (optional)"
-            disabled={loading}
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            A short summary that will appear in post previews
-          </p>
         </div>
 
         {/* Featured Image */}
@@ -310,21 +316,41 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
         </div>
 
         {/* Status */}
-        <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
-            Status
-          </label>
-          <select
-            id="status"
-            value={formData.status}
-            onChange={(e) => handleInputChange('status', e.target.value as 'draft' | 'published' | 'archived')}
-            className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            disabled={loading}
-          >
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-            <option value="archived">Archived</option>
-          </select>
+        <div className="flex flex-wrap gap-6">
+          <div className="min-w-[240px] flex-1">
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+              Status
+            </label>
+            <select
+              id="status"
+              value={formData.status}
+              onChange={(e) => handleInputChange('status', e.target.value as 'draft' | 'published' | 'archived')}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              disabled={loading}
+            >
+              <option value="draft">Draft</option>
+              <option value="published">Published</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+          <div className="min-w-[240px] flex-1">
+            <label htmlFor="visibility" className="block text-sm font-medium text-gray-700 mb-2">
+              Visibility
+            </label>
+            <select
+              id="visibility"
+              value={formData.visibility || 'public'}
+              onChange={(e) => handleInputChange('visibility', e.target.value as 'public' | 'private')}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              disabled={loading}
+            >
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+            </select>
+            <p className="text-sm text-gray-500 mt-2">
+              Private posts stay off the public site. Guests and you can read them after logging in.
+            </p>
+          </div>
         </div>
 
         {/* Actions */}
@@ -341,19 +367,11 @@ export const BlogEditor: React.FC<BlogEditorProps> = ({
           <div className="flex space-x-3">
             <button
               type="button"
-              onClick={() => handleSave('draft')}
-              className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={loading}
-            >
-              {loading ? 'Saving...' : 'Save as Draft'}
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSave('published')}
+              onClick={() => handleSave()}
               className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={loading}
             >
-              {loading ? 'Publishing...' : isEditing ? 'Update Post' : 'Publish Post'}
+              {loading ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>

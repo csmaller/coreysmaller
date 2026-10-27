@@ -30,6 +30,7 @@ class BlogPostSummaryResource extends JsonResource
             'featuredImage' => $this->featuredImage,
             'tags' => is_string($this->tags) ? explode(',', $this->tags) : ($this->tags ?? []),
             'status' => $this->status,
+            'visibility' => $this->visibility ?? 'public',
             'slug' => $this->slug,
             'publishedAt' => $this->publishedAt?->toIso8601String(),
             'createdAt' => $this->createdAt->toIso8601String(),

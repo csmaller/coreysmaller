@@ -8,13 +8,15 @@ export interface CreateBlogPostDto {
   featuredImage?: string;
   tags?: string[];
   status?: 'draft' | 'published' | 'archived';
+  visibility?: 'public' | 'private';
 }
 
 export interface UpdateBlogPostDto extends Partial<CreateBlogPostDto> {}
 
 export class BlogService {
-  async getAllPosts(page: number = 1, limit: number = 10): Promise<PaginatedResponse<BlogPost>> {
-    return apiService.get<PaginatedResponse<BlogPost>>(`/blog?page=${page}&limit=${limit}`);
+  async getAllPosts(page: number = 1, limit: number = 10, manage: boolean = false): Promise<PaginatedResponse<BlogPost>> {
+    const scope = manage ? '&manage=1' : '';
+    return apiService.get<PaginatedResponse<BlogPost>>(`/blog?page=${page}&limit=${limit}${scope}`);
   }
 
   async getPostById(id: number | string): Promise<ApiResponse<BlogPost>> {

@@ -41,7 +41,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   }, [value]);
 
   return (
-    <div className={`border border-gray-300 rounded-md overflow-hidden ${className}`}>
+    <div className={`rich-text border border-gray-300 rounded-md overflow-hidden ${className}`}>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-1 p-2 border-b border-gray-200 bg-gray-50">
         <button
@@ -129,7 +129,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         style={{ 
           minHeight: '300px',
           opacity: disabled ? 0.5 : 1,
-          cursor: disabled ? 'not-allowed' : 'text'
+          cursor: disabled ? 'not-allowed' : 'text',
+          background: 'var(--bg)',
+          color: 'var(--text)',
+          caretColor: 'var(--accent)'
         }}
         suppressContentEditableWarning={true}
         data-placeholder={placeholder}

@@ -37,7 +37,10 @@ export class AuthService {
   }
 
   async getProfile(): Promise<User> {
-    return apiService.get<User>('/auth/profile');
+    const response = await apiService.get<{ data?: User } & Partial<User>>('/auth/profile');
+    const user: User = response?.data?.email ? response.data : response as User;
+    this.setUser(user);
+    return user;
   }
 
   isAuthenticated(): boolean {

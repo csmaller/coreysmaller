@@ -38,7 +38,7 @@ class BlogTest extends TestCase
     public function test_index_returns_paginated_blog_posts(): void
     {
         // Create test blog posts
-        BlogPost::factory()->count(15)->create();
+        BlogPost::factory()->count(15)->published()->create(['visibility' => 'public']);
 
         $response = $this->getJson('/api/blog?page=1&limit=10');
 
@@ -144,9 +144,10 @@ class BlogTest extends TestCase
      */
     public function test_show_returns_single_blog_post(): void
     {
-        $post = BlogPost::factory()->create([
+        $post = BlogPost::factory()->published()->create([
             'title' => 'Test Blog Post',
             'content' => 'This is test content',
+            'visibility' => 'public',
         ]);
 
         $response = $this->getJson("/api/blog/{$post->id}");
@@ -309,5 +310,75 @@ class BlogTest extends TestCase
 
         // Cache should be invalidated
         $this->assertNull(Cache::get('blog:stats'));
+    }
+
+    public function test_anonymous_readers_do_not_see_private_posts(): void
+    {
+        $private = BlogPost::factory()->published()->create([
+            'title' => 'Private note',
+            'visibility' => 'private',
+        ]);
+        BlogPost::factory()->published()->create([
+            'title' => 'Public note',
+            'visibility' => 'public',
+        ]);
+
+        $list = $this->getJson('/api/blog');
+        $list->assertStatus(200);
+        $titles = collect($list->json('data'))->pluck('title');
+        $this->assertTrue($titles->contains('Public note'));
+        $this->assertFalse($titles->contains('Private note'));
+
+        $this->getJson("/api/blog/{$private->id}")
+            ->assertStatus(404);
+    }
+
+    public function test_guest_can_read_published_private_posts(): void
+    {
+        $guest = User::create([
+            'email' => 'guest@example.com',
+            'password' => bcrypt('password123'),
+            'role' => 'guest',
+        ]);
+        $private = BlogPost::factory()->published()->create([
+            'title' => 'Private note',
+            'visibility' => 'private',
+        ]);
+        BlogPost::factory()->draft()->create([
+            'title' => 'Draft note',
+            'visibility' => 'private',
+        ]);
+
+        $token = auth()->login($guest);
+
+        $list = $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson('/api/blog');
+
+        $titles = collect($list->json('data'))->pluck('title');
+        $this->assertTrue($titles->contains('Private note'));
+        $this->assertFalse($titles->contains('Draft note'));
+
+        $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson("/api/blog/{$private->id}")
+            ->assertStatus(200)
+            ->assertJsonPath('data.visibility', 'private');
+    }
+
+    public function test_admin_manage_list_includes_drafts(): void
+    {
+        BlogPost::factory()->draft()->create(['title' => 'Draft note']);
+        BlogPost::factory()->published()->create([
+            'title' => 'Private note',
+            'visibility' => 'private',
+        ]);
+
+        $token = auth()->login($this->user);
+
+        $list = $this->withHeader('Authorization', "Bearer {$token}")
+            ->getJson('/api/blog?manage=1');
+
+        $titles = collect($list->json('data'))->pluck('title');
+        $this->assertTrue($titles->contains('Draft note'));
+        $this->assertTrue($titles->contains('Private note'));
     }
 }

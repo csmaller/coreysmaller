@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('email', 255)->unique();
             $table->string('password', 255);
-            $table->string('role', 255)->default('admin');
+            $table->string('role', 255)->default('user');
             $table->timestamp('createdAt', 6)->useCurrent();
             $table->timestamp('updatedAt', 6)->useCurrent()->useCurrentOnUpdate();
         });

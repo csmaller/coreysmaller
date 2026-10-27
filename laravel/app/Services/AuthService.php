@@ -101,9 +101,10 @@ class AuthService
                 throw new \Exception('User with this email already exists');
             }
 
-            // Hash password with bcrypt cost factor 10
-            $userData['password'] = Hash::make($userData['password'], ['rounds' => 10]);
-            $userData['role'] = $userData['role'] ?? 'admin';
+            // Never accept a role from the caller. New accounts are not administrators.
+            unset($userData['role']);
+            $userData['password'] = Hash::make($userData['password']);
+            $userData['role'] = 'user';
 
             // Create user
             $user = User::create($userData);
@@ -121,6 +122,34 @@ class AuthService
             ]);
             throw $e;
         }
+    }
+
+    /**
+     * Create a guest or admin account. Only called after an admin check.
+     */
+    public function createAccount(string $email, string $password, string $role): User
+    {
+        if (!in_array($role, ['guest', 'admin'], true)) {
+            throw new \InvalidArgumentException('User level must be guest or admin.');
+        }
+
+        if (User::where('email', $email)->exists()) {
+            throw new \RuntimeException('That email is already registered.');
+        }
+
+        $user = User::create([
+            'email' => $email,
+            'password' => Hash::make($password),
+            'role' => $role,
+        ]);
+
+        $this->logSecurityEvent('Admin created a user', [
+            'userId' => $user->id,
+            'email' => $user->email,
+            'role' => $user->role,
+        ]);
+
+        return $user;
     }
 
     /**
@@ -224,7 +253,7 @@ class AuthService
      */
     public function hashPassword(string $password): string
     {
-        return Hash::make($password, ['rounds' => 10]);
+        return Hash::make($password);
     }
 
     /**

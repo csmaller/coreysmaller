@@ -80,7 +80,7 @@ describe('BlogList', () => {
     });
 
     // Check that the service was called
-    expect(mockBlogService.getAllPosts).toHaveBeenCalledWith(1, 10);
+    expect(mockBlogService.getAllPosts).toHaveBeenCalledWith(1, 10, false);
   });
 
   it('shows loading state initially', () => {

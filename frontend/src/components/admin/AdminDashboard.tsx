@@ -191,19 +191,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <h3 className="text-xl font-semibold mb-2">Music Portfolio</h3>
-          <p className="text-gray-600 mb-4">
-            Upload and manage music tracks
-          </p>
-          <Link 
-            to="/admin/music"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block w-full text-center"
-          >
-            Manage Music
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
           <h3 className="text-xl font-semibold mb-2">Video Content</h3>
           <p className="text-gray-600 mb-4">
             Add and organize video content
@@ -234,9 +221,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           <p className="text-gray-600 mb-4">
             View site statistics and performance
           </p>
-          <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors w-full">
+          <Link
+            to="/admin/analytics"
+            className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors inline-block w-full text-center"
+          >
             View Analytics
-          </button>
+          </Link>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <h3 className="text-xl font-semibold mb-2">Users</h3>
+          <p className="text-gray-600 mb-4">
+            Add a guest or another admin
+          </p>
+          <Link
+            to="/admin/users"
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors inline-block w-full text-center"
+          >
+            Manage Users
+          </Link>
         </div>
       </div>
 
@@ -249,7 +252,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               {recentContent.posts.map((post) => (
                 <div key={post.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
                   <div>
-                    <h4 className="font-medium text-gray-900 truncate">{post.title}</h4>
+                    <h4 className="font-medium text-gray-900 truncate">
+                      {post.title}
+                      {post.visibility === 'private' ? <span className="private-mark"> Private</span> : null}
+                    </h4>
                     <p className="text-sm text-gray-600">{formatDate(post.createdAt)}</p>
                   </div>
                   <span className={`px-2 py-1 text-xs rounded-full ${

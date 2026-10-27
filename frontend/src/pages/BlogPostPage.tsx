@@ -5,7 +5,9 @@ import { BlogPost } from '../components/blog';
 export const BlogPostPage: React.FC = () => {
   return (
     <Layout>
-      <BlogPost />
+      <section className="container section first">
+        <BlogPost />
+      </section>
     </Layout>
   );
 };

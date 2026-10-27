@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { VideoContent } from '../../types';
+import { videoEmbed } from '../../utils/videoEmbed';
 
 interface VideoPlayerProps {
   video: VideoContent;
@@ -30,18 +31,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [onClose]);
 
-  const getYouTubeEmbedUrl = (youtubeUrl: string) => {
-    // Extract video ID from various YouTube URL formats
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = youtubeUrl.match(regExp);
-    const videoId = match && match[2].length === 11 ? match[2] : null;
-    
-    if (videoId) {
-      // Add autoplay and other parameters for embedded player
-      return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-    }
-    return null;
-  };
+  const embed = videoEmbed(video.youtubeUrl);
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -58,7 +48,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const embedUrl = getYouTubeEmbedUrl(video.youtubeUrl);
+  const embedUrl = embed?.src ?? null;
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
@@ -96,7 +86,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             </button>
           </div>
           <p className="text-gray-600 mb-4">
-            Unable to load video. The YouTube URL may be invalid or the video may not be available.
+            Unable to load video. The link may be invalid or the video may not be available.
           </p>
           <div className="flex gap-2">
             <a
@@ -184,13 +174,16 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           {/* Video Player */}
           <div className={`${showPlaylist && playlist && playlist.length > 1 ? 'flex-grow' : 'w-full'} flex flex-col`}>
             {/* YouTube Embed */}
-            <div className={`${isFullscreen ? 'h-full' : 'aspect-video'} bg-black`}>
+            <div className={embed?.provider === 'instagram'
+              ? 'mx-auto w-full max-w-[420px] h-[640px] bg-black'
+              : `${isFullscreen ? 'h-full' : 'aspect-video'} bg-black`}>
               <iframe
                 src={embedUrl}
                 title={video.title}
                 className="w-full h-full"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
             </div>

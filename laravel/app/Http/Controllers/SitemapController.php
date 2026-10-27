@@ -57,8 +57,12 @@ class SitemapController extends Controller
         ];
 
         // Blog posts
+        BlogPost::ensureVisibilityColumn();
         $posts = BlogPost::where('status', 'published')
-            ->orderBy('updated_at', 'desc')
+            ->where(function ($query) {
+                $query->where('visibility', 'public')->orWhereNull('visibility');
+            })
+            ->orderBy('updatedAt', 'desc')
             ->get();
 
         foreach ($posts as $post) {
@@ -66,7 +70,7 @@ class SitemapController extends Controller
                 'loc' => $baseUrl . '/blog/' . $post->id,
                 'changefreq' => 'monthly',
                 'priority' => '0.7',
-                'lastmod' => $post->updated_at->toIso8601String(),
+                'lastmod' => $post->updatedAt->toIso8601String(),
             ];
         }
 

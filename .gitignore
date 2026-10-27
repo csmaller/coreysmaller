@@ -55,7 +55,10 @@ typings/
 .env
 .env.local
 .env.*.local
+.env-local
 .env-prod
+**/.env-local
+**/.env-prod
 
 # Security: Never commit these files
 *.pem
@@ -67,6 +70,8 @@ typings/
 **/public/check-auth.php
 **/public/debug*.php
 **/public/test*.php
+**/public/fix-password.php
+**/public/clear-cache.php
 
 # Build outputs
 dist/

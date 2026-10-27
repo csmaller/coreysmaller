@@ -34,6 +34,7 @@ export interface BlogPost {
   featuredImage?: string;
   tags?: string[];
   status: 'draft' | 'published' | 'archived';
+  visibility?: 'public' | 'private';
   slug?: string;
   createdAt: Date;
   updatedAt: Date;

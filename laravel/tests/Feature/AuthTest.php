@@ -12,30 +12,19 @@ class AuthTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test user registration
+     * Registration is not a public endpoint. A caller cannot create an account or choose a role.
      */
-    public function test_user_can_register(): void
+    public function test_guest_cannot_register(): void
     {
         $response = $this->postJson('/api/auth/register', [
             'email' => 'test@example.com',
-            'password' => 'password123',
+            'password' => 'password123456',
             'role' => 'admin',
         ]);
 
-        $response->assertStatus(201)
-            ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'email',
-                    'role',
-                    'createdAt',
-                    'updatedAt',
-                ],
-                'statusCode',
-                'timestamp',
-            ]);
+        $response->assertNotFound();
 
-        $this->assertDatabaseHas('users', [
+        $this->assertDatabaseMissing('users', [
             'email' => 'test@example.com',
         ]);
     }

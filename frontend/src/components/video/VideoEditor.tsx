@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { VideoContent } from '../../types';
 import { videoService } from '../../services/video';
+import { videoEmbed } from '../../utils/videoEmbed';
 
 interface VideoEditorProps {
   video?: VideoContent;
@@ -20,6 +21,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
   const [validatingUrl, setValidatingUrl] = useState(false);
   const [urlValidation, setUrlValidation] = useState<{
     isValid: boolean;
+    provider?: 'youtube' | 'instagram';
     youtubeId?: string;
     thumbnail?: string;
     error?: string;
@@ -54,7 +56,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
 
   const validateYouTubeUrl = async () => {
     if (!formData.youtubeUrl.trim()) {
-      setError('YouTube URL is required');
+      setError('A YouTube or Instagram URL is required');
       return false;
     }
 
@@ -66,7 +68,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
       setUrlValidation(validation);
 
       if (!validation.isValid) {
-        setError(validation.error || 'Invalid YouTube URL');
+        setError(validation.error || 'Invalid video URL');
         return false;
       }
 
@@ -78,7 +80,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
       return true;
     } catch (err) {
       console.error('Error validating YouTube URL:', err);
-      setError('Failed to validate YouTube URL');
+      setError('Failed to validate the video URL');
       return false;
     } finally {
       setValidatingUrl(false);
@@ -91,7 +93,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
       return false;
     }
     if (!formData.youtubeUrl.trim()) {
-      setError('YouTube URL is required');
+      setError('A YouTube or Instagram URL is required');
       return false;
     }
     if (formData.duration && (isNaN(Number(formData.duration)) || Number(formData.duration) < 0)) {
@@ -143,15 +145,11 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
     }
   };
 
-  const getYouTubeVideoId = (url: string) => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
-  };
-
   const generateThumbnailUrl = (url: string) => {
-    const videoId = getYouTubeVideoId(url);
-    return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null;
+    const embed = videoEmbed(url);
+    return embed?.provider === 'youtube'
+      ? `https://img.youtube.com/vi/${embed.id}/hqdefault.jpg`
+      : null;
   };
 
   return (
@@ -177,7 +175,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
             {/* YouTube URL */}
             <div>
               <label htmlFor="youtubeUrl" className="block text-sm font-medium text-gray-700 mb-2">
-                YouTube URL *
+                Video URL *
               </label>
               <div className="flex gap-2">
                 <input
@@ -188,7 +186,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
                   onChange={handleInputChange}
                   required
                   className="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  placeholder="YouTube, YouTube Short, or Instagram link"
                 />
                 <button
                   type="button"
@@ -200,7 +198,7 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
                 </button>
               </div>
               <p className="text-sm text-gray-600 mt-1">
-                Paste a YouTube video URL (watch, embed, or short URL formats supported)
+                Paste a YouTube video, a YouTube Short, or an Instagram post or reel.
               </p>
               
               {/* URL Validation Status */}
@@ -219,7 +217,9 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
                       </svg>
                     )}
                     <p className={`text-sm ${urlValidation.isValid ? 'text-green-700' : 'text-red-700'}`}>
-                      {urlValidation.isValid ? 'Valid YouTube URL' : urlValidation.error}
+                      {urlValidation.isValid
+                        ? (urlValidation.provider === 'instagram' ? 'Valid Instagram link' : 'Valid YouTube link')
+                        : urlValidation.error}
                     </p>
                   </div>
                   {urlValidation.isValid && urlValidation.youtubeId && (
@@ -238,13 +238,19 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
                   Video Preview
                 </label>
                 <div className="border border-gray-200 rounded-md p-4 bg-gray-50">
-                  {previewThumbnail ? (
+                  {urlValidation?.isValid && urlValidation.provider === 'instagram' && videoEmbed(formData.youtubeUrl) ? (
+                    <iframe
+                      src={videoEmbed(formData.youtubeUrl)!.src}
+                      title="Instagram preview"
+                      className="mx-auto w-full max-w-[360px] h-[480px]"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                  ) : previewThumbnail ? (
                     <img
                       src={previewThumbnail}
                       alt="Video thumbnail"
                       className="w-full max-w-sm mx-auto rounded-md"
                       onError={() => {
-                        // Fallback to generated thumbnail URL
                         const fallbackUrl = generateThumbnailUrl(formData.youtubeUrl);
                         if (fallbackUrl && fallbackUrl !== previewThumbnail) {
                           setPreviewThumbnail(fallbackUrl);

@@ -1,0 +1,17 @@
+---
+description: Corey Smaller dark/edgy musician design system. Apply to all UI work.
+alwaysApply: true
+---
+
+# Design system
+
+The site's design is defined by `design/index.html` and `design/styles.css`
+(see `design/DESIGN.md` for tokens, structure and porting rules).
+These REPLACE the previous design. When building or editing any UI:
+
+- Use the CSS variables / tokens from `design/styles.css` (`--bg`, `--text`, `--accent`, `--font-display`, ...). Never hardcode colors or fonts.
+- Dark only: near-black ground, bone-white text, ONE accent (`--accent`). No gradients, shadows, rounded corners, or emoji.
+- Headings/titles: Anton, uppercase. Labels/nav/buttons/dates: Space Mono, uppercase, wide letter-spacing. Body: Archivo.
+- Keep existing routes, data fetching and auth logic. Only the look changes.
+- Touch targets ≥ 44px, real semantic elements, visible focus ring, respect `prefers-reduced-motion`.
+- Anything in `[BRACKETS]` is placeholder copy: replace with real data from the app, never ship it.

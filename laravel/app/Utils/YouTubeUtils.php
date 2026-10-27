@@ -10,6 +10,7 @@ namespace App\Utils;
  * - https://www.youtube.com/watch?v=VIDEO_ID
  * - https://youtu.be/VIDEO_ID
  * - https://www.youtube.com/embed/VIDEO_ID
+ * - https://www.youtube.com/shorts/VIDEO_ID
  * 
  * Requirements: 11.1, 11.2, 11.7
  */
@@ -37,6 +38,11 @@ class YouTubeUtils
         if (preg_match('/(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/', $url, $matches)) {
             return $matches[1];
         }
+
+        // Pattern 4: https://www.youtube.com/shorts/VIDEO_ID
+        if (preg_match('/(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/', $url, $matches)) {
+            return $matches[1];
+        }
         
         return null;
     }
@@ -54,6 +60,7 @@ class YouTubeUtils
             '/^https:\/\/www\.youtube\.com\/watch\?v=[a-zA-Z0-9_-]{11}/',
             '/^https:\/\/youtu\.be\/[a-zA-Z0-9_-]{11}/',
             '/^https:\/\/www\.youtube\.com\/embed\/[a-zA-Z0-9_-]{11}/',
+            '/^https:\/\/www\.youtube\.com\/shorts\/[a-zA-Z0-9_-]{11}/',
         ];
         
         foreach ($patterns as $pattern) {

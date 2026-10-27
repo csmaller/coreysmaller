@@ -24,7 +24,7 @@ class UpdateVideoRequest extends FormRequest
         return [
             'title' => ['sometimes', 'string', 'max:200', 'min:1'],
             'description' => ['nullable', 'string'],
-            'youtubeUrl' => ['sometimes', 'url', 'regex:/^https:\/\/(www\.youtube\.com|youtu\.be)\/.+$/'],
+            'youtubeUrl' => ['sometimes', 'url', 'regex:/^https:\/\/(www\.youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/|(www\.)?instagram\.com\/(p|reel|reels|tv)\/).+$/'],
             'thumbnail' => ['nullable', 'url', 'max:255'],
             'duration' => ['nullable', 'integer', 'min:1'],
         ];
@@ -40,8 +40,8 @@ class UpdateVideoRequest extends FormRequest
         return [
             'title.max' => 'The title may not be greater than 200 characters.',
             'title.min' => 'The title must be at least 1 character.',
-            'youtubeUrl.url' => 'The YouTube URL must be a valid URL.',
-            'youtubeUrl.regex' => 'The YouTube URL must be a valid YouTube URL (youtube.com or youtu.be).',
+            'youtubeUrl.url' => 'The video URL must be a valid URL.',
+            'youtubeUrl.regex' => 'Use a YouTube link, a YouTube Short, or an Instagram post or reel.',
             'thumbnail.url' => 'The thumbnail must be a valid URL.',
             'duration.integer' => 'The duration must be an integer.',
             'duration.min' => 'The duration must be at least 1.',

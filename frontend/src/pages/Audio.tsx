@@ -5,20 +5,15 @@ import { AudioList } from '../components/audio';
 export const Audio: React.FC = () => {
   return (
     <Layout>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Audio Content
-        </h1>
-        <p className="text-xl text-gray-600 max-w-3xl">
-          Discover my audio content hosted on SoundCloud. From individual tracks to complete playlists, 
-          explore the sounds and stories that inspire my creative journey.
-        </p>
-      </div>
-      <AudioList 
-        showFilters={true}
-        showPlayer={true}
-        enablePlaylist={true}
-      />
+      <section className="container section first">
+        <h1 className="display section-title">Sounds</h1>
+        <p>SoundCloud tracks and playlists.</p>
+        <AudioList
+          showFilters={true}
+          showPlayer={true}
+          enablePlaylist={true}
+        />
+      </section>
     </Layout>
   );
 };

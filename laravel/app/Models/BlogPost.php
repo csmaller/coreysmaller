@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * BlogPost Model
@@ -65,6 +68,7 @@ class BlogPost extends Model
         'featuredImage',
         'tags',
         'status',
+        'visibility',
         'slug',
         'publishedAt',
     ];
@@ -125,6 +129,65 @@ class BlogPost extends Model
     }
 
     /**
+     * Add the visibility column on hosts where the migration has not been run.
+     */
+    public static function ensureVisibilityColumn(): void
+    {
+        static $ready = false;
+        if ($ready) {
+            return;
+        }
+
+        if (!Schema::hasColumn('blog', 'visibility')) {
+            Schema::table('blog', function (Blueprint $table) {
+                $table->string('visibility', 20)->default('public');
+            });
+        }
+
+        static::ensureContentCapacity();
+
+        $ready = true;
+    }
+
+    /**
+     * The original column is TEXT, about 64KB. MEDIUMTEXT is the next size
+     * and holds more than twice that.
+     */
+    public static function ensureContentCapacity(): void
+    {
+        $column = DB::selectOne(
+            'SELECT DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?',
+            ['blog', 'content']
+        );
+
+        if ($column && strtolower((string) $column->DATA_TYPE) === 'text') {
+            DB::statement('ALTER TABLE blog MODIFY content MEDIUMTEXT NOT NULL');
+        }
+    }
+
+    /**
+     * Public readers see published public posts.
+     * Guests see published public and private posts.
+     * Admins see every post, including drafts.
+     */
+    public function isVisibleTo(string $audience): bool
+    {
+        if ($audience === 'admin') {
+            return true;
+        }
+
+        if ($this->status !== 'published') {
+            return false;
+        }
+
+        if ($audience === 'member') {
+            return true;
+        }
+
+        return ($this->visibility ?? 'public') === 'public';
+    }
+
+    /**
      * Boot the model and set up event listeners.
      */
     protected static function boot()
@@ -133,6 +196,10 @@ class BlogPost extends Model
 
         // Automatically set publishedAt when status changes to published
         static::saving(function ($blogPost) {
+            if (!$blogPost->visibility) {
+                $blogPost->visibility = 'public';
+            }
+
             if ($blogPost->isDirty('status') && $blogPost->status === 'published' && !$blogPost->publishedAt) {
                 $blogPost->publishedAt = now();
             }

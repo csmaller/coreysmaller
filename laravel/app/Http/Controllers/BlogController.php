@@ -10,6 +10,7 @@ use App\Http\Resources\BlogPostSummaryResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
  * BlogController
@@ -65,7 +66,9 @@ class BlogController extends Controller
             $limit = 10;
         }
         
-        $result = $this->blogService->findAll($page, $limit);
+        $audience = $this->audience($request);
+        $manage = $request->query('manage') === '1';
+        $result = $this->blogService->findAll($page, $limit, $audience, $manage);
         
         return response()->json([
             'data' => BlogPostSummaryResource::collection($result['data']),
@@ -91,7 +94,7 @@ class BlogController extends Controller
             $limit = 5;
         }
         
-        $posts = $this->blogService->getRecentPosts($limit);
+        $posts = $this->blogService->getRecentPosts($limit, $this->audience($request));
         
         return response()->json([
             'data' => BlogPostSummaryResource::collection($posts),
@@ -124,10 +127,14 @@ class BlogController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(Request $request, int $id): JsonResponse
     {
         try {
             $post = $this->blogService->findOne($id);
+
+            if (!$post->isVisibleTo($this->audience($request))) {
+                throw new ModelNotFoundException("Blog post with ID {$id} not found");
+            }
             
             return response()->json([
                 'data' => new BlogPostResource($post),
@@ -239,6 +246,34 @@ class BlogController extends Controller
                 'error' => $e->getMessage(),
                 'timestamp' => now()->toIso8601String(),
             ], 400);
+        }
+    }
+
+    /**
+     * Guests and admins can read private posts. Everyone else gets the public list.
+     * A missing or expired token stays on the public list instead of failing the page.
+     */
+    private function audience(Request $request): string
+    {
+        try {
+            $header = $request->header('Authorization');
+            if (!$header || !preg_match('/Bearer\s+(.*)$/i', $header, $matches)) {
+                return 'public';
+            }
+
+            $user = JWTAuth::setToken($matches[1])->authenticate();
+            $role = $user->role ?? null;
+
+            if ($role === 'admin') {
+                return 'admin';
+            }
+            if ($role === 'guest') {
+                return 'member';
+            }
+
+            return 'public';
+        } catch (\Throwable $e) {
+            return 'public';
         }
     }
 }

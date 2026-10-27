@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Video;
+use App\Utils\InstagramUtils;
 use App\Utils\YouTubeUtils;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -95,10 +96,19 @@ class VideoService
             ];
         }
 
+        if (InstagramUtils::isValidUrl($url)) {
+            return [
+                'isValid' => true,
+                'provider' => 'instagram',
+                'videoId' => InstagramUtils::extractShortcode($url),
+                'url' => $url,
+            ];
+        }
+
         if (!YouTubeUtils::isValidUrl($url)) {
             return [
                 'isValid' => false,
-                'error' => 'Invalid YouTube URL format',
+                'error' => 'Invalid video URL. Use a YouTube link, a YouTube Short, or an Instagram post or reel.',
             ];
         }
 
@@ -113,7 +123,10 @@ class VideoService
 
         return [
             'isValid' => true,
+            'provider' => 'youtube',
             'videoId' => $videoId,
+            'youtubeId' => $videoId,
+            'thumbnail' => "https://img.youtube.com/vi/{$videoId}/hqdefault.jpg",
             'url' => $url,
         ];
     }
@@ -127,10 +140,7 @@ class VideoService
     public function create(array $data): Video
     {
         try {
-            // Extract YouTube ID from URL if not provided
-            if (isset($data['youtubeUrl']) && !isset($data['youtubeId'])) {
-                $data['youtubeId'] = YouTubeUtils::extractVideoId($data['youtubeUrl']);
-            }
+            $data = $this->normalizeMedia($data);
 
             $video = Video::create($data);
             
@@ -163,11 +173,8 @@ class VideoService
         try {
             $video = Video::findOrFail($id);
             
-            // Extract YouTube ID from URL if URL is being updated
-            if (isset($data['youtubeUrl']) && !isset($data['youtubeId'])) {
-                $data['youtubeId'] = YouTubeUtils::extractVideoId($data['youtubeUrl']);
-            }
-            
+            $data = $this->normalizeMedia($data);
+
             $video->update($data);
             
             Log::info('Video updated', [
@@ -189,6 +196,27 @@ class VideoService
             ]);
             throw $e;
         }
+    }
+
+    /**
+     * Keep the stored id in step with the pasted link.
+     * Instagram posts have no YouTube id, so that column is cleared.
+     */
+    private function normalizeMedia(array $data): array
+    {
+        if (!isset($data['youtubeUrl'])) {
+            return $data;
+        }
+
+        if (InstagramUtils::isValidUrl($data['youtubeUrl'])) {
+            $data['youtubeId'] = null;
+
+            return $data;
+        }
+
+        $data['youtubeId'] = YouTubeUtils::extractVideoId($data['youtubeUrl']);
+
+        return $data;
     }
 
     /**

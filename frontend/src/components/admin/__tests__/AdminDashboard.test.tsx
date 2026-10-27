@@ -125,10 +125,13 @@ describe('AdminDashboard', () => {
     renderWithRouter(<AdminDashboard {...mockProps} />);
     
     expect(await screen.findByText('Blog Management')).toBeInTheDocument();
-    expect(screen.getByText('Music Portfolio')).toBeInTheDocument();
+    expect(screen.queryByText('Music Portfolio')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Manage Music' })).not.toBeInTheDocument();
     expect(screen.getByText('Video Content')).toBeInTheDocument();
     expect(screen.getByText('Audio Content')).toBeInTheDocument();
     expect(screen.getByText('Site Analytics')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'View Analytics' })).toHaveAttribute('href', '/admin/analytics');
+    expect(screen.getByRole('link', { name: 'Manage Users' })).toHaveAttribute('href', '/admin/users');
   });
 
   it('calls onCreatePost when create button is clicked', async () => {
