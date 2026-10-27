@@ -6,7 +6,7 @@ export const Video: React.FC = () => {
   return (
     <Layout>
       <section className="container section first">
-        <h1 className="display section-title">Video</h1>
+        <h1 className="display section-title">Sights</h1>
         <p>Videos and other moving work.</p>
         <VideoList enablePlaylist={true} />
       </section>

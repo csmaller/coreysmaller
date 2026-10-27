@@ -19,7 +19,7 @@ export const NotFound: React.FC = () => {
             <Link className="btn btn-primary" to="/">Return home</Link>
             <Link className="btn btn-ghost" to="/blog">Words</Link>
             <Link className="btn btn-ghost" to="/audio">Sounds</Link>
-            <Link className="btn btn-ghost" to="/video">Video</Link>
+            <Link className="btn btn-ghost" to="/video">Sights</Link>
           </div>
         </section>
       </Layout>

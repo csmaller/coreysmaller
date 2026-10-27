@@ -129,7 +129,7 @@ export const Home: React.FC = () => {
 
         <section className="container section" id="video">
           <div className="section-head">
-            <h2 className="display section-title">Video</h2>
+            <h2 className="display section-title">Sights</h2>
             <span className="mono-label section-index">02 / <Link to="/video">All video &rarr;</Link></span>
           </div>
           {!loading && content.latestVideos.length === 0 ? <p>No video yet.</p> : null}

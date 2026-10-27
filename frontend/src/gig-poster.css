@@ -142,6 +142,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .section-index a { color: var(--accent); }
 .section-index a:hover { text-decoration: underline; }
 
+/* soundcloud players on the sounds page */
+.sound-list { display: flex; flex-direction: column; gap: 12px; }
+.sound-widget {
+  display: block;
+  width: 100%;
+  height: 80px;
+  border: 0;
+}
+
 /* audio cards */
 .grid {
   display: grid; gap: 32px;

@@ -4,7 +4,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 
 const links = [
   { to: '/audio', label: 'Sounds' },
-  { to: '/video', label: 'Video' },
+  { to: '/video', label: 'Sights' },
   { to: '/blog', label: 'Words' },
 ];
 

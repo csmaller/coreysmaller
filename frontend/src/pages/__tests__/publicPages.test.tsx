@@ -79,7 +79,7 @@ describe('public pages use the poster shell', () => {
 
   it('renders the video index', () => {
     renderPage(<Video />);
-    expect(screen.getByRole('heading', { name: 'Video' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Sights' })).toBeInTheDocument();
     expect(screen.getByText('Videos and other moving work.')).toBeInTheDocument();
   });
 
