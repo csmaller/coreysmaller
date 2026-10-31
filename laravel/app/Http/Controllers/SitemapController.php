@@ -75,35 +75,35 @@ class SitemapController extends Controller
         }
 
         // Music tracks
-        $music = Music::orderBy('updated_at', 'desc')->get();
+        $music = Music::orderBy('updatedAt', 'desc')->get();
         foreach ($music as $track) {
             $urls[] = [
                 'loc' => $baseUrl . '/music/' . $track->id,
                 'changefreq' => 'monthly',
                 'priority' => '0.6',
-                'lastmod' => $track->updated_at->toIso8601String(),
+                'lastmod' => $track->updatedAt->toIso8601String(),
             ];
         }
 
         // Videos
-        $videos = Video::orderBy('updated_at', 'desc')->get();
+        $videos = Video::orderBy('updatedAt', 'desc')->get();
         foreach ($videos as $video) {
             $urls[] = [
                 'loc' => $baseUrl . '/video/' . $video->id,
                 'changefreq' => 'monthly',
                 'priority' => '0.6',
-                'lastmod' => $video->updated_at->toIso8601String(),
+                'lastmod' => $video->updatedAt->toIso8601String(),
             ];
         }
 
         // Audio
-        $audio = Audio::orderBy('updated_at', 'desc')->get();
+        $audio = Audio::orderBy('updatedAt', 'desc')->get();
         foreach ($audio as $item) {
             $urls[] = [
                 'loc' => $baseUrl . '/audio/' . $item->id,
                 'changefreq' => 'monthly',
                 'priority' => '0.6',
-                'lastmod' => $item->updated_at->toIso8601String(),
+                'lastmod' => $item->updatedAt->toIso8601String(),
             ];
         }
 

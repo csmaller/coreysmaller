@@ -33,10 +33,11 @@ return new class extends Migration
             // Index on slug (unique constraint already creates an index)
         });
 
-        // Add CHECK constraints (MySQL 8.0.16+)
-        DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_title_not_empty CHECK (title != \'\')');
-        DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_content_not_empty CHECK (content != \'\')');
-        DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_status_valid CHECK (status IN (\'draft\', \'published\', \'archived\'))');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_title_not_empty CHECK (title != \'\')');
+            DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_content_not_empty CHECK (content != \'\')');
+            DB::statement('ALTER TABLE blog ADD CONSTRAINT blog_status_valid CHECK (status IN (\'draft\', \'published\', \'archived\'))');
+        }
     }
 
     /**

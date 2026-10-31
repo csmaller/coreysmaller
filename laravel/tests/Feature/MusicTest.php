@@ -155,7 +155,7 @@ class MusicTest extends TestCase
      */
     public function test_store_creates_music_track_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $data = [
             'title' => 'New Track',
@@ -192,7 +192,7 @@ class MusicTest extends TestCase
      */
     public function test_update_modifies_music_track_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $track = Music::create([
             'title' => 'Original Title',
@@ -229,7 +229,7 @@ class MusicTest extends TestCase
      */
     public function test_destroy_deletes_music_track_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $track = Music::create([
             'title' => 'Track to Delete',
@@ -256,13 +256,14 @@ class MusicTest extends TestCase
      */
     public function test_store_validates_required_fields(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $response = $this->withHeader('Authorization', "Bearer {$token}")
             ->postJson('/api/music', []);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['title']);
+        $response->assertStatus(400)
+            ->assertJsonPath('message', 'Validation failed')
+            ->assertJsonPath('errors.0', 'The title field is required.');
     }
 
     /**
@@ -270,7 +271,7 @@ class MusicTest extends TestCase
      */
     public function test_store_validates_duration_is_positive(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $response = $this->withHeader('Authorization', "Bearer {$token}")
             ->postJson('/api/music', [
@@ -278,7 +279,8 @@ class MusicTest extends TestCase
                 'duration' => -10,
             ]);
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['duration']);
+        $response->assertStatus(400)
+            ->assertJsonPath('message', 'Validation failed')
+            ->assertJsonPath('errors.0', 'The duration must be at least 1.');
     }
 }

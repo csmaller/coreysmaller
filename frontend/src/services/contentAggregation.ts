@@ -175,21 +175,22 @@ export class ContentAggregationService {
     totalAudio: number;
   }> {
     try {
-      const [postsResponse, tracksResponse, videosResponse, audio] = await Promise.all([
+      const [postsResponse, tracksResponse, videosResponse, audioResponse] = await Promise.all([
         blogService.getAllPosts(1, 1).catch(() => ({ data: { data: [] }, pagination: { total: 0, page: 1, limit: 1, totalPages: 0 }, success: true })),
         musicService.getAllTracks().catch(() => ({ data: [], success: true })),
         videoService.getAllVideos().catch(() => ({ data: [], success: true })),
-        audioService.getAllAudio().catch(() => [])
+        audioService.getAllAudio().catch(() => ({ data: [], success: true }))
       ]);
 
       const tracks = tracksResponse.data || [];
       const videos = videosResponse.data || [];
+      const clips = audioResponse.data || [];
 
       return {
         totalPosts: postsResponse.pagination?.total || 0,
         totalTracks: Array.isArray(tracks) ? tracks.length : 0,
         totalVideos: Array.isArray(videos) ? videos.length : 0,
-        totalAudio: Array.isArray(audio) ? audio.length : 0
+        totalAudio: Array.isArray(clips) ? clips.length : 0
       };
     } catch (error) {
       console.error('Error fetching content stats:', error);

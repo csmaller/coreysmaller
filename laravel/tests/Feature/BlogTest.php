@@ -182,7 +182,7 @@ class BlogTest extends TestCase
      */
     public function test_store_creates_blog_post_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $data = [
             'title' => 'New Blog Post',
@@ -237,7 +237,7 @@ class BlogTest extends TestCase
             'status' => 'draft',
         ]);
 
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $data = [
             'title' => 'Updated Title',
@@ -271,7 +271,7 @@ class BlogTest extends TestCase
     {
         $post = BlogPost::factory()->create();
 
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $response = $this->withHeader('Authorization', "Bearer {$token}")
             ->deleteJson("/api/blog/{$post->id}");
@@ -297,7 +297,7 @@ class BlogTest extends TestCase
         // Pre-populate cache
         Cache::put('blog:stats', ['total' => 0], 300);
         
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $data = [
             'title' => 'New Post',
@@ -349,7 +349,7 @@ class BlogTest extends TestCase
             'visibility' => 'private',
         ]);
 
-        $token = auth()->login($guest);
+        $token = auth('api')->login($guest);
 
         $list = $this->withHeader('Authorization', "Bearer {$token}")
             ->getJson('/api/blog');
@@ -372,7 +372,7 @@ class BlogTest extends TestCase
             'visibility' => 'private',
         ]);
 
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $list = $this->withHeader('Authorization', "Bearer {$token}")
             ->getJson('/api/blog?manage=1');

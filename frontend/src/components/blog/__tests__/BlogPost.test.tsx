@@ -101,4 +101,26 @@ describe('BlogPost edit', () => {
     expect(previous.compareDocumentPosition(next) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.getByText('42 words')).toBeInTheDocument();
   });
+
+  it('scrolls to the top when opening the next post', async () => {
+    const user = userEvent.setup();
+    const scrollTo = jest.spyOn(window, 'scrollTo').mockImplementation(() => {});
+
+    render(
+      <MemoryRouter initialEntries={['/blog/7']}>
+        <Routes>
+          <Route path="/blog/:id" element={<BlogPost post={{
+            ...post,
+            next: { title: 'Newer', href: '/blog/8' },
+          }} />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    scrollTo.mockClear();
+    await user.click(screen.getByRole('link', { name: 'Next →' }));
+
+    expect(scrollTo).toHaveBeenCalledWith(0, 0);
+    scrollTo.mockRestore();
+  });
 });

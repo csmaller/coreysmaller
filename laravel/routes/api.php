@@ -101,7 +101,8 @@ Route::prefix('audio')->group(function () {
     // Public routes
     Route::get('/', [AudioController::class, 'index']);
     Route::get('/validate-soundcloud', [AudioController::class, 'validateSoundcloud']);
-    Route::get('/by-soundcloud-id/{soundcloudId}', [AudioController::class, 'getBySoundcloudId']);
+    Route::get('/by-soundcloud-id/{soundcloudId}', [AudioController::class, 'getBySoundcloudId'])
+        ->where('soundcloudId', '.+');
     Route::get('/{id}', [AudioController::class, 'show']);
     Route::post('/{id}/play', [AudioController::class, 'play']);
     

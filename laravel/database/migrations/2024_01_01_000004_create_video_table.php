@@ -32,11 +32,12 @@ return new class extends Migration
             // Unique index on youtubeId (unique constraint already creates an index)
         });
 
-        // Add CHECK constraints (MySQL 8.0.16+)
-        DB::statement('ALTER TABLE video ADD CONSTRAINT video_title_not_empty CHECK (title != \'\')');
-        DB::statement('ALTER TABLE video ADD CONSTRAINT video_youtube_url_format CHECK (youtubeUrl LIKE \'https://www.youtube.com/%\' OR youtubeUrl LIKE \'https://youtu.be/%\')');
-        DB::statement('ALTER TABLE video ADD CONSTRAINT video_duration_positive CHECK (duration IS NULL OR duration > 0)');
-        DB::statement('ALTER TABLE video ADD CONSTRAINT video_viewcount_nonnegative CHECK (viewCount >= 0)');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE video ADD CONSTRAINT video_title_not_empty CHECK (title != \'\')');
+            DB::statement('ALTER TABLE video ADD CONSTRAINT video_youtube_url_format CHECK (youtubeUrl LIKE \'https://www.youtube.com/%\' OR youtubeUrl LIKE \'https://youtu.be/%\')');
+            DB::statement('ALTER TABLE video ADD CONSTRAINT video_duration_positive CHECK (duration IS NULL OR duration > 0)');
+            DB::statement('ALTER TABLE video ADD CONSTRAINT video_viewcount_nonnegative CHECK (viewCount >= 0)');
+        }
     }
 
     /**

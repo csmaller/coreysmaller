@@ -34,10 +34,11 @@ return new class extends Migration
             $table->index('playCount');
         });
 
-        // Add CHECK constraints (MySQL 8.0.16+)
-        DB::statement('ALTER TABLE music ADD CONSTRAINT music_title_not_empty CHECK (title != \'\')');
-        DB::statement('ALTER TABLE music ADD CONSTRAINT music_duration_positive CHECK (duration IS NULL OR duration > 0)');
-        DB::statement('ALTER TABLE music ADD CONSTRAINT music_playcount_nonnegative CHECK (playCount >= 0)');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE music ADD CONSTRAINT music_title_not_empty CHECK (title != \'\')');
+            DB::statement('ALTER TABLE music ADD CONSTRAINT music_duration_positive CHECK (duration IS NULL OR duration > 0)');
+            DB::statement('ALTER TABLE music ADD CONSTRAINT music_playcount_nonnegative CHECK (playCount >= 0)');
+        }
     }
 
     /**

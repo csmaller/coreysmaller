@@ -32,11 +32,12 @@ return new class extends Migration
             // Unique index on soundcloudId (unique constraint already creates an index)
         });
 
-        // Add CHECK constraints (MySQL 8.0.16+)
-        DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_title_not_empty CHECK (title != \'\')');
-        DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_soundcloud_url_format CHECK (soundcloudUrl LIKE \'https://soundcloud.com/%\')');
-        DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_duration_positive CHECK (duration IS NULL OR duration > 0)');
-        DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_playcount_nonnegative CHECK (playCount >= 0)');
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_title_not_empty CHECK (title != \'\')');
+            DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_soundcloud_url_format CHECK (soundcloudUrl LIKE \'https://soundcloud.com/%\')');
+            DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_duration_positive CHECK (duration IS NULL OR duration > 0)');
+            DB::statement('ALTER TABLE audio ADD CONSTRAINT audio_playcount_nonnegative CHECK (playCount >= 0)');
+        }
     }
 
     /**

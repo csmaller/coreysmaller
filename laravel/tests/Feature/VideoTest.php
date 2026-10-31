@@ -201,7 +201,7 @@ class VideoTest extends TestCase
      */
     public function test_store_creates_video_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $response = $this->withHeaders([
             'Authorization' => "Bearer $token",
@@ -241,7 +241,7 @@ class VideoTest extends TestCase
      */
     public function test_update_modifies_video_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
         
         $video = Video::create([
             'title' => 'Original Title',
@@ -277,7 +277,7 @@ class VideoTest extends TestCase
      */
     public function test_destroy_deletes_video_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
         
         $video = Video::create([
             'title' => 'Video to Delete',
@@ -300,5 +300,33 @@ class VideoTest extends TestCase
         $this->assertDatabaseMissing('video', [
             'id' => $video->id,
         ]);
+    }
+
+    public function test_view_increments_view_count(): void
+    {
+        $video = Video::create([
+            'title' => 'Watched Video',
+            'youtubeUrl' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            'youtubeId' => 'dQw4w9WgXcQ',
+            'viewCount' => 4,
+        ]);
+
+        $response = $this->postJson("/api/video/{$video->id}/view");
+
+        $response->assertOk()
+            ->assertJsonPath('data.viewCount', 5)
+            ->assertJsonPath('success', true);
+
+        $this->assertDatabaseHas('video', [
+            'id' => $video->id,
+            'viewCount' => 5,
+        ]);
+    }
+
+    public function test_view_returns_404_for_missing_video(): void
+    {
+        $this->postJson('/api/video/missing-video/view')
+            ->assertNotFound()
+            ->assertJsonPath('message', 'Video not found');
     }
 }

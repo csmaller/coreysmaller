@@ -24,8 +24,10 @@ return new class extends Migration
             $table->timestamp('updatedAt', 6)->useCurrent()->useCurrentOnUpdate();
         });
 
-        // Add CHECK constraint for email format (MySQL 8.0.16+)
-        DB::statement('ALTER TABLE users ADD CONSTRAINT users_email_format CHECK (email REGEXP \'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$\')');
+        // Email format is enforced in MySQL. SQLite has no REGEXP operator here.
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement('ALTER TABLE users ADD CONSTRAINT users_email_format CHECK (email REGEXP \'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$\')');
+        }
     }
 
     /**

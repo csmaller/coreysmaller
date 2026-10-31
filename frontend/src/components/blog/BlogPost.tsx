@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { blogService } from '../../services/blog';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -37,6 +37,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
   const [post, setPost] = useState<BlogPostType | null>(propPost || null);
   const [loading, setLoading] = useState(!propPost);
   const [error, setError] = useState<string | null>(null);
+  const scrollNextToTop = useRef(false);
 
   const postId = propPostId || paramPostId;
 
@@ -45,6 +46,17 @@ export const BlogPost: React.FC<BlogPostProps> = ({
       loadPost(postId);
     }
   }, [postId, propPost]);
+
+  useEffect(() => {
+    if (!scrollNextToTop.current) return;
+    scrollNextToTop.current = false;
+    window.scrollTo(0, 0);
+  }, [post]);
+
+  const openNextPost = () => {
+    scrollNextToTop.current = true;
+    window.scrollTo(0, 0);
+  };
 
   const loadPost = async (id: string) => {
     try {
@@ -314,7 +326,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({
             <Link className="post-turn-prev" to={post.previous.href}>← Previous</Link>
           ) : <span />}
           {post.next ? (
-            <Link className="post-turn-next" to={post.next.href}>Next →</Link>
+            <Link className="post-turn-next" to={post.next.href} onClick={openNextPost}>Next →</Link>
           ) : <span />}
         </nav>
       </article>

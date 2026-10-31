@@ -7,6 +7,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
+
         $existing = DB::selectOne("SELECT CONSTRAINT_NAME FROM information_schema.TABLE_CONSTRAINTS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'video' AND CONSTRAINT_NAME = 'video_youtube_url_format'");
         if ($existing) {
             DB::statement('ALTER TABLE video DROP CONSTRAINT video_youtube_url_format');

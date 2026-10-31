@@ -236,6 +236,10 @@ class BlogPost extends Model
      */
     public static function ensureContentCapacity(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
+
         $column = DB::selectOne(
             'SELECT DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?',
             ['blog', 'content']

@@ -1,3 +1,5 @@
+import { siteOrigin } from './siteEnv';
+
 /**
  * SEO Utilities
  * 
@@ -73,8 +75,7 @@ export function generateDescription(content: string, excerpt?: string): string {
  * Generate canonical URL
  */
 export function generateCanonicalUrl(path: string): string {
-  const baseUrl = import.meta.env.VITE_SITE_URL || 'https://coreysmaller.com';
-  return `${baseUrl}${path}`;
+  return `${siteOrigin()}${path}`;
 }
 
 /**

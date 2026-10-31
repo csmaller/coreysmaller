@@ -230,7 +230,7 @@ class AudioTest extends TestCase
      */
     public function test_store_creates_audio_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
 
         $response = $this->withHeaders([
             'Authorization' => "Bearer $token",
@@ -270,7 +270,7 @@ class AudioTest extends TestCase
      */
     public function test_update_modifies_audio_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
         
         $audio = Audio::create([
             'title' => 'Original Title',
@@ -306,7 +306,7 @@ class AudioTest extends TestCase
      */
     public function test_destroy_deletes_audio_when_authenticated(): void
     {
-        $token = auth()->login($this->user);
+        $token = auth('api')->login($this->user);
         
         $audio = Audio::create([
             'title' => 'Audio to Delete',
