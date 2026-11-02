@@ -9,7 +9,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SitemapController;
-use App\Http\Controllers\SubmitContactForm;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ Route::prefix('auth')->middleware('rate.limit:auth')->group(function () {
 });
 
 Route::post('analytics/views', [AnalyticsController::class, 'store'])->middleware('rate.limit:api');
-Route::post('contact', SubmitContactForm::class)->middleware('rate.limit:contact');
+Route::post('contact', [ContactController::class, 'store'])->middleware('rate.limit:contact');
 Route::get('analytics', [AnalyticsController::class, 'show'])->middleware(['jwt.auth', 'admin']);
 
 // Blog routes

@@ -247,9 +247,35 @@ textarea.field { min-height: 160px; resize: vertical; }
 .contact-fields { display: flex; flex-direction: column; gap: 20px; }
 .contact-fields label { display: block; margin-bottom: 8px; }
 .form-error { margin: 8px 0 0; color: #e10600; font-size: 14px; }
-.form-banner { margin: 0; padding: 14px 16px; border: 1px solid var(--line); }
-.form-banner.is-success { border-color: var(--accent); }
-.form-banner.is-error { border-color: #e10600; color: #e10600; }
+.contact-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 8px 8px 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  color: var(--text);
+}
+.toast.is-success { border-left-color: var(--accent); }
+.toast.is-error { border-left-color: #e10600; }
+.toast p { flex: 1; margin: 0; padding: 10px 0; overflow-wrap: anywhere; }
+.toast button {
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
 .btn:disabled { opacity: .55; cursor: not-allowed; }
 .blog-form input,
 .blog-form textarea,

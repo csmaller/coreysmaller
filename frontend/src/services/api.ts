@@ -1,5 +1,6 @@
 // Base API service configuration
 import { errorLogger } from '../utils/errorLogger';
+import { apiErrorFromResponse } from './apiError';
 
 const getApiBaseUrl = (): string => {
   // In test environment, use process.env or fallback
@@ -78,21 +79,12 @@ export class ApiService {
           throw error;
         }
         
-        let errorMessage = `API Error: ${response.status} ${response.statusText}`;
-        
-        try {
-          const errorData = await response.json();
-          if (errorData.message) {
-            errorMessage = errorData.message;
-          }
-        } catch {
-          // Use default error message if response is not JSON
-        }
-        
+        const apiError = await apiErrorFromResponse(response);
+
         // Log API error
-        errorLogger.logApiError(endpoint, config.method || 'GET', response.status, errorMessage);
-        
-        throw new Error(errorMessage);
+        errorLogger.logApiError(endpoint, config.method || 'GET', response.status, apiError.message);
+
+        throw apiError;
       }
 
       return response.json();
