@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900 antialiased;
+    }
+}
+
+@layer components {
+    /* One visible focus style for every interactive element. */
+    .focus-ring {
+        @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+    }
+
+    .btn {
+        @apply focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-base font-semibold transition-colors disabled:cursor-not-allowed;
+    }
+
+    .btn-primary {
+        @apply btn bg-indigo-700 text-white hover:bg-indigo-800 disabled:bg-slate-400 disabled:text-white;
+    }
+
+    .btn-secondary {
+        @apply btn border border-slate-300 bg-white text-slate-800 hover:bg-slate-100 disabled:text-slate-500;
+    }
+}
+
+@layer utilities {
+    /* 3D card flip, used by FlashCard. */
+    .perspective {
+        perspective: 1200px;
+    }
+
+    .preserve-3d {
+        transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .rotate-y-180 {
+        transform: rotateY(180deg);
+    }
+}
