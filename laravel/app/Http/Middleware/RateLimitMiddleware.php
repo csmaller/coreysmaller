@@ -67,6 +67,7 @@ class RateLimitMiddleware
     {
         return match($limiterName) {
             'auth' => 5,      // 5 login attempts
+            'contact' => 5,   // 5 contact form submissions
             'api' => 60,      // 60 API requests
             'write' => 30,    // 30 write operations
             default => 60,
@@ -80,6 +81,7 @@ class RateLimitMiddleware
     {
         return match($limiterName) {
             'auth' => 15,     // 15 minute lockout
+            'contact' => 15,  // 15 minute window
             'api' => 1,       // 1 minute window
             'write' => 1,     // 1 minute window
             default => 1,
