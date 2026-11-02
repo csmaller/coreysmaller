@@ -15,6 +15,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('audio')) {
+            return;
+        }
+
         Schema::create('audio', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title', 200);
