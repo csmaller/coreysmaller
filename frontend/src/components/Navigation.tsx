@@ -6,6 +6,7 @@ const links = [
   { to: '/audio', label: 'Sounds' },
   { to: '/video', label: 'Sights' },
   { to: '/blog', label: 'Words' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export const Navigation: React.FC = () => {

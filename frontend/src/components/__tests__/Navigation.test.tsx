@@ -41,7 +41,7 @@ describe('Navigation', () => {
     expect(screen.getByRole('link', { name: 'Sights' })).toHaveAttribute('href', '/video');
     expect(screen.getByRole('link', { name: 'Words' })).toHaveAttribute('href', '/blog');
     expect(screen.queryByRole('link', { name: 'About' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
     expect(screen.getByRole('link', { name: 'coreysmaller@gmail.com' })).toHaveAttribute(
       'href',
       'mailto:coreysmaller@gmail.com'

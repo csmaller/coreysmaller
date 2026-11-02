@@ -14,6 +14,9 @@ export const SiteFooter: React.FC = () => {
           <a className="footer-email" href="mailto:coreysmaller@gmail.com">
             coreysmaller@gmail.com
           </a>
+          <Link className="footer-email" to="/contact">
+            Send a note
+          </Link>
         </div>
         <div className="footer-legal">
           <span>&copy; Corey Smaller</span>

@@ -54,6 +54,12 @@ class SitemapController extends Controller
                 'priority' => '0.8',
                 'lastmod' => now()->toIso8601String(),
             ],
+            [
+                'loc' => $baseUrl . '/contact',
+                'changefreq' => 'monthly',
+                'priority' => '0.5',
+                'lastmod' => now()->toIso8601String(),
+            ],
         ];
 
         // Blog posts

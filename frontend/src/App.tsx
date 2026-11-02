@@ -23,6 +23,7 @@ const Audio = lazy(() => import('./pages/Audio').then(module => ({ default: modu
 const AdminAudio = lazy(() => import('./pages/AdminAudio').then(module => ({ default: module.AdminAudio })));
 const AdminAnalytics = lazy(() => import('./pages/AdminAnalytics').then(module => ({ default: module.AdminAnalytics })));
 const AdminUsers = lazy(() => import('./pages/AdminUsers').then(module => ({ default: module.AdminUsers })));
+const Contact = lazy(() => import('./pages/Contact').then(module => ({ default: module.Contact })));
 const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
               <Route path="/video" element={<Video />} />
               <Route path="/audio" element={<Audio />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/contact" element={<Contact />} />
               
               {/* Protected Admin Routes */}
               <Route 

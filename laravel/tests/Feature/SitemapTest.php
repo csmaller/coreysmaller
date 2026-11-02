@@ -53,6 +53,7 @@ class SitemapTest extends TestCase
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
 
         $body = $response->getContent();
+        $this->assertStringContainsString('<loc>' . $baseUrl . '/contact</loc>', $body);
         $this->assertStringContainsString('<loc>' . $baseUrl . '/blog</loc>', $body);
         $this->assertStringContainsString('<loc>' . $baseUrl . '/blog/' . $post->id . '</loc>', $body);
         $this->assertStringContainsString('<loc>' . $baseUrl . '/music/' . $track->id . '</loc>', $body);

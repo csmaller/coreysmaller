@@ -242,6 +242,15 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   font-size: 16px;
 }
 .field:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.field.is-invalid { border-color: #e10600; }
+textarea.field { min-height: 160px; resize: vertical; }
+.contact-fields { display: flex; flex-direction: column; gap: 20px; }
+.contact-fields label { display: block; margin-bottom: 8px; }
+.form-error { margin: 8px 0 0; color: #e10600; font-size: 14px; }
+.form-banner { margin: 0; padding: 14px 16px; border: 1px solid var(--line); }
+.form-banner.is-success { border-color: var(--accent); }
+.form-banner.is-error { border-color: #e10600; color: #e10600; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
 .blog-form input,
 .blog-form textarea,
 .blog-form select {

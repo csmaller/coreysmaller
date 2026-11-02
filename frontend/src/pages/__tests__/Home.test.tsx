@@ -111,7 +111,8 @@ describe('Home', () => {
       expect(link).toHaveAttribute('href', 'mailto:coreysmaller@gmail.com');
     });
     expect(screen.queryByRole('link', { name: 'Music' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Contact' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
+    expect(screen.getByRole('link', { name: 'Send a note' })).toHaveAttribute('href', '/contact');
     screen.getAllByRole('link', { name: 'Login' }).forEach((link) => {
       expect(link).toHaveAttribute('href', '/login');
     });

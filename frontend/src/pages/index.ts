@@ -8,6 +8,7 @@ export { AdminVideo } from './AdminVideo';
 export { Audio } from './Audio';
 export { AdminAudio } from './AdminAudio';
 export { Login } from './Login';
+export { Contact } from './Contact';
 export { Admin } from './Admin';
 export { AdminBlog } from './AdminBlog';
 export { NotFound } from './NotFound';
