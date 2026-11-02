@@ -263,7 +263,7 @@ textarea.field { min-height: 160px; resize: vertical; }
   border-left-width: 4px;
   color: var(--text);
 }
-.toast.is-success { border-left-color: var(--accent); }
+.toast.is-success { border-left-color: #22c55e; }
 .toast.is-error { border-left-color: #e10600; }
 .toast p { flex: 1; margin: 0; padding: 10px 0; overflow-wrap: anywhere; }
 .toast button {
