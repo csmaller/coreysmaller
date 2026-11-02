@@ -1,4 +1,8 @@
-Name: {{ $senderName }}
-Email: {{ $senderEmail }}
+New message from the contact form
 
-{{ $messageBody }}
+Name: {!! $senderName !!}
+Email: {!! $senderEmail !!}
+Submitted: {{ $submittedAt->format('F j, Y \a\t g:i A T') }}
+
+Message:
+{!! $messageBody !!}

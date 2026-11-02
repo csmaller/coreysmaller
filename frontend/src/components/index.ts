@@ -9,6 +9,7 @@ export { RecentContent } from './RecentContent';
 export { LoadingSpinner } from './LoadingSpinner';
 export { ErrorBoundary } from './ErrorBoundary';
 export { ErrorMessage } from './ErrorMessage';
+export { Toast } from './Toast';
 
 // Blog components
 export * from './blog';

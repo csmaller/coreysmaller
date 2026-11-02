@@ -4,6 +4,7 @@ export interface ContactSubmission {
   name: string;
   email: string;
   message: string;
+  website?: string;
 }
 
 export async function submitContactForm(values: ContactSubmission): Promise<void> {

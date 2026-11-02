@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -17,6 +18,7 @@ class ContactMessage extends Mailable
         public string $senderName,
         public string $senderEmail,
         public string $messageBody,
+        public CarbonInterface $submittedAt,
     ) {
     }
 
@@ -31,6 +33,7 @@ class ContactMessage extends Mailable
     public function content(): Content
     {
         return new Content(
+            view: 'mail.contact',
             text: 'mail.contact-text',
         );
     }
