@@ -424,6 +424,12 @@ textarea.field { min-height: 160px; resize: vertical; }
 }
 
 #epk, #login { scroll-margin-top: 32px; }
+.epk-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
 .epk-grid {
   display: grid;
   grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
@@ -446,8 +452,17 @@ textarea.field { min-height: 160px; resize: vertical; }
   justify-content: center;
   color: var(--text-muted);
 }
-.epk-thumbs { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
-.epk-thumbs img { width: 88px; height: 88px; object-fit: cover; }
+.epk-extras {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.epk-extras img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 .epk-bio { white-space: pre-wrap; }
 .epk-block { margin-top: 48px; }
 .epk-subhead { font-size: clamp(32px, 5vw, 64px); margin-bottom: 16px; }

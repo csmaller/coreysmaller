@@ -22,6 +22,12 @@ class EpkSchema
             });
         }
 
+        if (Schema::hasTable('epk_profiles') && !Schema::hasColumn('epk_profiles', 'gear')) {
+            Schema::table('epk_profiles', function (Blueprint $table) {
+                $table->text('gear')->nullable();
+            });
+        }
+
         if (!Schema::hasTable('epk_images')) {
             Schema::create('epk_images', function (Blueprint $table) {
                 $table->uuid('id')->primary();

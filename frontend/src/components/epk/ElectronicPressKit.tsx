@@ -86,8 +86,11 @@ export const ElectronicPressKit: React.FC = () => {
 
   return (
     <section id="epk" className="container section" aria-labelledby="epk-title">
-      <div className="section-head">
-        <h2 id="epk-title" className="display section-title">Electronic Press Kit</h2>
+      <div className="epk-heading">
+        <div className="section-head">
+          <h2 id="epk-title" className="display section-title">Electronic Press Kit</h2>
+        </div>
+        <a className="btn" href={epkService.songListUrl()}>Download song list</a>
       </div>
 
       <div className="epk-grid">
@@ -97,17 +100,17 @@ export const ElectronicPressKit: React.FC = () => {
           ) : (
             <div className="epk-photo epk-photo-empty">Photo coming soon.</div>
           )}
-          {others.length > 0 ? (
-            <div className="epk-thumbs">
-              {others.map((image) => (
-                <img key={image.id} src={image.url} alt={image.alt || 'Corey Smaller'} />
-              ))}
-            </div>
-          ) : null}
         </div>
         <div className="about-copy">
           {kit.bio ? <p className="epk-bio">{kit.bio}</p> : <p>Bio coming soon.</p>}
         </div>
+        {others.length > 0 ? (
+          <div className="epk-extras">
+            {others.map((image) => (
+              <img key={image.id} src={image.url} alt={image.alt || 'Corey Smaller'} />
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <div className="epk-block">

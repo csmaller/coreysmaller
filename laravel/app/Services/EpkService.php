@@ -10,6 +10,7 @@ use App\Models\EpkProfile;
 use App\Models\EpkSong;
 use App\Models\Video;
 use App\Support\EpkSchema;
+use App\Support\SongListPdf;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
@@ -24,6 +25,7 @@ class EpkService
 
         return [
             'bio' => $profile->bio ?? '',
+            'gear' => $profile->gear ?? '',
             'contact' => [
                 'email' => $profile->contactEmail ?? '',
                 'phone' => $profile->contactPhone ?? '',
@@ -60,6 +62,7 @@ class EpkService
             'contactPhone' => $this->blankToNull($data['contactPhone'] ?? null),
             'location' => $this->blankToNull($data['location'] ?? null),
             'contactNote' => $this->blankToNull($data['contactNote'] ?? null),
+            'gear' => $this->blankToNull($data['gear'] ?? null),
         ]);
         $profile->save();
 
@@ -87,25 +90,21 @@ class EpkService
         return $this->kit();
     }
 
-    public function songListText(): string
+    public function songListPdf(): string
     {
         EpkSchema::ensure();
+        $profile = $this->profile();
         $songs = EpkSong::query()->orderBy('sortOrder')->get();
-        $lines = ['Corey Smaller', 'Song list', ''];
 
-        if ($songs->isEmpty()) {
-            $lines[] = 'No songs listed yet.';
-        } else {
-            foreach ($songs as $index => $song) {
-                $line = ($index + 1).'. '.$song->title;
-                if ($song->artist) {
-                    $line .= ' — '.$song->artist;
-                }
-                $lines[] = $line;
-            }
-        }
-
-        return implode("\n", $lines)."\n";
+        return SongListPdf::render([
+            'email' => $profile->contactEmail,
+            'phone' => $profile->contactPhone,
+            'location' => $profile->location,
+            'note' => $profile->contactNote,
+        ], $songs->map(fn (EpkSong $song) => [
+            'title' => $song->title,
+            'artist' => $song->artist,
+        ])->all());
     }
 
     public function storeImages(array $files): array

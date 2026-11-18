@@ -56,6 +56,7 @@ class EpkTest extends TestCase
             'contactPhone' => '555-0100',
             'location' => 'Edwards, Colorado',
             'contactNote' => 'For bookings.',
+            'gear' => "Taylor 814ce\nFender Deluxe Reverb",
         ], $headers)->assertOk();
 
         $this->putJson('/api/epk/songs', [
@@ -82,6 +83,7 @@ class EpkTest extends TestCase
         $response = $this->getJson('/api/epk');
         $response->assertOk()
             ->assertJsonPath('data.bio', "Sings and writes.\nLives in the mountains.")
+            ->assertJsonPath('data.gear', "Taylor 814ce\nFender Deluxe Reverb")
             ->assertJsonPath('data.contact.email', 'press@example.com')
             ->assertJsonPath('data.contact.phone', '555-0100')
             ->assertJsonPath('data.songs.0.title', 'First Song')
@@ -96,8 +98,16 @@ class EpkTest extends TestCase
 
         $download = $this->get('/api/epk/song-list');
         $download->assertOk();
-        $this->assertStringContainsString('attachment; filename="corey-smaller-song-list.txt"', (string) $download->headers->get('content-disposition'));
-        $this->assertStringContainsString("1. First Song — Corey Smaller\n2. Second Song", $download->getContent());
+        $this->assertStringContainsString('application/pdf', (string) $download->headers->get('content-type'));
+        $this->assertStringContainsString('attachment; filename="corey-smaller-song-list.pdf"', (string) $download->headers->get('content-disposition'));
+        $pdf = $download->getContent();
+        $this->assertStringStartsWith('%PDF', $pdf);
+        $this->assertStringContainsString('First Song - Corey Smaller', $pdf);
+        $this->assertStringContainsString('Second Song', $pdf);
+        $this->assertStringContainsString('press@example.com', $pdf);
+        $this->assertStringContainsString('555-0100', $pdf);
+        $this->assertStringContainsString('Edwards, Colorado', $pdf);
+        $this->assertStringContainsString('For bookings.', $pdf);
     }
 
     public function test_guests_cannot_edit_the_press_kit(): void

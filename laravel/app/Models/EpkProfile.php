@@ -18,5 +18,6 @@ class EpkProfile extends Model
         'contactPhone',
         'location',
         'contactNote',
+        'gear',
     ];
 }

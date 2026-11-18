@@ -193,7 +193,13 @@ describe('Home', () => {
 
     expect(await screen.findByRole('heading', { name: 'Electronic Press Kit' })).toBeInTheDocument();
     expect(await screen.findByText('A short bio.')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Download song list' })).toHaveAttribute('href', 'http://localhost:3000/api/epk/song-list');
+    const downloads = screen.getAllByRole('link', { name: 'Download song list' });
+    expect(downloads).toHaveLength(2);
+    downloads.forEach((link) => {
+      expect(link).toHaveAttribute('href', 'http://localhost:3000/api/epk/song-list');
+    });
+    const heading = screen.getByRole('heading', { name: 'Electronic Press Kit' });
+    expect(heading.compareDocumentPosition(downloads[0]) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(scroll).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
   });
 

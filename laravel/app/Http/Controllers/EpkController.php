@@ -23,20 +23,21 @@ class EpkController extends Controller
 
     public function songList(): Response
     {
-        return response($this->epk->songListText(), 200, [
-            'Content-Type' => 'text/plain; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="corey-smaller-song-list.txt"',
+        return response($this->epk->songListPdf(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="corey-smaller-song-list.pdf"',
         ]);
     }
 
     public function update(Request $request): JsonResponse
     {
-        $request->merge(collect(['bio', 'contactEmail', 'contactPhone', 'location', 'contactNote'])
+        $request->merge(collect(['bio', 'gear', 'contactEmail', 'contactPhone', 'location', 'contactNote'])
             ->mapWithKeys(fn (string $field) => [$field => $request->input($field) === '' ? null : $request->input($field)])
             ->all());
 
         $data = $request->validate([
             'bio' => ['nullable', 'string', 'max:20000'],
+            'gear' => ['nullable', 'string', 'max:20000'],
             'contactEmail' => ['nullable', 'string', 'max:200', 'email'],
             'contactPhone' => ['nullable', 'string', 'max:80'],
             'location' => ['nullable', 'string', 'max:200'],
