@@ -293,6 +293,64 @@ class BlogController extends Controller
     }
 
     /**
+     * Stories selected for the home page, in order.
+     */
+    public function home(Request $request): JsonResponse
+    {
+        $payload = $this->blogService->homePayload($this->audience($request));
+
+        return response()->json([
+            'data' => $payload['data'],
+            'selection' => $payload['selection'],
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * Check or uncheck one post or volume for the home page.
+     */
+    public function updateHome(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'kind' => ['required', 'in:post,volume'],
+            'subject' => ['required', 'string', 'max:200'],
+            'sortOrder' => ['nullable', 'integer', 'min:1', 'max:3'],
+        ]);
+
+        try {
+            $payload = $this->blogService->placeOnHome(
+                $data['kind'],
+                $data['subject'],
+                array_key_exists('sortOrder', $data) ? $data['sortOrder'] : null
+            );
+        } catch (\InvalidArgumentException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'statusCode' => 422,
+                'timestamp' => now()->toIso8601String(),
+            ], 422);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'statusCode' => 404,
+                'timestamp' => now()->toIso8601String(),
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $payload['data'],
+            'selection' => $payload['selection'],
+            'success' => true,
+            'statusCode' => 200,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
+
+    /**
      * Every volume and its chapters, for arranging the reading order.
      */
     public function volumes(): JsonResponse

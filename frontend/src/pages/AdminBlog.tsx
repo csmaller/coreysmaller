@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { BlogPost } from '../types';
-import { blogService, type BlogChapter } from '../services/blog';
+import { blogService, type BlogChapter, type HomeFeature } from '../services/blog';
 import { BlogEditor } from '../components/blog/BlogEditor';
 import { VolumeSorter } from '../components/blog/VolumeSorter';
+import { HomePagePicker } from '../components/blog/HomePagePicker';
 import { AdminNavigation, ConfirmationDialog } from '../components/admin';
 import { parseTags } from '../utils/tags';
 import { formatWordCount } from '../components/blog/WordCount';
@@ -24,6 +25,31 @@ export const AdminBlog: React.FC = () => {
   const [totalPosts, setTotalPosts] = useState(0);
   const [volumeVersion, setVolumeVersion] = useState(0);
   const [openVolume, setOpenVolume] = useState<string | null>(null);
+  const [homeSelection, setHomeSelection] = useState<HomeFeature[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    blogService.home()
+      .then((response) => {
+        if (active) setHomeSelection(response.selection || []);
+      })
+      .catch(() => {
+        if (active) setHomeSelection([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [volumeVersion]);
+
+  const placeOnHome = async (kind: 'post' | 'volume', subject: string, sortOrder: number | null) => {
+    try {
+      const response = await blogService.placeOnHome(kind, subject, sortOrder);
+      setHomeSelection(response.selection || []);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not update the home page.');
+    }
+  };
 
   const loadPosts = useCallback(async () => {
     try {
@@ -231,6 +257,8 @@ export const AdminBlog: React.FC = () => {
           onOpenChange={setOpenVolume}
           onEditChapter={handleEditChapter}
           onDeleteChapter={(chapter) => setDeleteConfirm({ postId: String(chapter.id), postTitle: chapter.title })}
+          homeSelection={homeSelection}
+          onPlaceHome={placeOnHome}
         />
 
         {/* Blog Posts */}
@@ -319,6 +347,7 @@ export const AdminBlog: React.FC = () => {
             <div className="bg-white shadow-sm border rounded-lg overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Blog Posts</h3>
+                <p className="text-sm text-gray-600 mt-1">Check Home on up to 3 posts or volumes, then set the order.</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -326,6 +355,9 @@ export const AdminBlog: React.FC = () => {
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Title
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Home
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Status
@@ -381,6 +413,15 @@ export const AdminBlog: React.FC = () => {
                               )}
                             </div>
                           </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <HomePagePicker
+                            kind="post"
+                            subject={String(post.id)}
+                            label={post.title}
+                            selection={homeSelection}
+                            onChange={placeOnHome}
+                          />
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(post.status)}`}>

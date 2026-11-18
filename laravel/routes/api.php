@@ -65,8 +65,10 @@ Route::prefix('blog')->group(function () {
     Route::get('/', [BlogController::class, 'index']);
     Route::get('/recent', [BlogController::class, 'recent']);
     Route::get('/stats', [BlogController::class, 'stats']);
+    Route::get('/home', [BlogController::class, 'home']);
     Route::get('/volumes/{slug}', [BlogController::class, 'volume']);
     Route::middleware(['jwt.auth', 'admin'])->group(function () {
+        Route::put('/home', [BlogController::class, 'updateHome']);
         Route::get('/volumes', [BlogController::class, 'volumes']);
         Route::put('/volumes', [BlogController::class, 'updateVolume']);
         Route::put('/volumes/order', [BlogController::class, 'reorderVolume']);

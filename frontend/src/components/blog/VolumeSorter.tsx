@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { blogService, type BlogChapter, type BlogVolume } from '../../services/blog';
+import { blogService, type BlogChapter, type BlogVolume, type HomeFeature } from '../../services/blog';
 import { VolumeEditor } from './VolumeEditor';
+import { HomePagePicker } from './HomePagePicker';
 import { formatWordCount } from './WordCount';
 
 interface VolumeSorterProps {
@@ -9,6 +10,8 @@ interface VolumeSorterProps {
   onOpenChange?: (title: string | null) => void;
   onEditChapter?: (chapter: BlogChapter) => void;
   onDeleteChapter?: (chapter: BlogChapter) => void;
+  homeSelection?: HomeFeature[];
+  onPlaceHome?: (kind: 'post' | 'volume', subject: string, sortOrder: number | null) => void;
 }
 
 export const VolumeSorter: React.FC<VolumeSorterProps> = ({
@@ -17,6 +20,8 @@ export const VolumeSorter: React.FC<VolumeSorterProps> = ({
   onOpenChange,
   onEditChapter,
   onDeleteChapter,
+  homeSelection = [],
+  onPlaceHome,
 }) => {
   const [volumes, setVolumes] = useState<BlogVolume[]>([]);
   const [editingTitle, setEditingTitle] = useState<string | null>(null);
@@ -77,7 +82,7 @@ export const VolumeSorter: React.FC<VolumeSorterProps> = ({
     <section className="bg-white border rounded-lg p-6 mb-8">
       <h2 className="text-xl font-semibold text-gray-900">Volumes</h2>
       <p className="text-sm text-gray-600 mt-1 mb-4">
-        Edit a volume to change its title, description, and chapters.
+        Edit a volume to change its title, description, and chapters. Check Home to show a volume on the main page.
       </p>
       {error ? <p className="text-sm text-red-600 mb-3">{error}</p> : null}
       <ul className="space-y-2">
@@ -104,6 +109,15 @@ export const VolumeSorter: React.FC<VolumeSorterProps> = ({
             >
               Edit
             </button>
+            {onPlaceHome ? (
+              <HomePagePicker
+                kind="volume"
+                subject={volume.slug}
+                label={volume.title}
+                selection={homeSelection}
+                onChange={onPlaceHome}
+              />
+            ) : null}
           </li>
         ))}
       </ul>

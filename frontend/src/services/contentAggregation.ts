@@ -29,15 +29,15 @@ export class ContentAggregationService {
    */
   async getRecentContent(limit: number = 3): Promise<RecentContent> {
     try {
-      const [postsResponse, tracksResponse, videosResponse, audioResponse] = await Promise.all([
-        blogService.getAllPosts(1, limit).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit, totalPages: 0 }, success: true })),
+      const [homeResponse, tracksResponse, videosResponse, audioResponse] = await Promise.all([
+        blogService.home().catch(() => ({ data: [] as BlogPost[], selection: [], success: false })),
         musicService.getAllTracks().catch(() => ({ data: [], success: true })),
         videoService.getAllVideos().catch(() => ({ data: [], success: true })),
         audioService.getAllAudio().catch(() => ({ data: [], success: true }))
       ]);
 
       // Extract data from API responses
-      const posts = postsResponse.data || [];
+      const posts = homeResponse.data || [];
       const tracks = tracksResponse.data || [];
       const videos = videosResponse.data || [];
       const audio = audioResponse.data || [];

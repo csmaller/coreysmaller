@@ -30,6 +30,18 @@ export interface BlogVolume {
   chapters: Array<BlogChapter | BlogPost>;
 }
 
+export interface HomeFeature {
+  kind: 'post' | 'volume';
+  subject: string;
+  sortOrder: number;
+}
+
+export interface HomeBlogResponse {
+  data: BlogPost[];
+  selection: HomeFeature[];
+  success: boolean;
+}
+
 export interface UpdateBlogPostDto extends Partial<CreateBlogPostDto> {}
 
 export class BlogService {
@@ -68,6 +80,14 @@ export class BlogService {
 
   async reorderVolume(volume: string, ids: Array<number | string>): Promise<ApiResponse<BlogVolume[]>> {
     return apiService.put<ApiResponse<BlogVolume[]>>('/blog/volumes/order', { volume, ids });
+  }
+
+  async home(): Promise<HomeBlogResponse> {
+    return apiService.get<HomeBlogResponse>('/blog/home');
+  }
+
+  async placeOnHome(kind: 'post' | 'volume', subject: string, sortOrder: number | null): Promise<HomeBlogResponse> {
+    return apiService.put<HomeBlogResponse>('/blog/home', { kind, subject, sortOrder });
   }
 }
 

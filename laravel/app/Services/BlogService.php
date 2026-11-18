@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\BlogPost;
+use App\Models\HomeFeature;
+use App\Support\HomeFeatureSchema;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -246,6 +248,8 @@ class BlogService
             $wasPublished = $post->status === 'published';
             
             $post->delete();
+            HomeFeatureSchema::ensure();
+            HomeFeature::query()->where('kind', 'post')->where('subject', (string) $id)->delete();
             
             // Invalidate specific item cache
             Cache::forget("blog:item:{$id}");
@@ -648,6 +652,15 @@ class BlogService
             'volumeDescription' => $description,
         ]);
 
+        $oldSlug = Str::slug($current);
+        $newSlug = Str::slug($title);
+        if ($oldSlug !== $newSlug) {
+            HomeFeatureSchema::ensure();
+            HomeFeature::query()->where('kind', 'volume')->where('subject', $oldSlug)->update([
+                'subject' => $newSlug,
+            ]);
+        }
+
         $this->invalidateListCaches();
         $this->invalidateRecentCaches();
 
@@ -742,6 +755,148 @@ class BlogService
         }
 
         return $sequence;
+    }
+
+    /**
+     * Stories chosen for the home page. An empty selection falls back to the latest three.
+     *
+     * @return array{data: array<int, mixed>, selection: array<int, array{kind: string, subject: string, sortOrder: int}>}
+     */
+    public function homePayload(string $audience): array
+    {
+        HomeFeatureSchema::ensure();
+        $selection = HomeFeature::query()->orderBy('sortOrder')->get()->map(fn (HomeFeature $row) => [
+            'kind' => $row->kind,
+            'subject' => $row->subject,
+            'sortOrder' => (int) $row->sortOrder,
+        ])->all();
+
+        if ($selection === []) {
+            $fallback = $this->findAll(1, 3, $audience, false);
+
+            return [
+                'data' => $fallback['data'],
+                'selection' => [],
+            ];
+        }
+
+        $data = [];
+        foreach ($selection as $row) {
+            $card = $this->homeCard($row['kind'], $row['subject'], $audience);
+            if ($card) {
+                $data[] = $card;
+            }
+        }
+
+        return [
+            'data' => $data,
+            'selection' => $selection,
+        ];
+    }
+
+    public function placeOnHome(string $kind, string $subject, ?int $sortOrder): array
+    {
+        HomeFeatureSchema::ensure();
+        $subject = trim($subject);
+        if (!in_array($kind, ['post', 'volume'], true) || $subject === '') {
+            throw new \InvalidArgumentException('Choose a blog post or a volume.');
+        }
+        $this->assertHomeSubject($kind, $subject);
+
+        $existing = HomeFeature::query()->where('kind', $kind)->where('subject', $subject)->first();
+        if ($sortOrder === null) {
+            $existing?->delete();
+            $this->compactHomeOrder();
+
+            return $this->homePayload('admin');
+        }
+
+        $sortOrder = max(1, min(3, $sortOrder));
+        if (!$existing && HomeFeature::query()->count() >= 3) {
+            throw new \InvalidArgumentException('The home page shows at most 3 stories.');
+        }
+
+        $conflict = HomeFeature::query()
+            ->where('sortOrder', $sortOrder)
+            ->when($existing, fn ($query) => $query->where('id', '!=', $existing->id))
+            ->first();
+
+        if ($existing) {
+            if ($conflict) {
+                $conflict->sortOrder = $existing->sortOrder;
+                $conflict->save();
+            }
+            $existing->sortOrder = $sortOrder;
+            $existing->save();
+        } else {
+            if ($conflict) {
+                $used = HomeFeature::query()->pluck('sortOrder')->all();
+                $free = collect([1, 2, 3])->first(fn ($order) => !in_array($order, $used, true));
+                if ($free) {
+                    $conflict->sortOrder = $free;
+                    $conflict->save();
+                }
+            }
+            HomeFeature::create([
+                'kind' => $kind,
+                'subject' => $subject,
+                'sortOrder' => $sortOrder,
+            ]);
+        }
+
+        return $this->homePayload('admin');
+    }
+
+    private function assertHomeSubject(string $kind, string $subject): void
+    {
+        if ($kind === 'post') {
+            if (!BlogPost::query()->where('id', $subject)->exists()) {
+                throw new ModelNotFoundException('Blog post not found');
+            }
+
+            return;
+        }
+
+        $match = collect($this->listVolumes())->first(fn (array $volume) => $volume['slug'] === $subject);
+        if (!$match) {
+            throw new ModelNotFoundException('Volume not found');
+        }
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function homeCard(string $kind, string $subject, string $audience): ?array
+    {
+        if ($kind === 'post') {
+            $query = BlogPost::query()->where('id', $subject);
+            $this->applyAudience($query, $audience, false);
+            $post = $query->first();
+
+            return $post ? $this->summarizePost($post, false) : null;
+        }
+
+        try {
+            $volume = $this->findVolume($subject, $audience);
+        } catch (ModelNotFoundException) {
+            return null;
+        }
+
+        unset($volume['chapters']);
+
+        return $volume;
+    }
+
+    private function compactHomeOrder(): void
+    {
+        $rows = HomeFeature::query()->orderBy('sortOrder')->get();
+        foreach ($rows as $index => $row) {
+            $order = $index + 1;
+            if ((int) $row->sortOrder !== $order) {
+                $row->sortOrder = $order;
+                $row->save();
+            }
+        }
     }
 
     /**

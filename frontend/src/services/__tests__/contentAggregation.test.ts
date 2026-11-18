@@ -5,7 +5,7 @@ import { videoService } from '../video';
 import { audioService } from '../audio';
 
 jest.mock('../blog', () => ({
-  blogService: { getAllPosts: jest.fn() },
+  blogService: { getAllPosts: jest.fn(), home: jest.fn() },
 }));
 jest.mock('../music', () => ({
   musicService: { getAllTracks: jest.fn() },
@@ -17,7 +17,8 @@ jest.mock('../audio', () => ({
   audioService: { getAllAudio: jest.fn() },
 }));
 
-const blog = blogService.getAllPosts as jest.Mock;
+const home = blogService.home as jest.Mock;
+const posts = blogService.getAllPosts as jest.Mock;
 const music = musicService.getAllTracks as jest.Mock;
 const video = videoService.getAllVideos as jest.Mock;
 const audio = audioService.getAllAudio as jest.Mock;
@@ -28,7 +29,7 @@ describe('contentAggregationService', () => {
   });
 
   it('keeps the newest items and survives a failed source', async () => {
-    blog.mockRejectedValue(new Error('blog down'));
+    home.mockRejectedValue(new Error('blog down'));
     music.mockResolvedValue({
       data: [
         { id: 1, title: 'Older', createdAt: '2024-01-01' },
@@ -108,7 +109,7 @@ describe('contentAggregationService', () => {
   });
 
   it('counts each content type and treats a failed source as empty', async () => {
-    blog.mockResolvedValue({ data: [], pagination: { total: 4, page: 1, limit: 1, totalPages: 4 }, success: true });
+    posts.mockResolvedValue({ data: [], pagination: { total: 4, page: 1, limit: 1, totalPages: 4 }, success: true });
     music.mockResolvedValue({ data: [{ id: 1 }, { id: 2 }], success: true });
     video.mockRejectedValue(new Error('video down'));
     audio.mockResolvedValue({ data: [{ id: 'a1' }], success: true });

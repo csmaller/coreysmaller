@@ -26,6 +26,8 @@ jest.mock('../../services/blog', () => ({
     getPostById: jest.fn(),
     deletePost: jest.fn(),
     listVolumes: jest.fn().mockResolvedValue({ data: [], success: true }),
+    home: jest.fn().mockResolvedValue({ data: [], selection: [], success: true }),
+    placeOnHome: jest.fn(),
   },
 }));
 

@@ -97,4 +97,20 @@ describe('VolumeSorter', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Volume not found');
     expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
   });
+
+  it('checks a volume for the home page', async () => {
+    const user = userEvent.setup();
+    const onPlaceHome = jest.fn();
+
+    render(
+      <VolumeSorter
+        homeSelection={[]}
+        onPlaceHome={onPlaceHome}
+      />
+    );
+
+    await user.click(await screen.findByRole('checkbox', { name: 'Show Relationships on the home page' }));
+
+    expect(onPlaceHome).toHaveBeenCalledWith('volume', 'relationships', 1);
+  });
 });
