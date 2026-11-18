@@ -10,6 +10,8 @@ use App\Http\Controllers\AudioController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EpkController;
+use App\Http\Controllers\HomePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,19 @@ Route::prefix('auth')->middleware('rate.limit:auth')->group(function () {
 
 Route::post('analytics/views', [AnalyticsController::class, 'store'])->middleware('rate.limit:api');
 Route::post('contact', [ContactController::class, 'store'])->middleware('rate.limit:contact');
+
+Route::get('home', [HomePageController::class, 'show']);
+Route::put('home', [HomePageController::class, 'update'])->middleware(['jwt.auth', 'admin']);
+
+Route::get('epk', [EpkController::class, 'show']);
+Route::get('epk/song-list', [EpkController::class, 'songList']);
+Route::middleware(['jwt.auth', 'admin'])->group(function () {
+    Route::put('epk', [EpkController::class, 'update']);
+    Route::put('epk/songs', [EpkController::class, 'updateSongs']);
+    Route::post('epk/images', [EpkController::class, 'storeImages']);
+    Route::post('epk/images/{id}/main', [EpkController::class, 'makeMain']);
+    Route::delete('epk/images/{id}', [EpkController::class, 'destroyImage']);
+});
 Route::get('analytics', [AnalyticsController::class, 'show'])->middleware(['jwt.auth', 'admin']);
 
 // Blog routes

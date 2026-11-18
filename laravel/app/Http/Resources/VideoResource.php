@@ -31,6 +31,7 @@ class VideoResource extends JsonResource
             'thumbnail' => $this->thumbnail,
             'duration' => $this->duration,
             'viewCount' => $this->viewCount,
+            'includeInEpk' => (bool) $this->includeInEpk,
             'createdAt' => $this->createdAt->toIso8601String(),
             'updatedAt' => $this->updatedAt->toIso8601String(),
         ];

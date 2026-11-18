@@ -27,6 +27,7 @@ class CreateVideoRequest extends FormRequest
             'youtubeUrl' => ['required', 'url', 'regex:/^https:\/\/(www\.youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/|(www\.)?instagram\.com\/(p|reel|reels|tv)\/).+$/'],
             'thumbnail' => ['nullable', 'url', 'max:255'],
             'duration' => ['nullable', 'integer', 'min:1'],
+            'includeInEpk' => ['sometimes', 'boolean'],
         ];
     }
 

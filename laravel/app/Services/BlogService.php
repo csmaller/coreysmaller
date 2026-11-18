@@ -517,12 +517,15 @@ class BlogService
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function listVolumes(): array
+    public function listVolumes(?string $only = null): array
     {
         BlogPost::ensureVisibilityColumn();
         $posts = BlogPost::query()
             ->whereNotNull('volume')
             ->where('volume', '!=', '')
+            ->when($only !== null, function ($query) use ($only) {
+                $query->whereRaw('LOWER(volume) = ?', [mb_strtolower(trim($only))]);
+            })
             ->orderBy('chapterOrder')
             ->orderBy('id')
             ->get();
@@ -648,9 +651,7 @@ class BlogService
         $this->invalidateListCaches();
         $this->invalidateRecentCaches();
 
-        $match = collect($this->listVolumes())->first(
-            fn (array $volume) => mb_strtolower((string) $volume['title']) === $newKey
-        );
+        $match = $this->listVolumes($title)[0] ?? null;
         if (!$match) {
             throw new ModelNotFoundException("Volume {$title} not found");
         }

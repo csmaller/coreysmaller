@@ -54,17 +54,25 @@ export class ApiService {
     return headers;
   }
 
+  endpoint(path: string): string {
+    return `${this.baseUrl}${path}`;
+  }
+
   async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
+    const headers: Record<string, string> = {
+      ...(this.getHeaders() as Record<string, string>),
+      ...(options.headers as Record<string, string>),
+    };
+    if (typeof FormData !== 'undefined' && options.body instanceof FormData) {
+      delete headers['Content-Type'];
+    }
     const config: RequestInit = {
       ...options,
-      headers: {
-        ...this.getHeaders(),
-        ...options.headers,
-      },
+      headers,
     };
 
     try {
@@ -105,6 +113,10 @@ export class ApiService {
 
   async get<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, { method: 'GET' });
+  }
+
+  async upload<T>(endpoint: string, body: FormData): Promise<T> {
+    return this.request<T>(endpoint, { method: 'POST', body });
   }
 
   async post<T>(endpoint: string, data?: any): Promise<T> {

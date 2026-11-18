@@ -30,6 +30,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -222,6 +226,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
   justify-content: space-between; align-items: center;
   font-family: var(--font-mono); font-size: 13px; letter-spacing: .1em;
 }
+.footer-login {
+  align-self: flex-start;
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  margin-top: -24px;
+}
 
 @media (max-width: 600px) {
   :root { --gutter: 20px; }
@@ -244,6 +255,21 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .field:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
 .field.is-invalid { border-color: #e10600; }
 textarea.field { min-height: 160px; resize: vertical; }
+.contact-heading { text-align: center; }
+.contact-heading p { margin: 12px 0 0; }
+.contact-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  text-align: left;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: .04em;
+}
+.contact-aside a { text-decoration: underline; text-underline-offset: 4px; }
 .contact-fields { display: flex; flex-direction: column; gap: 20px; }
 .contact-fields label { display: block; margin-bottom: 8px; }
 .form-error { margin: 8px 0 0; color: #e10600; font-size: 14px; }
@@ -395,4 +421,92 @@ textarea.field { min-height: 160px; resize: vertical; }
   }
   .nav-panel { display: none; width: 100%; flex-direction: column; }
   .nav-panel.is-open { display: flex; }
+}
+
+#epk, #login { scroll-margin-top: 32px; }
+.epk-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.epk-grid > * { min-width: 0; }
+.epk-photo,
+.epk-photo-empty {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 3 / 4;
+  background: var(--surface);
+  display: block;
+}
+.epk-photo { object-fit: cover; object-position: center top; height: auto; }
+.epk-photo-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+.epk-thumbs { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.epk-thumbs img { width: 88px; height: 88px; object-fit: cover; }
+.epk-bio { white-space: pre-wrap; }
+.epk-block { margin-top: 48px; }
+.epk-subhead { font-size: clamp(32px, 5vw, 64px); margin-bottom: 16px; }
+.epk-songs {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  row-gap: 6px;
+  counter-reset: song;
+}
+.epk-songs li { counter-increment: song; }
+.epk-songs li::before { content: counter(song) ". "; }
+.epk-songs li.is-editing { grid-column: 1 / -1; }
+.epk-song-edit {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+.epk-song-edit:hover { color: var(--accent); }
+.epk-song-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.epk-song-form .field { flex: 1 1 180px; }
+.epk-song-save,
+.epk-song-cancel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  min-height: var(--tap);
+  padding: 0 14px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.epk-song-save { border-color: var(--accent); color: var(--accent); }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.epk-media { display: grid; gap: 24px; }
+.epk-media figcaption { margin-bottom: 8px; }
+.epk-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; }
+.epk-audio { width: 100%; height: 166px; border: 0; }
+@media (max-width: 720px) {
+  .epk-grid { grid-template-columns: 1fr; }
+  .epk-songs { grid-template-columns: 1fr; }
 }

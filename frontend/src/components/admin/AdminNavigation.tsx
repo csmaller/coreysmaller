@@ -13,7 +13,7 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({
   currentView,
   onViewChange
 }) => {
-  const { user, logout } = useAuthContext();
+  const { logout } = useAuthContext();
   const location = useLocation();
 
   const handleLogout = async () => {
@@ -85,6 +85,24 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({
       )
     },
     {
+      path: '/admin/home',
+      label: 'Home',
+      icon: (
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )
+    },
+    {
+      path: '/admin/epk',
+      label: 'Press Kit',
+      icon: (
+        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      )
+    },
+    {
       path: '/admin/audio',
       label: 'Audio',
       icon: (
@@ -145,15 +163,6 @@ export const AdminNavigation: React.FC<AdminNavigationProps> = ({
 
           {/* User Info and Actions */}
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span>{user?.email}</span>
-            </div>
-            
-            <div className="h-4 w-px bg-gray-300"></div>
-            
             <Link
               to="/"
               className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"

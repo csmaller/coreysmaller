@@ -80,6 +80,21 @@ describe('VolumeSorter', () => {
         'A long story'
       );
     });
+    expect(await screen.findByRole('status')).toHaveTextContent('Volume saved.');
+    expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
     expect(screen.getByLabelText('Title')).toHaveValue('Relationships II');
+  });
+
+  it('shows an error toast when the volume cannot be saved', async () => {
+    const user = userEvent.setup();
+    mockBlogService.updateVolume.mockRejectedValue(new Error('Volume not found'));
+
+    render(<VolumeSorter />);
+
+    await user.click(await screen.findByRole('button', { name: 'Edit' }));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Volume not found');
+    expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled();
   });
 });

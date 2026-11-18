@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Layout } from '../components/Layout';
+import { ElectronicPressKit } from '../components/epk/ElectronicPressKit';
 import { SEO } from '../components/SEO';
 import { contentAggregationService } from '../services/contentAggregation';
 import type { RecentContent } from '../services/contentAggregation';
 import { blogEntryHref } from '../utils/blogHref';
 import { WordCount } from '../components/blog/WordCount';
+import { defaultHomeCopy, homeParagraphs, homeService, type HomeCopy } from '../services/home';
 
 const emptyContent: RecentContent = {
   recentPosts: [],
@@ -29,8 +31,33 @@ function labelDate(value?: Date | string) {
 }
 
 export const Home: React.FC = () => {
+  const location = useLocation();
   const [content, setContent] = useState<RecentContent>(emptyContent);
   const [loading, setLoading] = useState(true);
+  const [copy, setCopy] = useState<HomeCopy>(defaultHomeCopy);
+
+  useEffect(() => {
+    if (location.hash !== '#epk') return;
+    const node = document.getElementById('epk');
+    if (!node || typeof node.scrollIntoView !== 'function') return;
+    const reduce = typeof window.matchMedia === 'function'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [location.hash]);
+
+  useEffect(() => {
+    let active = true;
+    homeService.get()
+      .then((next) => {
+        if (active) setCopy(next);
+      })
+      .catch(() => {
+        if (active) setCopy(defaultHomeCopy);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -93,7 +120,8 @@ export const Home: React.FC = () => {
           <div className="hero-foot">
             <p className="hero-tagline">Blog posts, original music, and video.</p>
             <div className="btn-row">
-              <Link className="btn btn-primary" to="/audio">Listen now</Link>
+              <a className="btn btn-primary" href="#epk">EPK</a>
+              <Link className="btn btn-ghost" to="/audio">Listen</Link>
               <Link className="btn btn-ghost" to="/video">Watch</Link>
               <Link className="btn btn-ghost" to="/blog">Read</Link>
             </div>
@@ -178,53 +206,25 @@ export const Home: React.FC = () => {
             About<span className="accent">.</span>
           </h2>
           <div className="about-copy">
-            <p>
-              Corey Smaller plays music, skis, and writes about both. He grew up in Massachusetts, lived in Utah from 2006, and moved to Edwards, Colorado in 2026.
-            </p>
-          </div>
-        </section>
-
-        <section className="container section" aria-labelledby="about-music">
-          <div className="section-head">
-            <h2 id="about-music" className="display section-title">Music</h2>
-            <span className="mono-label section-index">04 / <Link to="/audio">Listen &rarr;</Link></span>
-          </div>
-          <div className="about-copy">
-            <p>
-              He has been playing out for more than twenty-five years. It started on drums in his parents&apos; basement, along to Kiss records. He plays guitar and sings now: on solo acoustic nights and with Rage Against the Supremes, the Salt Lake City party band he has been in for more than fifteen years.
-            </p>
-            <p>
-              The band keeps three rules: the song has to be rowdy, danceable, or a sing-along. The songs he writes for himself happen at home, usually in front of the computer when he can find the time.
-            </p>
-          </div>
-        </section>
-
-        <section className="container section" aria-labelledby="about-skiing">
-          <div className="section-head">
-            <h2 id="about-skiing" className="display section-title">Skiing</h2>
-            <span className="mono-label section-index">05</span>
-          </div>
-          <div className="about-copy">
-            <p>
-              The ski life started in the East, including a house at Loon. After a few trips west he moved to Utah in 2006 and lived in Park City. In 2026 he moved to Edwards, Colorado. He skis the Wasatch, and when the resorts stack up he goes into the backcountry.
-            </p>
-            <p>
-              Winters have also meant Canada, Big Sky, Jackson Hole, and a week of glacier skiing out of Revelstoke at the Icefall.
-            </p>
+            {homeParagraphs(copy.about).map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </section>
 
         <section className="container section" aria-labelledby="about-writing">
           <div className="section-head">
             <h2 id="about-writing" className="display section-title">Writing</h2>
-            <span className="mono-label section-index">06 / <Link to="/blog">Read &rarr;</Link></span>
+            <span className="mono-label section-index">04 / <Link to="/blog">Read &rarr;</Link></span>
           </div>
           <div className="about-copy">
-            <p>
-              The essays on this site are the outlet. He writes them the same way he writes lyrics: to find out what he actually thinks. The subjects are the music, the mountains, and a life spent between the two.
-            </p>
+            {homeParagraphs(copy.writing).map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </section>
+
+        <ElectronicPressKit />
       </Layout>
     </>
   );

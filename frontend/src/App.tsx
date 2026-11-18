@@ -23,6 +23,8 @@ const Audio = lazy(() => import('./pages/Audio').then(module => ({ default: modu
 const AdminAudio = lazy(() => import('./pages/AdminAudio').then(module => ({ default: module.AdminAudio })));
 const AdminAnalytics = lazy(() => import('./pages/AdminAnalytics').then(module => ({ default: module.AdminAnalytics })));
 const AdminUsers = lazy(() => import('./pages/AdminUsers').then(module => ({ default: module.AdminUsers })));
+const AdminEpk = lazy(() => import('./pages/AdminEpk').then(module => ({ default: module.AdminEpk })));
+const AdminHome = lazy(() => import('./pages/AdminHome').then(module => ({ default: module.AdminHome })));
 const Contact = lazy(() => import('./pages/Contact').then(module => ({ default: module.Contact })));
 const NotFound = lazy(() => import('./pages/NotFound').then(module => ({ default: module.NotFound })));
 
@@ -112,6 +114,22 @@ function App() {
                     <AdminUsers />
                   </ProtectedRoute>
                 } 
+              />
+              <Route
+                path="/admin/home"
+                element={
+                  <ProtectedRoute>
+                    <AdminHome />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/epk"
+                element={
+                  <ProtectedRoute>
+                    <AdminEpk />
+                  </ProtectedRoute>
+                }
               />
               
               {/* 404 Catch-all Route */}

@@ -1,7 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+function scrollToLogin() {
+  const node = document.getElementById('login');
+  if (!node || typeof node.scrollIntoView !== 'function') return;
+  const reduce = typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+}
 
 export const SiteFooter: React.FC = () => {
+  const location = useLocation();
+
   return (
     <footer className="site-footer" id="contact">
       <div className="container footer-inner">
@@ -20,10 +30,18 @@ export const SiteFooter: React.FC = () => {
         </div>
         <div className="footer-legal">
           <span>&copy; Corey Smaller</span>
-          <Link className="mono-label" to="/login">
-            Login
-          </Link>
         </div>
+        <Link
+          className="footer-login mono-label"
+          to="/login#login"
+          onClick={(event) => {
+            if (location.pathname !== '/login') return;
+            event.preventDefault();
+            scrollToLogin();
+          }}
+        >
+          Login
+        </Link>
       </div>
     </footer>
   );

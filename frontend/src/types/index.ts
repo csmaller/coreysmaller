@@ -73,6 +73,7 @@ export interface VideoContent {
   thumbnail?: string;
   duration?: number;
   viewCount: number;
+  includeInEpk?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -86,6 +87,7 @@ export interface AudioContent {
   artwork?: string;
   duration?: number;
   playCount: number;
+  includeInEpk?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

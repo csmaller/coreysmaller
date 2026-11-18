@@ -67,6 +67,7 @@ class Audio extends Model
         'artwork',
         'duration',
         'playCount',
+        'includeInEpk',
     ];
 
     /**
@@ -77,6 +78,7 @@ class Audio extends Model
     protected $casts = [
         'duration' => 'integer',
         'playCount' => 'integer',
+        'includeInEpk' => 'boolean',
         'createdAt' => 'datetime',
         'updatedAt' => 'datetime',
     ];

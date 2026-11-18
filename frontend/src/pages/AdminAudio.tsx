@@ -40,6 +40,16 @@ export const AdminAudio: React.FC = () => {
     setShowEditor(true);
   };
 
+  const toggleEpk = async (track: AudioContent, includeInEpk: boolean) => {
+    try {
+      const response = await audioService.updateAudio(track.id, { includeInEpk });
+      setAudio((prevAudio) => prevAudio.map((item) => item.id === track.id ? { ...item, includeInEpk: response.data.includeInEpk } : item));
+    } catch (err) {
+      setError('Could not update the press kit');
+      console.error('Error updating press kit flag:', err);
+    }
+  };
+
   const handleSaveAudio = (savedAudio: AudioContent) => {
     if (editingAudio) {
       // Update existing audio
@@ -220,6 +230,9 @@ export const AdminAudio: React.FC = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Created
                       </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        EPK
+                      </th>
                       <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Actions
                       </th>
@@ -265,6 +278,17 @@ export const AdminAudio: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {formatDate(audioItem.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                          <label className="inline-flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={Boolean(audioItem.includeInEpk)}
+                              aria-label={`Include ${audioItem.title} in EPK`}
+                              onChange={(event) => toggleEpk(audioItem, event.target.checked)}
+                            />
+                            Include in EPK
+                          </label>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center justify-end gap-2">

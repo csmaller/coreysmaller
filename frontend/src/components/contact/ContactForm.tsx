@@ -175,10 +175,15 @@ export default function ContactForm() {
         noValidate
         className="login-panel"
       >
-        <div>
+        <div className="contact-heading">
           <h1 className="display section-title">Say hi.</h1>
           <p>Music, writing, or a booking.</p>
         </div>
+        <address className="contact-aside">
+          <a href="mailto:coreysmaller@gmail.com">coreysmaller@gmail.com</a>
+          <a href="tel:+14356596609">(435)659-6609</a>
+          <span>Edwards, CO</span>
+        </address>
         <div className="contact-fields">
 
         <Field

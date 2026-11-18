@@ -67,6 +67,7 @@ class Video extends Model
         'thumbnail',
         'duration',
         'viewCount',
+        'includeInEpk',
     ];
 
     /**
@@ -77,6 +78,7 @@ class Video extends Model
     protected $casts = [
         'duration' => 'integer',
         'viewCount' => 'integer',
+        'includeInEpk' => 'boolean',
         'createdAt' => 'datetime',
         'updatedAt' => 'datetime',
     ];

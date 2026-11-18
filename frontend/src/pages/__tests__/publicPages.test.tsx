@@ -67,7 +67,7 @@ describe('public pages use the poster shell', () => {
     expect(screen.getByRole('heading', { name: 'Words' })).toBeInTheDocument();
     expect(await screen.findByText(/no blog posts found/i)).toBeInTheDocument();
     screen.getAllByRole('link', { name: 'Login' }).forEach((link) => {
-      expect(link).toHaveAttribute('href', '/login');
+      expect(link).toHaveAttribute('href', '/login#login');
     });
   });
 

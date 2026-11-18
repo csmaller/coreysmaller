@@ -27,6 +27,7 @@ class CreateAudioRequest extends FormRequest
             'soundcloudUrl' => ['required', 'url', 'regex:/^https:\/\/soundcloud\.com\/.+$/'],
             'artwork' => ['nullable', 'url', 'max:255'],
             'duration' => ['nullable', 'integer', 'min:1'],
+            'includeInEpk' => ['sometimes', 'boolean'],
         ];
     }
 

@@ -6,6 +6,7 @@ const links = [
   { to: '/audio', label: 'Sounds' },
   { to: '/video', label: 'Sights' },
   { to: '/blog', label: 'Words' },
+  { to: '/#epk', label: 'EPK' },
   { to: '/contact', label: 'Contact' },
 ];
 
@@ -17,8 +18,21 @@ export const Navigation: React.FC = () => {
 
   const close = () => setIsOpen(false);
 
-  const isActive = (path: string) =>
-    location.pathname === path || location.pathname.startsWith(`${path}/`);
+  const isActive = (path: string) => {
+    if (path.startsWith('/#')) {
+      return location.pathname === '/' && location.hash === path.slice(1);
+    }
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
+
+  const scrollToHash = (path: string) => {
+    if (!path.startsWith('/#') || location.pathname !== '/') return;
+    const node = document.getElementById(path.slice(2));
+    if (!node || typeof node.scrollIntoView !== 'function') return;
+    const reduce = typeof window.matchMedia === 'function'
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    node.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -45,14 +59,19 @@ export const Navigation: React.FC = () => {
             key={link.to}
             to={link.to}
             className={isActive(link.to) ? 'is-active' : undefined}
-            onClick={close}
+            onClick={(event) => {
+              close();
+              if (!link.to.startsWith('/#') || location.pathname !== '/') return;
+              event.preventDefault();
+              scrollToHash(link.to);
+              if (location.hash !== link.to.slice(1)) {
+                navigate(link.to);
+              }
+            }}
           >
             {link.label}
           </Link>
         ))}
-        <a href="mailto:coreysmaller@gmail.com" onClick={close}>
-          coreysmaller@gmail.com
-        </a>
         {isAuthenticated && user?.role === 'admin' ? (
           <Link
             to="/admin"
@@ -70,11 +89,7 @@ export const Navigation: React.FC = () => {
           <button type="button" onClick={handleLogout}>
             Logout
           </button>
-        ) : (
-          <Link to="/login" onClick={close}>
-            Login
-          </Link>
-        )}
+        ) : null}
       </nav>
     </header>
   );

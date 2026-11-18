@@ -14,7 +14,8 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
     title: '',
     description: '',
     youtubeUrl: '',
-    duration: ''
+    duration: '',
+    includeInEpk: false
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +35,8 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
         title: video.title || '',
         description: video.description || '',
         youtubeUrl: video.youtubeUrl || '',
-        duration: video.duration?.toString() || ''
+        duration: video.duration?.toString() || '',
+        includeInEpk: Boolean(video.includeInEpk)
       });
       setPreviewThumbnail(video.thumbnail || null);
     }
@@ -126,7 +128,8 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
         title: formData.title.trim(),
         description: formData.description.trim() || undefined,
         youtubeUrl: formData.youtubeUrl.trim(),
-        duration: formData.duration ? Number(formData.duration) : undefined
+        duration: formData.duration ? Number(formData.duration) : undefined,
+        includeInEpk: formData.includeInEpk
       };
 
       let savedVideo: VideoContent;
@@ -318,6 +321,15 @@ export const VideoEditor: React.FC<VideoEditorProps> = ({ video, onSave, onCance
                 Optional: Duration in seconds (will be auto-detected if not provided)
               </p>
             </div>
+
+            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={formData.includeInEpk}
+                onChange={(event) => setFormData((prev) => ({ ...prev, includeInEpk: event.target.checked }))}
+              />
+              Include in EPK
+            </label>
 
             {/* Error Message */}
             {error && (

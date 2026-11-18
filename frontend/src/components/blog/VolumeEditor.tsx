@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { blogService, type BlogChapter, type BlogVolume } from '../../services/blog';
+import { Toast } from '../Toast';
 import { formatWordCount } from './WordCount';
 
 interface VolumeEditorProps {
@@ -35,6 +36,8 @@ export const VolumeEditor: React.FC<VolumeEditorProps> = ({
   const [dragging, setDragging] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ kind: 'success' | 'error'; message: string } | null>(null);
+  const dismissToast = useCallback(() => setToast(null), []);
   const chapterKey = (volume.chapters || []).map((chapter) => `${chapter.id}:${chapter.title}`).join(',');
 
   useEffect(() => {
@@ -42,22 +45,31 @@ export const VolumeEditor: React.FC<VolumeEditorProps> = ({
     setDescription(volume.description || '');
     setSavedTitle(volume.title);
     setChapters(chapterList(volume));
-  }, [volume.title, volume.description, chapterKey, volume]);
+  }, [volume.title, volume.description, chapterKey]);
 
   const saveDetails = async () => {
     const nextTitle = title.trim();
     if (!nextTitle) {
-      setError('A volume needs a title.');
+      const message = 'A volume needs a title.';
+      setError(message);
+      setToast({ kind: 'error', message });
       return;
     }
     try {
       setSaving(true);
       setError(null);
+      setToast(null);
       const response = await blogService.updateVolume(savedTitle, nextTitle, description.trim());
+      if (!response.data?.title) {
+        throw new Error('Could not save the volume');
+      }
       setSavedTitle(response.data.title);
       onSaved(response.data);
+      setToast({ kind: 'success', message: 'Volume saved.' });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not save the volume');
+      const message = err instanceof Error ? err.message : 'Could not save the volume';
+      setError(message);
+      setToast({ kind: 'error', message });
     } finally {
       setSaving(false);
     }
@@ -130,9 +142,10 @@ export const VolumeEditor: React.FC<VolumeEditorProps> = ({
           disabled={saving}
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
         >
-          Save
+          {saving ? 'Saving...' : 'Save'}
         </button>
       </div>
+      {toast ? <Toast kind={toast.kind} message={toast.message} onDismiss={dismissToast} /> : null}
       <h3 className="text-lg font-medium text-gray-900 mt-8 mb-2">Chapters</h3>
       <p className="text-sm text-gray-600 mb-4">
         Drag a chapter to change the reading order. Edit opens that chapter’s text.

@@ -40,13 +40,11 @@ describe('Navigation', () => {
     expect(screen.queryByRole('link', { name: 'Music' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Sights' })).toHaveAttribute('href', '/video');
     expect(screen.getByRole('link', { name: 'Words' })).toHaveAttribute('href', '/blog');
+    expect(screen.getByRole('link', { name: 'EPK' })).toHaveAttribute('href', '/#epk');
     expect(screen.queryByRole('link', { name: 'About' })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
-    expect(screen.getByRole('link', { name: 'coreysmaller@gmail.com' })).toHaveAttribute(
-      'href',
-      'mailto:coreysmaller@gmail.com'
-    );
-    expect(screen.getByRole('link', { name: 'Login' })).toHaveAttribute('href', '/login');
+    expect(screen.queryByRole('link', { name: 'coreysmaller@gmail.com' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Login' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /logout/i })).not.toBeInTheDocument();
   });
 

@@ -13,7 +13,8 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
     title: '',
     description: '',
     soundcloudUrl: '',
-    duration: ''
+    duration: '',
+    includeInEpk: false
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,8 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
         title: audio.title || '',
         description: audio.description || '',
         soundcloudUrl: audio.soundcloudUrl || '',
-        duration: audio.duration?.toString() || ''
+        duration: audio.duration?.toString() || '',
+        includeInEpk: Boolean(audio.includeInEpk)
       });
     }
   }, [audio]);
@@ -117,7 +119,8 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
         title: formData.title.trim(),
         description: formData.description.trim() || undefined,
         soundcloudUrl: formData.soundcloudUrl.trim(),
-        duration: formData.duration ? Number(formData.duration) : undefined
+        duration: formData.duration ? Number(formData.duration) : undefined,
+        includeInEpk: formData.includeInEpk
       };
 
       if (audio) {
@@ -314,6 +317,15 @@ export const AudioEditor: React.FC<AudioEditorProps> = ({ audio, onSave, onCance
                 Optional: Duration in seconds (will be auto-detected if not provided)
               </p>
             </div>
+
+            <label className="inline-flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={formData.includeInEpk}
+                onChange={(event) => setFormData((prev) => ({ ...prev, includeInEpk: event.target.checked }))}
+              />
+              Include in EPK
+            </label>
 
             {/* Error Message */}
             {error && (

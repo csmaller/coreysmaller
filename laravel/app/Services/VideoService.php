@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Video;
+use App\Support\EpkSchema;
 use App\Utils\InstagramUtils;
 use App\Utils\YouTubeUtils;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,6 +20,11 @@ use Illuminate\Support\Facades\Log;
  */
 class VideoService
 {
+    public function __construct()
+    {
+        EpkSchema::ensure();
+    }
+
     /**
      * Find all videos ordered by createdAt DESC
      * 

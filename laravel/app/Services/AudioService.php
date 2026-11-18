@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Audio;
+use App\Support\EpkSchema;
 use App\Utils\SoundCloudUtils;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,6 +20,11 @@ use Illuminate\Support\Facades\Log;
  */
 class AudioService
 {
+    public function __construct()
+    {
+        EpkSchema::ensure();
+    }
+
     /**
      * Find all audio ordered by createdAt DESC
      * 

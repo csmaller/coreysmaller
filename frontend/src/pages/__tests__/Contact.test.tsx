@@ -42,7 +42,13 @@ describe('Contact page', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { name: 'Say hi.' })).toBeInTheDocument();
+    const heading = screen.getByRole('heading', { name: 'Say hi.' });
+    expect(heading.closest('.contact-heading')).not.toBeNull();
+    const details = screen.getByText('Edwards, CO').closest('address');
+    expect(details).not.toBeNull();
+    expect(details?.closest('form')).toBe(heading.closest('form'));
+    expect(details?.querySelector('a[href="mailto:coreysmaller@gmail.com"]')).toHaveTextContent('coreysmaller@gmail.com');
+    expect(screen.getByRole('link', { name: '(435)659-6609' })).toHaveAttribute('href', 'tel:+14356596609');
     expect(screen.getByRole('link', { name: 'Contact' })).toHaveAttribute('href', '/contact');
     expect(screen.getByRole('link', { name: 'Send a note' })).toHaveAttribute('href', '/contact');
     expect(screen.getByLabelText('Name')).toHaveClass('field');

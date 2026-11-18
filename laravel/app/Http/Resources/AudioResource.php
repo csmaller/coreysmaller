@@ -31,6 +31,7 @@ class AudioResource extends JsonResource
             'artwork' => $this->artwork,
             'duration' => $this->duration,
             'playCount' => $this->playCount,
+            'includeInEpk' => (bool) $this->includeInEpk,
             'createdAt' => $this->createdAt->toIso8601String(),
             'updatedAt' => $this->updatedAt->toIso8601String(),
         ];
